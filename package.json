@@ -7,15 +7,29 @@
   },
   "scripts": {
     "start": "node server",
-    "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "client": "cd react-ui && yarn start",
+    "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\"",
+    "heroku-postbuild-npm": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "heroku-postbuild": "cd react-ui/ && yarn --production=false && yarn build"
   },
   "cacheDirectories": [
     "node_modules",
     "react-ui/node_modules"
   ],
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "bufferutil": "^3.0.3",
+    "concurrently": "^3.5.1",
+    "cors": "^2.8.4",
     "express": "^4.14.1",
-    "npm": "^5.8.0"
+    "http": "^0.0.0",
+    "mongodb": "^2.2.33",
+    "mongodb-core": "^2.1.17",
+    "mongoose": "^4.13.3",
+    "mongoose-double": "^0.0.1",
+    "url": "^0.11.0",
+    "utf-8-validate": "^4.0.0",
+    "ws": "^5.1.0"
   },
   "repository": {
     "type": "git",
