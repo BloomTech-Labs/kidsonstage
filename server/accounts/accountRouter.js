@@ -4,6 +4,7 @@ const Account = require('./AccountModel.js');
 const statusCodes = require('../common/statusCodes.js');
 
 const accountsRouter = express.Router();
+// /accounts routes
 
 accountsRouter.post('/', function(req, res) {
   const { name, description, budgetedAmount, isActive } = req.body;

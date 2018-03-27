@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-function CustomTextInput(props) {
-  return (
-    <input
-      ref={props.inputRef}
-      name={props.name}
-      className={props.className}
-      size={props.size}
-      placeholder={props.placeholder}
-      type={props.type}
-      style={props.style}
-      pattern={props.pattern}
-      title={props.title}
-    />
-  );
-}
+import "../index.css"
+// function CustomTextInput(props) {
+//   return (
+//     <input
+//       value={props.value}
+//       onChange={props.onChange}
+//       name={props.name}
+//       className={props.className}
+//       size={props.size}
+//       placeholder={props.placeholder}
+//       type={props.type}
+//       style={props.style}
+//       pattern={props.pattern}
+//       title={props.title}
+//     />
+//   );
+// }
 export default class Account extends Component {
   constructor(props) {
     super(props);
-
-    super(props);
-    this.name = ''
-    this.description = ''
-    this.budgetedAmount = 0
-    this.isActive = false
+    this.state = {
+      name: '',
+      description: '',
+      budgetedAmount: 0,
+      isActive: false
+    }
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
   render() {
     return (
       <form
@@ -40,49 +42,65 @@ export default class Account extends Component {
           */
 
           this.props.addAccount({
-            name: this.name.value,
-            description: this.description.value,
-            budgetedAmount: this.budgetedAmount.value,
-            isActive: this.isActive.value
+            name: this.state.name.value,
+            description: this.state.description.value,
+            budgetedAmount: this.state.budgetedAmount.value,
+            isActive: this.state.isActive.value
           });
-          this.name = ''
-          this.description = ''
-          this.budgetedAmount = 0
-          this.isActive = false
+          this.setState({
+            name: '',
+            description: '',
+            budgetedAmount: 0,
+            isActive: false
+          })
         }}
       >
-        <div style={{ height: '30px', display: 'inline' }}>
-          <CustomTextInput
-            name="name"
-            inputRef={el => (this.name = el)}
-            className="inputText"
-            type="text"
-            placeholder="name"
-            size="30"
-          />
-          <CustomTextInput
-            inputRef={el => (this.description = el)}
-            className="inputText"
-            type="text"
-            placeholder="description"
-            size="20"
-          />
-          <CustomTextInput
-            inputRef={el => (this.budgetedAmount = el)}
-            className="inputText"
-            type="float"
-            pattern="\d*(\.\d\d)?"
-            title="if decimal must be followed by 2 digits"
-            placeholder="budgeted amount"
-            size="15"
-          />
-          <CustomTextInput
-            inputRef={el => (this.isActive = el)}
-            className="inputText"
-            type="boolean"
-            placeholder="is active"
-            size="5"
-          />
+        <div style={{ height: '160px', display: 'block', marginTop: '80px' }}>
+          <div>
+            <label htmlFor='name'>name</label>
+            <input
+              onChange={name => this.setState({ name })}
+              className="inputText"
+              label="name"
+              type="text"
+              size="30"
+              id='name'
+            />
+          </div>
+          <div>
+            <label htmlFor="description">description</label>
+            <input
+              onChange={description => this.setState({ description })}
+              className="inputText"
+              type="text"
+              label="description"
+              id="description"
+              size="20"
+            />
+          </div>
+          <div>
+            <label htmlFor="budgetedAcount">Budgeted Amount</label>
+            <input
+              onChange={budgetedAmount => this.setState({ budgetedAmount })}
+              className="inputText"
+              type="float"
+              pattern="\d*(\.\d\d)?"
+              title="if decimal must be followed by 2 digits"
+              label="budgeted amount"
+              id='budgetedAmount'
+              size="15"
+            />
+          </div>
+          <div>
+            <label htmlFor="isActive">Is Active</label>
+            <input
+              onChange={isActive => this.setState({ isActive })}
+              className="inputText"
+              type="boolean"
+              label="is active"
+              size="5"
+            />
+          </div>
         </div>
         <button type="submit">Add Account</button>
         <button>

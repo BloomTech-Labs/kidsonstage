@@ -7,3 +7,6 @@ body {
   display: inline
   
 }
+label, name {
+  display: block
+}
