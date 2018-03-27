@@ -60,13 +60,14 @@ userRouter.get('/:id/subscriptions', function(req, res) {
 });
 
 userRouter.put('/:id', function(req, res) {
+	// change this to whatever we need.  Atm its basic .put with a sub count
 	const { id } = req.params;
 
 	users
 		.update(id, req.body)
-		.then(function(count) {
-			if (count > 0) {
-				res.status(200).json({ updated: count });
+		.then(function(subCount) {
+			if (subCount > 0) {
+				res.status(200).json({ updated: subCount });
 			} else {
 				res.status(404).json(null);
 			}
@@ -81,8 +82,8 @@ userRouter.delete('/:id', function(req, res) {
 
 	users
 		.remove(id)
-		.then(function(count) {
-			res.status(200).json({ count });
+		.then(function(subCount) {
+			res.status(200).json({ subCount });
 		})
 		.catch(function(error) {
 			res.status(500).json({ error });

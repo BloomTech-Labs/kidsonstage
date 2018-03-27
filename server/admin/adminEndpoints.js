@@ -50,8 +50,8 @@ adminRouter.get('/:id/events', function(req, res) {
 
 	admins
 		.getAdminEvents(id)
-		.then(function(posts) {
-			res.status(200).json(posts);
+		.then(function(events) {
+			res.status(200).json(events);
 		})
 		.catch(function(error) {
 			res.status(500).json({ error });
@@ -59,13 +59,14 @@ adminRouter.get('/:id/events', function(req, res) {
 });
 
 adminRouter.put('/:id', function(req, res) {
+	//change this to whatever we need.  Atm its basic with an event counter.
 	const { id } = req.params;
 
 	admins
 		.update(id, req.body)
-		.then(function(count) {
-			if (count > 0) {
-				res.status(200).json({ updated: count });
+		.then(function(eventCount) {
+			if (eventCount > 0) {
+				res.status(200).json({ updated: eventCount });
 			} else {
 				res.status(404).json(null);
 			}
@@ -80,8 +81,8 @@ adminRouter.delete('/:id', function(req, res) {
 
 	admins
 		.remove(id)
-		.then(function(count) {
-			res.status(200).json({ count });
+		.then(function(eventCount) {
+			res.status(200).json({ eventCount });
 		})
 		.catch(function(error) {
 			res.status(500).json({ error });
