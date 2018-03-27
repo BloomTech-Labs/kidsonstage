@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === "production") {
   host = "kidonstage.herokuapp.com";
   protocol = 'https';
 } else {
-  port = 5003;
+  port = 5004;
   host = "localhost";
   protocol='http';
 }

@@ -11,7 +11,7 @@ const apiRouter = require('./common/apiRouter.js');
 
 const server = express();
 
-const port = process.env.PORT || 5003;
+const port = process.env.PORT || 5004;
 
 server.use(cors());
 server.use(bodyParser.json());

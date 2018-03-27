@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js start
+  /usr/bin/node /usr/share/yarn/bin/yarn.js install --ignore-engines
 
 PATH: 
   /home/mark/bin:/home/mark/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -23,16 +23,21 @@ npm manifest:
     },
     "scripts": {
       "start": "node server",
+  <<<<<<< HEAD
       "client": "cd react-ui && yarn start",
       "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\"",
       "heroku-postbuild-npm": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
       "heroku-postbuild": "cd react-ui/ && yarn --production=false && yarn build"
+  =======
+      "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  >>>>>>> 1b8de3464d1841c1d72ecf44242e7f904ca2f867
     },
     "cacheDirectories": [
       "node_modules",
       "react-ui/node_modules"
     ],
     "dependencies": {
+  <<<<<<< HEAD
       "body-parser": "^1.18.2",
       "bufferutil": "^3.0.3",
       "concurrently": "^3.5.1",
@@ -46,6 +51,10 @@ npm manifest:
       "url": "^0.11.0",
       "utf-8-validate": "^4.0.0",
       "ws": "^5.1.0"
+  =======
+      "express": "^4.14.1",
+      "npm": "^5.8.0"
+  >>>>>>> 1b8de3464d1841c1d72ecf44242e7f904ca2f867
     },
     "repository": {
       "type": "git",
@@ -938,16 +947,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c node server
-  Directory: /home/mark/lambda/kidsonstage
-  Output:
-  
-      at ProcessTermError.MessageError (/usr/share/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/usr/share/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/usr/share/yarn/lib/cli.js:30281:17)
-      at ChildProcess.emit (events.js:180:13)
-      at maybeClose (internal/child_process.js:936:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)
+  SyntaxError: /home/mark/lambda/kidsonstage/package.json: Unexpected token < in JSON at position 217
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1036:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:98:30)
+      at /usr/share/yarn/lib/cli.js:109:13
+      at <anonymous>
