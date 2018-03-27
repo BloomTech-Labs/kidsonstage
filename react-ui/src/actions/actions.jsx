@@ -8,10 +8,10 @@ export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 let port, host, protocol;
 if (process.env.NODE_ENV === "production") {
   port = 443;
-  host = "kidonstage.herokuapp.com";
+  host = "kidsonstage.herokuapp.com";
   protocol = 'https';
 } else {
-  port = 5004;
+  port = 5000;
   host = "localhost";
   protocol='http';
 }
