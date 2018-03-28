@@ -3,3 +3,47 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+.landing-button-container {
+  display: flex;
+  flex-wrap: nowrap; 
+  justify-content: flex-end; 
+}
+label, name {
+  display: block
+}
+#landing-centerPng {
+  transform: scale(0.5);
+}
+.landing-button {
+  font-size: 20pt;
+
+}
+#landing-signUp {
+  border-color: black black black black;
+  background-color: lightblue;
+}
+#landing-signIn {
+  border-color: black black black black;
+  background-color: lightgreen; 
+}
+.landing-text-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 100%
+}
+#landing-buynow-box {
+  box-shadow: 5px 10px 8px #888888;
+  border: 1px solid;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+#landing-buynow-box p,link {
+  font-size: 30pt;
+  border-bottom: 2px solid black;
+}
+#testj {
+  display: flex;
+  justify-content: center;
+}

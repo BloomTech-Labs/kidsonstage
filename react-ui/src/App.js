@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import { Route } from 'react-router-dom';
 
 import Navbar from './navbar/navbar';
-//import Home from './home'; change this to our file configuration
+import Landing from './components/Landing';
 
 class App extends Component {
   constructor(props) {
@@ -37,14 +37,14 @@ class App extends Component {
   }
 
   render() {
-		return (
-			<div className="App">
-				<Navbar />
-				<p> Kid On Stage Skeletor Site </p>
-				{/* <Route path="/" component={ Home }/> */}
-			</div>
-		);
-	}
+    return (
+      <div className="App">
+        <Navbar />
+        <p> Kid On Stage Skeletor Site </p>
+        <Route path="/" component={Landing} />
+      </div>
+    );
+  }
 }
 
 export default App;
