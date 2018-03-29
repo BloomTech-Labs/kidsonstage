@@ -4,7 +4,9 @@ module.exports = {
         "browser": true,
         }, 
     "rules": {
-        "func-style": ["error", "declaration", { "allowArrowFunctions": true }]        
+        "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+        "react/jsx-filename-extension": "off",
+        "jsx-a11y/anchor-is-valid": "off",        
     },
     "parser": "babel-eslint",                                                                         
 };

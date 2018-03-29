@@ -1,4 +1,4 @@
-// Update with your config settings.
+// Update with config settings.
 
 const keys = require('./config/keys');
 
