@@ -10,7 +10,7 @@ const numCPUs = require('os').cpus().length;
 const adminEndpoints = require('./admin/adminEndpoints.js');
 const userEndpoints = require('./users/userEndpoints.js');
 
-const PORT = process.env.PORT || process.env.LOCAL_PORT;
+const PORT = process.env.PORT || process.env.LOCAL_PORT || 5000;
 
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
@@ -30,13 +30,14 @@ if (cluster.isMaster) {
   app.use(bodyParser.json());
   app.use(cors());
 
+  app.use('/api/admin', adminEndpoints);
+  app.use('/api/users', userEndpoints);
   // Answer API requests.
   app.get('/api', function (req, res) {
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Hello from the custom server!"}');
   });
-  app.use('/api/admin', adminEndpoints);
-  app.use('/api/users', userEndpoints);
+
 
   if (process.env.NODE_ENV === 'production') {
     // Priority serve any static files.
