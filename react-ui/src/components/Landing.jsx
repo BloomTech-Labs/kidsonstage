@@ -18,7 +18,7 @@ export default class Landing extends Component {
       <div>
         <section className="landing-button-container">
 
-          <a href="/signup" id="landing-sign-up" >sign up</a>
+          <a href="/sign-up" id="landing-sign-up" >sign up</a>
           <button
             className="landing-button"
             id="landing-signIn"

@@ -12,6 +12,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  register: user => dispatch(register(user)),
+  register: (user, history) => dispatch(register(user, history)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(NewUser);

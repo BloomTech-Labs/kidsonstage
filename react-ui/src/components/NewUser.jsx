@@ -21,7 +21,10 @@ export default class NewUser extends Component {
 
     };
   }
-
+  renderAlert = () => {
+    if (!this.props.error) return null;
+    return <h3>{this.props.error}</h3>;
+  };
   render() {
     return (
       <form
@@ -34,7 +37,7 @@ export default class NewUser extends Component {
                         passwordHash: hash(this.state.password),
                         useTexts: this.state.useTexts, // bool
                         useEmails: this.state.useEmails, // bool
-                    });
+                    }, this.props.history);
                     this.setState({
                         username: '',
                         email: '',
@@ -115,6 +118,7 @@ export default class NewUser extends Component {
         <div className="flex-center-div">
           <button className="new-user-submit" type="submit">Save</button>
         </div>
+        {this.renderAlert()}
       </form >
     );
   }

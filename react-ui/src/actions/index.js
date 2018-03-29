@@ -11,8 +11,8 @@ export const CHECK_IF_AUTHENTICATED = 'CHECK_IF_AUTHENTICATED';
 
 // axios.defaults.withCredentials = true;{
 const ROOT_URL = (process.env.NODE_ENV === 'production') ?
-  'https://kidsonstage.herokuapp.com:443' :
-  'http://localhost:5000';
+  'https://kidsonstage.herokuapp.com:443/api/' :
+  'http://localhost:5000/api/';
 
 export const authError = error => ({
   type: AUTHENTICATION_ERROR,
@@ -33,7 +33,7 @@ export const register = (user, history) => (dispatch) => {
       history.push('/signin');
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`"register" ${err}`);
       dispatch(authError('Failed to register user'));
     });
 };
