@@ -10,7 +10,7 @@ const numCPUs = require('os').cpus().length;
 const adminEndpoints = require('./admin/adminEndpoints.js');
 const userEndpoints = require('./users/userEndpoints.js');
 
-const PORT = process.env.PORT || process.env.LOCAL_PORT;
+const PORT = process.env.PORT || process.env.LOCAL_PORT || 5000;
 
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
