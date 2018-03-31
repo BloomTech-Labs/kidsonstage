@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../actions';
 
+/* eslint-disable jsx-a11y/label-has-for, react/forbid-prop-types */
 
-class SignIn extends Component {
+class UserSignIn extends Component {
     handleFormSubmit = ({ username, password }) => {
-      this.props.login(username, password, this.props.history);
+      this.props.login({ username, password }, this.props.history);
     };
 
     renderAlert() {
@@ -16,27 +17,33 @@ class SignIn extends Component {
     }
 
     render() {
-	  const { handleSubmit } = this.props;
+      const { handleSubmit } = this.props;
 
-	  return (
-  <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-    <fieldset>
-      <label>Username:</label>
-      <Field name="username" component="input" type="text" />
-    </fieldset>
-    <fieldset>
-      <label>Password:</label>
-      <Field name="password" component="input" type="password" />
-    </fieldset>
-    <button action="submit">Sign In</button>
-    {this.renderAlert()}
-  </form>
-	  );
+      return (
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <fieldset>
+            <label>Username:</label>
+            <Field name="username" component="input" type="text" />
+          </fieldset>
+          <fieldset>
+            <label>Password:</label>
+            <Field name="password" component="input" type="password" />
+          </fieldset>
+          <button action="submit">Sign In</button>
+          {this.renderAlert()}
+        </form>
+      );
     }
 }
 
-SignIn.propTypes = {
+UserSignIn.defaultProps = {
+  error: null,
+};
+UserSignIn.propTypes = {
   login: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
   error: state.auth.error,
@@ -44,9 +51,9 @@ const mapStateToProps = state => ({
 });
 
 /* eslint-disable no-class-assign */
-SignIn = connect(mapStateToProps, { login })(SignIn);
+UserSignIn = connect(mapStateToProps, { login })(UserSignIn);
 
 export default reduxForm({
   form: 'signin',
   fields: ['username', 'password'],
-})(SignIn);
+})(UserSignIn);
