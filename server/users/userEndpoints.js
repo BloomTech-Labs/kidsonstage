@@ -51,8 +51,8 @@ userRouter.get('/:id/subscriptions', function(req, res) {
 
 	users
 		.getUserSubs(id)
-		.then(function(posts) {
-			res.status(200).json(posts);
+		.then(function(subs) {
+			res.status(200).json(subs);
 		})
 		.catch(function(error) {
 			res.status(500).json({ error });

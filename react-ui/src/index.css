@@ -6,7 +6,7 @@
     B. LIGHT GREY: #C7D6D5
 4. Page Background Color: ANTI-FLASH-WHITE: #ECEBF3 */
 
-body {
+/* body {
 	margin: 0;
 	padding: 0;
 	font-family: sans-serif;
@@ -62,8 +62,7 @@ body {
 }
 #new-user-email {
 	width: 33%;
-} */
- /* margin-right: 17%; */
+}
   width: 33%;
 }
 .checkbox {
@@ -80,4 +79,4 @@ body {
  display: flex;
  justify-content: center;
  margin-top: 50px;
-}
+} */
