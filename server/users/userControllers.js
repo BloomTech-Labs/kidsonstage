@@ -2,7 +2,7 @@ const db = require('../config/dbConfiguration.js');
 
 module.exports = {
 	get: function(id) {
-		let query = db('users');
+		let query = db('user');
 		if (id) {
 			query.where('id', id).first();
 		}
@@ -13,17 +13,17 @@ module.exports = {
 		// return list of subs
 	},
 	insert: function(user) {
-		return db('users')
+		return db('user')
 			.insert(user)
 			.then(ids => ({ id: ids[0] }));
 	},
 	update: function(id, user) {
-		return db('users')
+		return db('user')
 			.where('id', id)
 			.update(user);
 	},
 	remove: function(id) {
-		return db('users')
+		return db('user')
 			.where('id', id)
 			.del();
 	}

@@ -35,15 +35,15 @@ class SignIn extends Component {
 	}
 }
 
-UserSignIn.defaultProps = {
-  error: null,
-};
-UserSignIn.propTypes = {
-  login: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-};
+// UserSignIn.defaultProps = {
+//   error: null,
+// };
+// UserSignIn.propTypes = {
+//   login: PropTypes.func.isRequired,
+//   error: PropTypes.string,
+//   handleSubmit: PropTypes.func.isRequired,
+//   history: PropTypes.object.isRequired,
+// };
 const mapStateToProps = state => ({
   error: state.auth.error,
   authenticated: state.auth.authenticated,
@@ -51,9 +51,14 @@ const mapStateToProps = state => ({
 
 SignIn = connect(mapStateToProps, { login })(SignIn);
 /* eslint-disable no-class-assign */
-UserSignIn = connect(mapStateToProps, { login })(UserSignIn);
+// UserSignIn = connect(mapStateToProps, { login })(UserSignIn);
 
 export default reduxForm({
   form: 'signin',
   fields: ['username', 'password'],
-})(UserSignIn);
+})(SignIn);
+
+// export default reduxForm({
+//   form: 'signin',
+//   fields: ['username', 'password'],
+// })(UserSignIn);
