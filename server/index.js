@@ -1,54 +1,29 @@
+require('dotenv').config({path: '../.env'});
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config();
-
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
 
 const adminEndpoints = require('./admin/adminEndpoints.js');
 const userEndpoints = require('./users/userEndpoints.js');
 
-const PORT = process.env.PORT || process.env.LOCAL_PORT || 5000;
+const PORT = process.env.PORT || process.env.LOCAL_PORT;
+const server = express();
 
-// Multi-process to utilize all CPU cores.
-if (cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
+server.use(bodyParser.json());
+server.use(cors());
 
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
+server.use('/api/admin', adminEndpoints);
+server.use('/api/users', userEndpoints);
 
-  cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
-  });
-
-} else {
-  const app = express();
-  app.use(bodyParser.json());
-  app.use(cors());
-
-  app.use('/api/admin', adminEndpoints);
-  app.use('/api/users', userEndpoints);
-  // Answer API requests.
-  app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Hello from the custom server!"}');
-  });
-
-
-  if (process.env.NODE_ENV === 'production') {
-    // Priority serve any static files.
-    app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
-
-    app.get('*', function(request, response) {
-      response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
-    });
-  }
-
-  app.listen(PORT, function () {
-    console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
+// USED FOR PRODUCTION ONLY
+if (process.env.NODE_ENV === 'production') {
+  // Priority serve any static files.
+  server.use(express.static(path.resolve(__dirname, '../react-ui/build')));
+  server.get('*', function(request, response) {
+    response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
   });
 }
+
+server.listen(PORT, () => console.log(`SERVER - running on port ${PORT}`));
