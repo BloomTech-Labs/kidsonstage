@@ -7,7 +7,7 @@ import {
 } from '../actions';
 
 export default (auth = {}, action) => {
-  switch (action.type) {
+  switch (action.type === AUTHENTICATION_ERROR) {
     case USER_REGISTERED:
       return { ...auth, authenticated: false };
     case USER_AUTHENTICATED:

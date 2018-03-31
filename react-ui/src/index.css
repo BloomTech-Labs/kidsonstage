@@ -1,108 +1,68 @@
+/* COLOR SCHEME:
+1. Text Colors: SMOKEY BLACK: #0C120C
+2. Highlight Color (such as button hover): SEA FOAM GREEN: #BBE1C3
+3. Border Colors:
+    A. NICKEL: #6D7275
+    B. LIGHT GREY: #C7D6D5
+4. Page Background Color: ANTI-FLASH-WHITE: #ECEBF3 */
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
-.landing-button-container {
-  display: flex;
-  flex-wrap: nowrap; 
-  justify-content: flex-end; 
-}
-label, name {
-  display: block
-}
-#landing-centerPng {
-  transform: scale(0.5);
-}
-.landing-button {
-  font-size: 20pt;
-
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
 }
 
-#landing-signIn {
-  border-color: black black black lightgreen;
-  background-color: lightgreen; 
-}
-.landing-text-container {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  width: 100%
-}
-#landing-buynow-box {
-  box-shadow: 5px 10px 8px #888888;
-  border: 1px solid;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-}
-#landing-buynow-box p, #landing-buynow-box a {
-  font-size: 30pt;
-  border-bottom: 2px solid black;
-}
-#testj {
-  display: flex;
-  justify-content: center;
-}
-
-.new-user-label{
-  display: flex;
-  width: 50%;
-  justify-content: flex-start; 
-  padding-left: 100px;
+.new-user-label {
+	display: flex;
+	width: 50%;
+	justify-content: flex-start;
+	padding-left: 100px;
 }
 .new-user-inputText {
-  display: flex;
-  width: 50%;
-  font-size: 20pt;
-  justify-content:flex-end;
-  margin-right: auto;
+	display: flex;
+	width: 50%;
+	font-size: 20pt;
+	justify-content: flex-end;
+	margin-right: auto;
 }
-.submit{
-  display: flex;
-  justify-content: center;
+.submit {
+	display: flex;
+	justify-content: center;
 }
 .flex-center-div {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
-#landing-buy-now {
-  text-decoration-line: none;
-}
-#landing-sign-up {
-  text-decoration-line: none;
-  border: 2px solid black;
-  background-color: lightgrey;
-  color: black;
-  font-size: 20pt;
-  padding-left: 7px;
-  padding-right: 7px;
-}
+
 #new-user-phone {
-  display: flex;
-  width: 30%;
+	display: flex;
+	width: 30%;
+	margin-right: 17.1%;
+	justify-content: flex-end;
 }
-.new-user-password {
-  display: flex;
-  width: 26.66666667%;
+#new-user-password {
+	display: flex;
+	width: 26.66666667%;
+	justify-content: flex-end;
 }
 #new-user-emails {
-  display: flex;
-  margin-left: 10%;
+	display: flex;
+	margin-left: 10%;
 }
 #new-user-texts {
-  display: flex;
-  margin-right: 10%;
+	display: flex;
+	margin-right: 10%;
 }
 #new-user-checkboxes {
-  margin-top: 30px;
-  margin-bottom: 10%;
+	margin-top: 30px;
+	margin-bottom: 10%;
 }
 #new-user-username {
- /*  margin-right: 8%; */
-  width: 40%;
+	width: 40%;
 }
 #new-user-email {
+	width: 33%;
+} */
  /* margin-right: 17%; */
   width: 33%;
 }

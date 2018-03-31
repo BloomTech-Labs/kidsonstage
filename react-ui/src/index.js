@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import App from './App';
 import SignIn from './components/SignIn';
 import Users from './components/users';
@@ -17,7 +18,6 @@ import reducers from './reducers';
 import './index.css';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
-
 
 /* eslint-disable react/jsx-filename-extension */
 ReactDOM.render(

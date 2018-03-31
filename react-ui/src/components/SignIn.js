@@ -1,39 +1,38 @@
+/* eslint-disable no-class-assign */
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../actions';
 
-/* eslint-disable jsx-a11y/label-has-for, react/forbid-prop-types */
+class SignIn extends Component {
+	handleFormSubmit = ({ username, password }) => {
+	  this.props.login(username, password, this.props.history);
+	};
 
-class UserSignIn extends Component {
-    handleFormSubmit = ({ username, password }) => {
-      this.props.login({ username, password }, this.props.history);
-    };
+	renderAlert() {
+	  if (!this.props.error) return null;
+	  return <h3>{this.props.error}</h3>;
+	}
 
-    renderAlert() {
-      if (!this.props.error) return null;
-      return <h3>{this.props.error}</h3>;
-    }
+	render() {
+	  const { handleSubmit } = this.props;
 
-    render() {
-      const { handleSubmit } = this.props;
-
-      return (
-        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-          <fieldset>
-            <label>Username:</label>
-            <Field name="username" component="input" type="text" />
-          </fieldset>
-          <fieldset>
-            <label>Password:</label>
-            <Field name="password" component="input" type="password" />
-          </fieldset>
-          <button action="submit">Sign In</button>
-          {this.renderAlert()}
-        </form>
-      );
-    }
+	  return (
+  <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+    <fieldset>
+      <label>Username:</label>
+      <Field name="username" component="input" type="text" />
+    </fieldset>
+    <fieldset>
+      <label>Password:</label>
+      <Field name="password" component="input" type="password" />
+    </fieldset>
+    <button action="submit">Sign In</button>
+    {this.renderAlert()}
+  </form>
+	  );
+	}
 }
 
 UserSignIn.defaultProps = {
@@ -50,6 +49,7 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
 });
 
+SignIn = connect(mapStateToProps, { login })(SignIn);
 /* eslint-disable no-class-assign */
 UserSignIn = connect(mapStateToProps, { login })(UserSignIn);
 
