@@ -15,11 +15,3 @@ that they are "on deck" or "next to be on deck" for whatever event is taking pla
     * redux-form
     * redux-thunk
 
-# create-react-app with a Node server on Heroku
-
-A minimal example of using a Node backend (server for API, proxy, & routing) with a [React frontend](https://github.com/facebookincubator/create-react-app).
-
-To deploy a frontend-only React app, use the static-site optimized  
-▶️ [create-react-app-buildpack](https://github.com/mars/create-react-app-buildpack)
-
-⤵️ [Switching from create-react-app-buildpack](#switching-from-create-react-app-buildpack)?
