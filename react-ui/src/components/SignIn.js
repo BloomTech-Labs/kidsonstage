@@ -1,21 +1,21 @@
+/* eslint-disable no-class-assign */
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../actions';
 
-
 class SignIn extends Component {
-    handleFormSubmit = ({ username, password }) => {
-      this.props.login(username, password, this.props.history);
-    };
+	handleFormSubmit = ({ username, password }) => {
+	  this.props.login(username, password, this.props.history);
+	};
 
-    renderAlert() {
-      if (!this.props.error) return null;
-      return <h3>{this.props.error}</h3>;
-    }
+	renderAlert() {
+	  if (!this.props.error) return null;
+	  return <h3>{this.props.error}</h3>;
+	}
 
-    render() {
+	render() {
 	  const { handleSubmit } = this.props;
 
 	  return (
@@ -32,7 +32,7 @@ class SignIn extends Component {
     {this.renderAlert()}
   </form>
 	  );
-    }
+	}
 }
 
 SignIn.propTypes = {
@@ -43,7 +43,6 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
 });
 
-/* eslint-disable no-class-assign */
 SignIn = connect(mapStateToProps, { login })(SignIn);
 
 export default reduxForm({

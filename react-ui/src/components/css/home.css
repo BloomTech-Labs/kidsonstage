@@ -1,0 +1,55 @@
+/* home page minus navbar */
+
+/* COLOR SCHEME: 
+1. Text Colors: SMOKEY BLACK: #0C120C
+2. Highlight Color (such as button hover): SEA FOAM GREEN: #BBE1C3
+3. Border Colors: 
+    A. NICKEL: #6D7275
+    B. LIGHT GREY: #C7D6D5
+4. Page Background Color: ANTI-FLASH-WHITE: #ECEBF3 */
+
+.home {
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+}
+
+.carousel {
+	transform: scale(0.5);
+}
+
+.home_text {
+	font-size: 20px;
+	width: 100%;
+	padding: 50px;
+}
+
+.cta_button {
+	padding: 20px;
+	height: 50px;
+	width: 250px;
+	font-size: 35px;
+	background-color: transparent;
+	border-color: transparent;
+	color: #0c120c;
+}
+
+.cta_button > a {
+	padding: 20px;
+	height: 50px;
+	width: 250px;
+	text-decoration: none;
+	background-color: transparent;
+	border: solid 3px #0c120c;
+	color: #0c120c;
+}
+
+.cta_button:hover > a {
+	padding: 20px;
+	height: 50px;
+	width: 250px;
+	color: #0c120c;
+	background-color: #bbe1c3;
+}
