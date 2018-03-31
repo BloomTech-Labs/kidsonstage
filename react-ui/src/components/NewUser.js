@@ -1,145 +1,139 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import normalizePhone from './normalizers/normalizePhone';
+import { register } from '../actions';
 import '../index.css';
 
-/* eslint-disable no-console, react/prop-types */
+// const { DOM: { input /* select, textarea */ } } = React;
 
-function hash(s) {
-	return s;
+
+/* eslint-disable jsx-a11y/label-has-for, react/prop-types, object-curly-newline */
+class NewUserForm extends Component {
+  handleFormSubmit = ({ username, email, phoneNumber, password, confirmPassword, byPhone, byEmail }) => {
+    this.props.register(
+      {
+        username, email, phoneNumber, password, confirmPassword, byPhone, byEmail,
+      },
+      this.props.history,
+    );
+  };
+
+  renderAlert = () => {
+    if (!this.props.error) return null;
+    return <h3>{this.props.error}</h3>;
+  };
+  render() {
+    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const renderField = ({
+      input,
+      label,
+      type,
+      meta: { touched, error, warning },
+    }) => (
+      <div>
+        <label>{label}</label>
+        <div>
+          <input {...input} placeholder={label} type={type} />
+          {touched &&
+            ((error && <span>{error}</span>) ||
+              (warning && <span>{warning}</span>))}
+        </div>
+      </div>
+    );
+    const email = value =>
+      (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+        ? 'Invalid email address'
+        : undefined);
+    const aol = value =>
+      (value && /.+@aol\.com/.test(value)
+        ? 'Really? You still use AOL for your email?'
+        : undefined);
+    return (
+      <form onSubmit={handleSubmit(this.handleFormSubmit)} id="new-user-form" >
+        <div className="flex-center-div">
+          <label className="new-user-label">Username:</label>
+          <Field
+            name="username"
+            component="input"
+            type="text"
+            className="new-user-inputText"
+            placeholder="User Name"
+            id="new-user-username"
+          />
+        </div>
+        <div className="flex-center-div">
+          <label className="new-user-label">Email</label>
+          <Field
+            name="email"
+            component="input"
+            validate={email}
+            warn={aol}
+            placeholder="Email"
+            className="new-user-inputText"
+            id="new-user-email"
+          />
+        </div>
+        <div className="flex-center-div">
+          <label className="new-user-label">Phone Number</label>
+          <Field
+            name="phoneNumber"
+            className="new-user-inputText"
+            component="input"
+            type="text"
+            placeholder="Phone Number"
+            normalize={normalizePhone}
+            id="new-user-phone"
+          />
+        </div>
+        <div className="flex-center-div">
+          <label className="new-user-label">Password:</label>
+          <Field
+            name="password"
+            component="input"
+            type="password"
+            className="new-user-inputText new-user-password"
+            placeholder="Password"
+          />
+        </div>
+        <div className="flex-center-div">
+          <label className="new-user-label">Confirm Password:</label>
+          <Field
+            name="confirmPassword"
+            component="input"
+            type="password"
+            className="new-user-inputText new-user-password"
+            placeholder="Confirm Password"
+          />
+        </div>
+        <p id="new-user-contacted" >How would you like to be contacted?</p>
+        <div className="flex-center-div" id="new-user-checkboxes" >
+          <div id="new-user-texts">
+            <Field name="byPhone" id="byPhone" component="input" type="checkbox" className="checkbox" />
+            <span>Texts?</span>
+          </div>
+          <div id="new-user-emails">
+            <Field name="byEmail" id="byEmail" component="input" type="checkbox" className="checkbox" />
+            <span>Email?</span>
+          </div>
+        </div>
+        <div className="flex-center-div">
+          <button className="new-user-action-button" id="new-user-sign-up" type="submit" disabled={pristine || submitting}>Sign Up</button>
+          <button className="new-user-action-button" id="new-user-clear-values" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+        </div>
+      </form>
+    );
+  }
 }
-export default class NewUser extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			username: '',
-			email: '',
-			phone: 0,
-			password: '',
-			useTexts: false,
-			useEmails: false
-		};
-	}
-	renderAlert = () => {
-		if (!this.props.error) return null;
-		return <h3>{this.props.error}</h3>;
-	};
-	render() {
-		return (
-			<form
-				onSubmit={() => {
-					// e.preventDefault();
-					this.props.register(
-						{
-							username: this.state.username,
-							email: this.state.email,
-							phone: this.state.phone, // number
-							passwordHash: hash(this.state.password),
-							useTexts: this.state.useTexts, // bool
-							useEmails: this.state.useEmails // bool
-						},
-						this.props.history
-					);
-					this.setState(
-						{
-							username: '',
-							email: '',
-							phone: 0,
-							password: '',
-							useTexts: false,
-							useEmails: false
-						},
-						() => console.log('after setState')
-					);
-					// this.props.history.push('/');
-					// }).catch((err) => { console.log(`error: ${err}`); });
-				}}
-			>
-				<div className="flex-center-div">
-					<p className="new-user-label">Username</p>
-					<input
-						onChange={username => this.setState({ username })}
-						className="new-user-inputText"
-						label="username"
-						type="text"
-						size="30"
-						id="new-user-username"
-					/>
-				</div>
-				<div className="flex-center-div">
-					<p className="new-user-label">Email</p>
-					<input
-						onChange={email => this.setState({ email })}
-						className="new-user-inputText"
-						label="email"
-						type="text"
-						size="30"
-						id="new-user-email"
-					/>
-				</div>
-				<div className="flex-center-div">
-					<p className="new-user-label">Phone</p>
-					<input
-						onChange={phone => this.setState({ phone })}
-						className="new-user-inputText"
-						label="phone"
-						type="text"
-						size="30"
-						id="new-user-phone"
-					/>
-				</div>
-				<div className="flex-center-div">
-					<p className="new-user-label">Password</p>
-					<input
-						onChange={password => this.setState({ password })}
-						className="new-user-inputText"
-						label="password"
-						type="password"
-						size="16"
-						id="new-user-password"
-					/>
-				</div>
-				<div className="flex-center-div" id="new-user-checkboxes">
-					<div id="new-user-texts">
-						<input
-							type="checkbox"
-							onClick={() =>
-								this.setState({
-									useTexts: !this.state.useTexts
-								})
-							}
-						/>
-						<p>Texts?</p>
-					</div>
-					<div id="new-user-emails">
-						<input
-							type="checkbox"
-							onClick={() =>
-								this.setState({
-									useEmails: !this.state.useEmails
-								})
-							}
-						/>
-						<p>Email?</p>
-					</div>
-				</div>
-				<div className="flex-center-div">
-					<button className="new-user-submit" type="submit">
-						Save
-					</button>
-				</div>
-				{this.renderAlert()}
-			</form>
-		);
-	}
-}
-NewUser.propTypes = {
-	register: PropTypes.func.isRequired
-};
 
-// NewUser.defaultProps = {
-//   register: (o) => { console.log(`${Object.keys(o.username)} ${Object.keys(o.email)}
-//  ${typeof o.passwordHash} ${o.useEmails} ${o.useTexts}`); },
-// };
+const mapStateToProps = state => ({
+  error: state.auth.error,
+});
 
-// export default withRouter(NewUser);
+export default reduxForm({
+  form: 'newUser',
+  touchOnBlur: true,
+  fields: ['username', 'email', 'phoneNumber', 'password',
+    'confirmPassword', 'byPhone', 'byEmail'],
+  // fields: ['username', 'password', 'confirmPassword'],
+})(connect(mapStateToProps, { register })(NewUserForm));
