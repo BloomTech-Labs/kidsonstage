@@ -35,8 +35,14 @@ class SignIn extends Component {
 	}
 }
 
-SignIn.propTypes = {
+UserSignIn.defaultProps = {
+  error: null,
+};
+UserSignIn.propTypes = {
   login: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => ({
   error: state.auth.error,
@@ -44,8 +50,10 @@ const mapStateToProps = state => ({
 });
 
 SignIn = connect(mapStateToProps, { login })(SignIn);
+/* eslint-disable no-class-assign */
+UserSignIn = connect(mapStateToProps, { login })(UserSignIn);
 
 export default reduxForm({
   form: 'signin',
   fields: ['username', 'password'],
-})(SignIn);
+})(UserSignIn);

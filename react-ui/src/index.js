@@ -10,7 +10,7 @@ import SignIn from './components/SignIn';
 import Users from './components/users';
 import SignOut from './components/signout';
 /* eslint-disable camelcase */
-import Sign_Up from './components/NewUserContainer';
+import Sign_Up from './components/NewUser';
 import SignUp from './components/signup';
 import RequireAuth from './components/HOC/RequireAuth';
 
