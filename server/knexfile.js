@@ -1,4 +1,5 @@
-require('dotenv').config({path: '../.env'});
+var dotenv = require('dotenv');
+dotenv.load();
 
 module.exports = {
   client: 'pg',
