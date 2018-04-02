@@ -6,7 +6,7 @@
     "node": "8.9.x"
   },
   "scripts": {
-    "start": "node server",
+    "start": "nodemon server",
     "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "cacheDirectories": [
@@ -19,6 +19,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "knex": "^0.14.4",
+    "nodemon": "^1.17.3",
     "npm": "^5.8.0",
     "pg": "^7.4.1"
   },

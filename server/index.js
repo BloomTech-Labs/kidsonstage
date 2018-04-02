@@ -7,8 +7,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 
-const adminEndpoints = require('./admin/adminEndpoints.js');
-const userEndpoints = require('./users/userEndpoints.js');
+// TEMP COMMENT OUT
+// const adminEndpoints = require('./admin/adminEndpoints.js');
+const usersEndpoints = require('./endpoints/usersEndpoints.js');
 
 const PORT = process.env.PORT || process.env.LOCAL_PORT;
 const server = express();
@@ -16,8 +17,9 @@ const server = express();
 server.use(bodyParser.json());
 server.use(cors());
 
-server.use('/api/admin', adminEndpoints);
-server.use('/api/users', userEndpoints);
+// TEMP COMMENT OUT
+// server.use('/api/admin', adminEndpoints);
+server.use('/api/users', usersEndpoints);
 
 // USED FOR PRODUCTION ONLY
 if (process.env.NODE_ENV === 'production') {
