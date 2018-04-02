@@ -14,7 +14,7 @@ exports.up = function(knex, Promise) {
 			.string('username', 32)
 			.notNullable()
 			.unique('username');
-		tbl.string('password', 32).notNullable();
+		tbl.text('password').notNullable();
         tbl.string('email', 70).notNullable();
         tbl.string('phoneNumber',12)
 		tbl.string('vcode', 8).notNullable();
