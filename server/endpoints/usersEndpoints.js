@@ -154,4 +154,22 @@ usersRouter.post('/newUser', function(req, res) {
 	});
 });
 
+usersRouter.delete('/delete', function(req, res) {
+	const { id } = req.body;
+
+	db('users')
+		.where('id', id)
+		.del()
+		.then(function(record) {
+			if (record) {
+				res.status(200).json(record);
+			} else {
+				res.status(404).json(null);
+			}
+		})
+		.catch(function(err) {
+			res.status(500).json({ error: 'Could not delete the user.', err });
+		});
+});
+
 module.exports = usersRouter;
