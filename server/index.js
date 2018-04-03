@@ -15,7 +15,8 @@ const PORT = process.env.PORT || process.env.LOCAL_PORT;
 const server = express();
 
 server.use(bodyParser.json());
-server.use(cors());
+// server.use(cors());
+server.use(cors({credentials: true, origin: process.env.CLIENT_URL }));
 
 // TEMP COMMENT OUT
 // server.use('/api/admin', adminEndpoints);
