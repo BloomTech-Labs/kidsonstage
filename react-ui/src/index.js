@@ -9,9 +9,7 @@ import App from './App';
 import SignIn from './components/SignIn';
 import Users from './components/users';
 import SignOut from './components/signout';
-/* eslint-disable camelcase */
-import Sign_Up from './components/NewUser';
-import SignUp from './components/signup';
+import SignUp from './components/NewUser';
 import RequireAuth from './components/HOC/RequireAuth';
 
 import reducers from './reducers';
@@ -29,7 +27,6 @@ ReactDOM.render(
         <Route path="/users" component={RequireAuth(Users)} />
         <Route path="/signout" component={SignOut} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/sign-up" component={Sign_Up} />
       </div>
     </Router>
   </Provider>,

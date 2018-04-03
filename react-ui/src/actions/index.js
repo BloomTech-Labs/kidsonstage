@@ -13,8 +13,8 @@ axios.defaults.withCredentials = true;
 
 const ROOT_URL =
   (process.env.NODE_ENV === 'production') ?
-  'https://kidsonstage.herokuapp.com:443/api/'
-  : 'http://localhost:5000/api/'
+    'https://kidsonstage.herokuapp.com:443/api'
+    : 'http://localhost:5000/api'
   ;
 
 export const authError = error => ({
@@ -29,7 +29,7 @@ export const register = (user, history) => (dispatch) => {
   }
   console.log(`in "register" for username ${user.username} email ${user.email}`);
   axios
-    .post(`${ROOT_URL}/users`, user)
+    .post(`${ROOT_URL}/users/newUser`, user)
     .then(() => {
       dispatch({
         type: USER_REGISTERED,
