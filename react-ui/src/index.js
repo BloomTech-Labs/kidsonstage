@@ -10,6 +10,7 @@ import SignIn from './components/SignIn';
 import Users from './components/users';
 import SignOut from './components/signout';
 import SignUp from './components/NewUser';
+import Settings from './components/Settings';
 import RequireAuth from './components/HOC/RequireAuth';
 
 import reducers from './reducers';
@@ -27,6 +28,7 @@ ReactDOM.render(
         <Route path="/users" component={RequireAuth(Users)} />
         <Route path="/signout" component={SignOut} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/settings" component={RequireAuth(Settings)} />
       </div>
     </Router>
   </Provider>,
