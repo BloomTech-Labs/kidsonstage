@@ -136,5 +136,4 @@ export default reduxForm({
   touchOnBlur: true,
   fields: ['username', 'email', 'phoneNumber', 'password',
     'confirmPassword', 'byPhone', 'byEmail'],
-  // fields: ['username', 'password', 'confirmPassword'],
 })(connect(mapStateToProps, { register })(NewUserForm));

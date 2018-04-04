@@ -3,22 +3,21 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import normalizePhone from './normalizers/normalizePhone';
 import './css/userSettings.css';
-import { updateUser } from '../actions';
-import { load as loadAccount } from './account';
+import { updateUser, getUser } from '../actions';
 
 /* eslint-disable no-console, no-class-assign, jsx-a11y/label-has-for, react/prop-types, object-curly-newline */
 class Settings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      initialValues: { ...this.props.initialValues },
-    };
-  }
-  handleFormSubmit = ({ username = 'mark', email = 'mark@gmail', phoneNumber = '9999999999',
-    password = 'p', confirmPassword = 'p', byPhone, byEmail }) => {
-    this.props.register(
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     initialValues: { ...this.props.initialValues },
+  //   };
+  // }
+  handleFormSubmit = ({ email = 'mark@gmail', phoneNumber = '9999999999',
+    password = 'p', newPassword = 'p', byPhone, byEmail }) => {
+    this.props.updateUser(
       {
-        username, email, phoneNumber, password, confirmPassword, byPhone, byEmail,
+        email, phoneNumber, password, newPassword, byPhone, byEmail,
       },
       this.props.history,
     );
@@ -162,17 +161,8 @@ Settings = reduxForm({
 // You have to connect() to any reducers that you wish to connect to yourself
 Settings = connect(
   state => ({
-    initialValues: {
-      username: 'mark',
-      email: 'mark@gmail',
-      phoneNumber: '9999999999',
-      password: 'p',
-      confirmPassword: 'p',
-      byPhone: true,
-      byEmail: false }, // pull initial values from account reducer
-    error: state.auth.error,
-  }),
-  { load: loadAccount, updateUser }, // bind account loading action creator
+    initialValues: state[0] }),
+  { load: getUser, updateUser }, // bind account loading action creator
 )(Settings);
 
 export default Settings;
