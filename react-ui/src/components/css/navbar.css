@@ -9,7 +9,7 @@
 .Section_NavBar {
 	height: 60px;
 	width: 100%;
-	background-color: #ecebf3;
+	background-color: white;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
