@@ -1,0 +1,38 @@
+/* Registration (new user) page. */
+
+.register-form {
+	display: flex;
+}
+
+.label {
+	color: green;
+}
+
+.inputText {
+	color: purple;
+}
+
+#contact-text {
+	color: black;
+}
+
+#text-preference {
+	color: pink;
+}
+
+#email-preference {
+	color: blue;
+}
+
+.button {
+	width: 150px;
+	height: 50px;
+	background-color: transparent;
+}
+
+.button:hover {
+	width: 150px;
+	height: 50px;
+	text-decoration: none;
+	background-color: blue;
+}

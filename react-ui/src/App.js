@@ -4,6 +4,13 @@ import { Route } from 'react-router-dom';
 
 import Home from './components/Home';
 import NavBar from './components/NavBar';
+import Settings from './components/EditAccount';
+import SignIn from './components/Login';
+import SignOut from './components/LogOut';
+import Register from './components/Register';
+import Users from './components/Users';
+import RequireAuth from './components/HOC/RequireAuth';
+
 import './App.css';
 
 class App extends Component {
@@ -42,6 +49,11 @@ class App extends Component {
       <div className="App">
         <NavBar />
         <Route exact path="/" component={Home} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/users" component={RequireAuth(Users)} />
+        <Route path="/signout" component={SignOut} />
+        <Route path="/signup" component={Register} />
+        <Route path="/settings" component={RequireAuth(Settings)} />
       </div>
     );
   }
