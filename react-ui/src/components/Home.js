@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-// import styled from 'styled-components';
-// import PropTypes from 'prop-types';
 import centerPng from './graphics/landing-center-graphic.png';
-
 import './css/home.css';
-// import NewUser from './NewUser';
 
 export default class Home extends Component {
   constructor(props) {
@@ -26,14 +22,9 @@ export default class Home extends Component {
 					Welcome to Kids On Stage! A queue notification system for any event!
         </div>
         <button className="cta_button">
-          <Link to="/new-user">Buy Now</Link>
+          <Link to="/signup">Buy Now</Link>
         </button>
       </div>
     );
   }
 }
-// Landing.propTypes = {
-//   signUp: PropTypes.func.isRequired,
-//   signIn: PropTypes.func.isRequired,
-//   // addUser: PropTypes.func.isRequired,
-// };
