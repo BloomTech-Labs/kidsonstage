@@ -50,6 +50,7 @@ class Register extends Component {
         ? 'Really? You still use AOL for your email?'
         : undefined);
     return (
+      <div className = "register-box">
       <form onSubmit={handleSubmit(this.handleFormSubmit)} id="submit-button" >
         <div className="register-form">
           <label className="label">Username:</label>
@@ -106,7 +107,7 @@ class Register extends Component {
             placeholder="Confirm Password"
           />
         </div>
-        <p id="contact-text" >How would you like to be contacted?</p>
+        <div className="contact-text" >How would you like to be contacted?</div>
         <div className="register-form" id="checkbox">
           <div id="text-preference">
             <Field name="byPhone" id="byPhone" component="input" type="checkbox" className="checkbox" />
@@ -122,6 +123,7 @@ class Register extends Component {
           <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Reset</button>
         </div>
       </form>
+      </div>
     );
   }
 }

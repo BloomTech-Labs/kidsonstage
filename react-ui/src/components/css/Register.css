@@ -1,33 +1,58 @@
 /* Registration (new user) page. */
 
+.register-box {
+	padding: 25%;
+	height: 500px;
+	width: 50%;
+	border-color: black;
+	align-items: center;
+	justify-content: center;
+}
+
 .register-form {
 	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .label {
-	color: green;
+	justify-content: center;
+	color: black;
+	width: 25%;
 }
 
 .inputText {
-	color: purple;
+	color: black;
+	width: 100%;
+	text-justify: center;
 }
 
-#contact-text {
+.contact-text {
+	align-self: center;
+	justify-content: center;
 	color: black;
+	width: 100%;
 }
 
 #text-preference {
-	color: pink;
+	color: black;
+	justify-content: center;
+	width: 25%;
 }
 
 #email-preference {
-	color: blue;
+	color: black;
+}
+
+.checkbox {
+	display: inline;
 }
 
 .button {
 	width: 150px;
 	height: 50px;
 	background-color: transparent;
+	justify-content: center;
 }
 
 .button:hover {
