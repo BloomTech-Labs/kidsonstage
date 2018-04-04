@@ -6,14 +6,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import App from './App';
-import SignIn from './components/SignIn';
-import Users from './components/users';
-import SignOut from './components/signout';
-import SignUp from './components/NewUser';
-import RequireAuth from './components/HOC/RequireAuth';
 
 import reducers from './reducers';
-import './index.css';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
 
@@ -22,11 +16,7 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <Router>
       <div>
-        <Route path="/" component={App} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/users" component={RequireAuth(Users)} />
-        <Route path="/signout" component={SignOut} />
-        <Route path="/signup" component={SignUp} />
+        <App />
       </div>
     </Router>
   </Provider>,

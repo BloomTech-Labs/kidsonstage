@@ -1,0 +1,63 @@
+/* Registration (new user) page. */
+
+.register-box {
+	padding: 25%;
+	height: 500px;
+	width: 50%;
+	border-color: black;
+	align-items: center;
+	justify-content: center;
+}
+
+.register-form {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.label {
+	justify-content: center;
+	color: black;
+	width: 25%;
+}
+
+.inputText {
+	color: black;
+	width: 100%;
+	text-justify: center;
+}
+
+.contact-text {
+	align-self: center;
+	justify-content: center;
+	color: black;
+	width: 100%;
+}
+
+#text-preference {
+	color: black;
+	justify-content: center;
+	width: 25%;
+}
+
+#email-preference {
+	color: black;
+}
+
+.checkbox {
+	display: inline;
+}
+
+.button {
+	width: 150px;
+	height: 50px;
+	background-color: transparent;
+	justify-content: center;
+}
+
+.button:hover {
+	width: 150px;
+	height: 50px;
+	text-decoration: none;
+	background-color: blue;
+}

@@ -1,7 +1,8 @@
 const express = require('express');
 
 const usersRouter = express.Router();
-
+const requireSignIn = require('../services/passport').requireSignIn;
+const getTokenForUser = require('../services/token');
 const db = require('../config/db.js');
 
 var bcrypt = require('bcrypt');
@@ -131,7 +132,29 @@ usersRouter.get('/validated/:validated', function(req, res) {
 			res.status(500).json({ error: 'Error' });
 		});
 })
+const signIn = (req, res) => {
+  res.send({ token: getTokenForUser(req.user), id: req.user.id });
+};
+usersRouter.post('/login', requireSignIn, signIn);
 
+// usersRouter.post('/login', function(req, res) {
+// 	const { username, password } = req.body;
+// 	bcrypt.hash(password, saltRounds, function(err, hash) {
+// 		db('users')
+// 			.where({username: username, password: hash}).select('id')
+// 			.then(id => {
+// 				let user = { id };
+// 				if (id) { // assume no 0 id
+// 					  res.send({ token: getTokenForUser(req.user) });
+// 					} else {
+// 						res.status(404).json(null);
+// 					}
+// 			})
+// 		}	
+// 		.catch(function(err) {
+// 			res.status(500).json({ error: 'Error' });
+// 		}));
+// });
 usersRouter.post('/newUser', function(req, res) {
 	// /api/users/newUser
 	const { username, password, email, phoneNumber, byEmail, byPhone } = req.body;

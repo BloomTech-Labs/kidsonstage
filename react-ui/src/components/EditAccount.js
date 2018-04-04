@@ -2,46 +2,45 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import normalizePhone from './normalizers/normalizePhone';
-import { register } from '../actions';
-import '../index.css';
+import './css/userSettings.css';
+import { updateUser, getUser } from '../actions';
 
-// const { DOM: { input /* select, textarea */ } } = React;
-
-
-/* eslint-disable jsx-a11y/label-has-for, react/prop-types, object-curly-newline */
-class NewUserForm extends Component {
-  handleFormSubmit = ({ username = 'mark', email = 'mark@gmail', phoneNumber = '9999999999',
-    password = 'p', confirmPassword = 'p', byPhone, byEmail }) => {
-    this.props.register(
+/* eslint-disable no-console, no-class-assign, jsx-a11y/label-has-for, react/prop-types, object-curly-newline */
+class Settings extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     initialValues: { ...this.props.initialValues },
+  //   };
+  // }
+  handleFormSubmit = ({ email = 'mark@gmail', phoneNumber = '9999999999',
+    password = 'p', newPassword = 'p', byPhone, byEmail }) => {
+    this.props.updateUser(
       {
-        username, email, phoneNumber, password, confirmPassword, byPhone, byEmail,
+        email, phoneNumber, password, newPassword, byPhone, byEmail,
       },
       this.props.history,
     );
   };
 
+
   renderAlert = () => {
     if (!this.props.error) return null;
     return <h3>{this.props.error}</h3>;
   };
+
   render() {
     const { handleSubmit, pristine, reset, submitting } = this.props;
-    // const renderField = ({
-    //   input,
-    //   label,
-    //   type,
-    //   meta: { touched, error, warning },
-    // }) => (
-    //   <div>
-    //     <label>{label}</label>
-    //     <div>
-    //       <input {...input} placeholder={label} type={type} />
-    //       {touched &&
-    //         ((error && <span>{error}</span>) ||
-    //           (warning && <span>{warning}</span>))}
-    //     </div>
-    //   </div>
-    // );
+    // this.initialValues = {
+    //   username: 'mark',
+    //   email: 'mark@gmail',
+    //   phoneNumber: '9999999999',
+    //   password: 'p',
+    //   confirmPassword: 'p',
+    //   byPhone: true,
+    //   byEmail: false };
+    console.log(`initialValues: ${this.props.initialValues.username}`);
+
     const email = value =>
       (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
         ? 'Invalid email address'
@@ -52,7 +51,7 @@ class NewUserForm extends Component {
         : undefined);
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit)} id="new-user-form" >
-        <div className="flex-center-div">
+        {/* <div className="flex-center-div">
           <label className="new-user-label">Username:</label>
           <Field
             name="username"
@@ -62,7 +61,7 @@ class NewUserForm extends Component {
             placeholder="User Name"
             id="new-user-username"
           />
-        </div>
+        </div> */}
         <div className="flex-center-div">
           <label className="new-user-label">Email</label>
           <Field
@@ -88,7 +87,7 @@ class NewUserForm extends Component {
           />
         </div>
         <div className="flex-center-div">
-          <label className="new-user-label">Password:</label>
+          <label className="new-user-label">Old Password:</label>
           <Field
             name="password"
             component="input"
@@ -98,13 +97,13 @@ class NewUserForm extends Component {
           />
         </div>
         <div className="flex-center-div">
-          <label className="new-user-label">Confirm Password:</label>
+          <label className="new-user-label">New Password:</label>
           <Field
-            name="confirmPassword"
+            name="newPassword"
             component="input"
             type="password"
             className="new-user-inputText new-user-password"
-            placeholder="Confirm Password"
+            placeholder="New Password"
           />
         </div>
         <p id="new-user-contacted" >How would you like to be contacted?</p>
@@ -119,22 +118,51 @@ class NewUserForm extends Component {
           </div>
         </div>
         <div className="flex-center-div">
-          <button className="new-user-action-button" id="new-user-sign-up" type="submit" disabled={pristine || submitting}>Sign Up</button>
-          <button className="new-user-action-button" id="new-user-clear-values" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+          <button
+            className="new-user-action-button"
+            id="new-user-sign-up"
+            type="submit"
+            disabled={pristine || submitting}
+          >
+          Save
+          </button>
+          <button
+            className="new-user-action-button"
+            id="new-user-clear-values"
+            type="button"
+            disabled={pristine || submitting}
+            onClick={reset}
+          >Clear Values
+          </button>
         </div>
       </form>
     );
   }
 }
+// const mapStateToProps = state => ({
+//   error: state.auth.error,
+// });
 
-const mapStateToProps = state => ({
-  error: state.auth.error,
-});
+// export default reduxForm({
+//   touchOnBlur: true,
+//   form: 'settings',
+//   fields: ['originalUsername', 'originalPassword', 'username',
+//     'email', 'phoneNumber', 'password',
+//     'confirmPassword', 'byPhone', 'byEmail'],
+// })(connect(mapStateToProps, { updateUser })(Settings));
 
-export default reduxForm({
-  form: 'newUser',
+
+// Decorate with reduxForm(). It will read the initialValues prop provided by connect()
+Settings = reduxForm({
+  form: 'settings', // a unique identifier for this form
   touchOnBlur: true,
-  fields: ['username', 'email', 'phoneNumber', 'password',
-    'confirmPassword', 'byPhone', 'byEmail'],
-  // fields: ['username', 'password', 'confirmPassword'],
-})(connect(mapStateToProps, { register })(NewUserForm));
+})(Settings);
+
+// You have to connect() to any reducers that you wish to connect to yourself
+Settings = connect(
+  state => ({
+    initialValues: state[0] }),
+  { load: getUser, updateUser }, // bind account loading action creator
+)(Settings);
+
+export default Settings;
