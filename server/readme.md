@@ -14,21 +14,19 @@
 
 ### EVENTS ROUTES
 
-| +/- | Command  | Path                                              | Description                                          |
-| --- | -------- | ------------------------------------------------- | ---------------------------------------------------- |
-| +   | [GET]    | 'api/events/'                                     | Returns all events in the DB                         |
-| +   | [GET]    | 'api/events/:id'                                  | Returns event by ID                                  |
-| +   | [GET]    | 'api/events/owner/:id'                            | Returns all events by owner ID (userId)              |
-| +   | [POST]   | 'api/events/newEvent'                             | Creates a new event                                  |
-| +   | [DELETE] | 'api/events/delete'                               | Deletes an event                                     |
-| +   | [GET]    | 'api/events/:id/activate'                         | Returns activated status of event                    |
-| -   | [PUT]    | 'api/events/:id/activate'                         | Changes activated status - payment callback url      |
-| +   | [GET]    | 'api/events/:id/groups'                           | Returns all groups within specified event            |
-| +   | [GET]    | 'api/events/:eventId/groups/:groupId/subscribers' | Returns all users subscribed to a group              |
-| +   | [POST]   | 'api/:eventId/groups/:groupId/subscribe'          | Adds subscriber to group (Send `userId` in req.body) |
-| +   | [POST]   | 'api/events/:id/newGroup'                         | Creates a new group under eventId                    |
-| +   | [PUT]    | 'api/events/:id/editGroup'                        | Edits info of a group under eventId                  |
-| -   | [DELETE] | 'api/events/:id/deleteGroup'                      | Deletes a group out of an event                      |
+| +/- | Command  | Path                                  | Description                                                     |
+| --- | -------- | ------------------------------------- | --------------------------------------------------------------- |
+| +   | [GET]    | 'api/events'                          | Returns all events in the DB based off of userClass in req.body |
+| +   | [POST]   | 'api/events'                          | Creates a new event                                             |
+| +   | [DELETE] | 'api/events'                          | Deletes an event                                                |
+| +   | [GET]    | 'api/events/byUser/:userId'           | Returns all events by owner ID (userId)                         |
+| +   | [GET]    | 'api/events/:eventId'                 | Returns event by ID                                             |
+| +   | [POST]   | 'api/events/:eventId/'                | Creates a new group under eventId                               |
+| +   | [GET]    | 'api/events/:eventId/activate'        | Returns activated status of event                               |
+| -   | [PUT]    | 'api/events/:eventId/activate'        | Changes activated status - payment callback url                 |
+| +   | [GET]    | 'api/events/:eventId/groups'          | Returns all groups within specified event                       |
+| +   | [GET]    | 'api/events/:eventId/groups/:groupId' | Returns all users subscribed to a group                         |
+| +   | [POST]   | 'api/events/:eventId/groups/:groupId' | Adds subscriber to group                                        |
+| +   | [PUT]    | 'api/events/:eventId/groups/:groupId' | Edits info of a group under eventId                             |
+| -   | [DELETE] | 'api/events/:eventId/groups/:groupId  | Deletes a group out of an event                                 |
 
-routes for showing users subscribed to a certain group
-Modify `api/events` - return all events based off of auth group
