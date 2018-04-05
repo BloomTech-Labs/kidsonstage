@@ -146,6 +146,34 @@ eventsRouter.put('/:eventId/editGroup', function(req, res) {
 
 // });
 
+eventsRouter.get('/:eventId/groups/:groupId/subscribers', function(req, res) {
+  const { eventId, groupId } = req.params;
+
+  db('eventSubscribers')
+    .where('eventId', eventId)
+    .where('groupId', groupId)
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: 'Could not return any subscribers in that group', err});
+    });
+});
+
+eventsRouter.post('/:eventId/groups/:groupId/subscribe', function(req, res) {
+  const { eventId, groupId } = req.params;
+  const { userId } = req.body;
+  
+  db('eventSubscribers')
+    .insert({ eventId, groupId, userId })
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      // COME BACK HERE AND ADD MORE ERROR CATCHES FOR ALREADY SUBSCRIBED, NO EVENT, ETC
+      res.status(500).json({ error: 'Could not subscribe to group', err});
+    });
+});
 
 module.exports = eventsRouter;
 
