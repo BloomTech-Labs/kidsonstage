@@ -24,6 +24,13 @@ export default class Home extends Component {
               <div className="icon-cards__item" />
             </div>
           </figure>
+          <figure class="icon-cards">
+            <div class="icon-cards__content">
+              <div class="icon-cards__item"></div>
+              <div class="icon-cards__item"></div>
+              <div class="icon-cards__item"></div>
+            </div>
+				  </figure>
         </div>
         <div className="home_text">
 					Welcome to Kids On Stage! A queue notification system for any event!
