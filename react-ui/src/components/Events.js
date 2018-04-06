@@ -45,7 +45,7 @@ import './css/events.css';
 const renderGroups = ({
   props, fields, eventId, meta: { error },
 }) => {
-  if (eventId) props.load(eventId);
+  // if (eventId) props.load(eventId);
   return (
     <ul>
       <li key={-1}>
@@ -160,9 +160,9 @@ const EventsForm = (props) => {
     console.log(JSON.stringify(values));
   };
   const {
-    load, handleSubmit, pristine, /* reset, */ submitting,
+    /* load, */ handleSubmit, pristine, /* reset, */ submitting,
   } = props;
-  load();
+  // load();
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} onKeyPress={onKeyPress} >
       <FieldArray name="admin" component={renderAdminEvents} />
@@ -213,24 +213,24 @@ const Events = reduxForm({
   form: 'settings', // a unique identifier for this form
   touchOnBlur: true,
 })(EventsForm);
-// export default Events;
+export default Events;
 
 
 // You have to connect() to any reducers that you wish to connect to yourself
-export default connect(
-  state => ({ initialValues: state.events || [] }),
-  { load: getEvents, addEvent, deleteEvent }, // bind account loading action creator
-)(Events);
+// export default connect(
+//   state => ({ initialValues: state.events || [] }),
+//   { load: getEvents, addEvent, deleteEvent }, // bind account loading action creator
+// )(Events);
 
 
-const Groups = reduxForm({
-  form: 'groups', // a unique identifier for this form
-  touchOnBlur: true,
-})(renderGroups);
+// const Groups = reduxForm({
+//   form: 'groups', // a unique identifier for this form
+//   touchOnBlur: true,
+// })(renderGroups);
 
 
 // You have to connect() to any reducers that you wish to connect to yourself
-connect(
-  state => ({ initialValues: state.groups || [] }),
-  { load: getGroups }, // bind account loading action creator
-)(Groups);
+// connect(
+//   state => ({ initialValues: state.groups || [] }),
+//   { load: getGroups }, // bind account loading action creator
+// )(Groups);
