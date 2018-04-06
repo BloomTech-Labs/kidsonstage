@@ -16,7 +16,14 @@ export default class Home extends Component {
     return (
       <div className="home">
         <div className="carousel">
-          <img src={centerPng} />
+          {/* <img src={centerPng} /> */}
+          <figure class="icon-cards">
+            <div class="icon-cards__content">
+              <div class="icon-cards__item"></div>
+              <div class="icon-cards__item"></div>
+              <div class="icon-cards__item"></div>
+            </div>
+				  </figure>
         </div>
         <div className="home_text">
 					Welcome to Kids On Stage! A queue notification system for any event!
