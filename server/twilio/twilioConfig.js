@@ -1,10 +1,10 @@
 var dotenv = require('dotenv');
 var cfg = {};
 
-cfg.accountSid = process.env.TWILIO_ACCOUNT_SID;
-cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
+cfg.accountSid = env.TWILIO_ACCOUNT_SID;
+cfg.authToken = env.TWILIO_AUTH_TOKEN;
 //use this line for live
-//cfg.sendingNumber = process.env.TWILIO_NUMBER;
+//cfg.sendingNumber = env.TWILIO_NUMBER;
 
 //use these lines for testing
 cfg.sendingNumber = require('twilio')(cfg.accountsSid, cfg.authToken);
@@ -14,7 +14,7 @@ sendingNumber.incomingPhoneNumbers.create(
 		phoneNumber: '+15005550006'
 	},
 	function(err, number) {
-		process.stdout.write(number.sid);
+		stdout.write(number.sid);
 	}
 );
 
@@ -32,8 +32,8 @@ if (!isConfigured) {
 
 module.exports = cfg;
 
-// if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
+// if (env.NODE_ENV !== 'production' && env.NODE_ENV !== 'test') {
 //   dotenv.config({path: '.env'});
 // } else {
-//   dotenv.config({path: './process.env', silent: true});
+//   dotenv.config({path: './env', silent: true});
 // }
