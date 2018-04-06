@@ -17,55 +17,55 @@
 }
 
 .carousel {
-	align-self: center;
-	justify-content: center;
+	/* align-self: center;
+	justify-content: center; */
 	transform: scale(1);
 }
 
 .icon-cards {
 	position: relative;
-	align-self: center;
-	justify-content: center;
-	top: 50%;
-	left: 50%;
-	width: 300px;
-	height: 300px;
+	/* align-self: center;
+	justify-content: center; */
+	top: 35%;
+	left: 45%;
+	width: 500px;
+	height: 500px;
 	perspective: 1300px;
 	transform: translate(-50%, -50%);
 }
 .icon-cards__content {
 	position: relative;
+	margin: 0px;
 	width: 100%;
 	height: 100%;
 	transform-style: preserve-3d;
-	transform: translateZ(-300px) rotateY(0);
+	transform: translateZ(-250px) rotateY(0);
 	animation: carousel 10s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
 }
 .icon-cards__item {
 	position: absolute;
-	top: 50%;
-	left: 0;
-	width: 400px;
-	height: 400px;
+	top: 90%;
+	width: 350px;
+	height: 350px;
 	border-radius: 6px;
 }
 .icon-cards__item:nth-child(1) {
 	background: url('./images/drill_squad.jpg') no-repeat;
 	height: 336px;
-	width: 520px;
-	transform: rotateY(0) translateZ(300px);
+	width: 448px;
+	transform: rotateY(0) translateZ(182px);
 }
 .icon-cards__item:nth-child(2) {
 	background: url('./images/swimmers.jpg') no-repeat;
 	height: 336px;
 	width: 448px;
-	transform: rotateY(120deg) translateZ(300px);
+	transform: rotateY(120deg) translateZ(182px);
 }
 .icon-cards__item:nth-child(3) {
 	background: url('./images/track.jpg') no-repeat;
 	height: 336px;
 	width: 448px;
-	transform: rotateY(240deg) translateZ(300px);
+	transform: rotateY(240deg) translateZ(182px);
 }
 
 @keyframes carousel {
@@ -92,7 +92,7 @@ body {
 
 .home_text {
 	font-size: 20px;
-	padding: 50px;
+	padding: 75px;
 }
 
 .cta_button {
