@@ -10,6 +10,7 @@ import SignOut from './components/LogOut';
 import Register from './components/Register';
 import Users from './components/Users';
 import RequireAuth from './components/HOC/RequireAuth';
+import Events from './components/Events';
 
 import './App.css';
 
@@ -54,6 +55,7 @@ class App extends Component {
         <Route path="/signout" component={SignOut} />
         <Route path="/signup" component={Register} />
         <Route path="/settings" component={RequireAuth(Settings)} />
+        <Route path="/events" component={RequireAuth(Events)} />
       </div>
     );
   }

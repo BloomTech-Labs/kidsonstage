@@ -8,7 +8,7 @@ const LocalStrategy = require('passport-local');
 const localOptions = {
   usernameField: 'username'
 };
-console.log(`User ${Object.keys(User)}`);
+// console.log(`User ${Object.keys(User)}`);
 
 const localLogin = new LocalStrategy(
   localOptions,

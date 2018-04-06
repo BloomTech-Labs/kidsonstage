@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export * from './events';
+
 export const USER_REGISTERED = 'USER_REGISTERED';
 export const USER_AUTHENTICATED = 'USER_AUTHENTICATED';
 export const USER_UNAUTHENTICATED = 'USER_UNAUTHENTICATED';
@@ -12,7 +14,7 @@ export const CHECK_IF_AUTHENTICATED = 'CHECK_IF_AUTHENTICATED';
 
 axios.defaults.withCredentials = true;
 
-const ROOT_URL =
+export const ROOT_URL =
   (process.env.NODE_ENV === 'production') ?
     'https://kidsonstage.herokuapp.com:443/api'
     : 'http://localhost:5000/api'
@@ -50,14 +52,14 @@ export const login = (user, history) => (dispatch) => {
   axios
     .post(`${ROOT_URL}/users/login`, user)
     .then((response) => {
-      console.log(`token: ${response.data.token}  id: ${response.data.id}`);
+      // console.log(`token: ${response.data.token}  id: ${response.data.id}`);
       sessionStorage.setItem('token', response.data.token);
       sessionStorage.setItem('id', response.data.id);
       dispatch({
         type: USER_AUTHENTICATED,
       });
-      // history.push('/users');
-      console.log(`history keys ${Object.keys(history)}`);
+      history.push('/events');
+      // console.log(`history keys ${Object.keys(history)}`);
     })
     .catch((err) => {
       console.log(`login ${err}`);
@@ -75,6 +77,7 @@ export const logout = () => {
 export const getUser = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
+  console.log(`getUser for id ${id}`);
   if (!id || !token) {
     dispatch(authError('Not logged in'));
     return;
@@ -87,13 +90,16 @@ export const getUser = () => (dispatch) => {
   axios
     .get(`${ROOT_URL}/users/${id}`, config)
     .then((response) => {
+      // console.log(`getUser response.data.keys: ${Object.keys(response.data)}
+      //     isArray ${Array.isArray(response.data)} `);
+      // console.log(`getUser username ${response.data[0].username}`);
       dispatch({
         type: GET_USER,
         payload: response.data,
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`getUser ${err}`);
       dispatch(authError('Failed to fetch users'));
     });
 };
@@ -113,7 +119,7 @@ export const updateUser = (user, history) => (dispatch) => {
     },
   };
   axios
-    .post(`${ROOT_URL}/update`, { id, ...user }, config)
+    .put(`${ROOT_URL}/users/update`, { id, ...user }, config)
     .then(() => {
       dispatch({
         type: USER_REGISTERED,

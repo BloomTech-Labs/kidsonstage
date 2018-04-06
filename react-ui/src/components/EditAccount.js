@@ -5,14 +5,16 @@ import normalizePhone from './normalizers/normalizePhone';
 import './css/userSettings.css';
 import { updateUser, getUser } from '../actions';
 
-/* eslint-disable no-console, no-class-assign, jsx-a11y/label-has-for, react/prop-types, object-curly-newline */
+/* eslint-disable no-console, no-class-assign, jsx-a11y/label-has-for,
+               react/prop-types, object-curly-newline */
 class Settings extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     initialValues: { ...this.props.initialValues },
-  //   };
-  // }
+  constructor(props) {
+    super(props);
+    // this.state = {
+    //   initialValues: { ...this.props.initialValues },
+    // };
+    this.props.load();
+  }
   handleFormSubmit = ({ email = 'mark@gmail', phoneNumber = '9999999999',
     password = 'p', newPassword = 'p', byPhone, byEmail }) => {
     this.props.updateUser(
@@ -39,7 +41,7 @@ class Settings extends Component {
     //   confirmPassword: 'p',
     //   byPhone: true,
     //   byEmail: false };
-    console.log(`initialValues: ${this.props.initialValues.username}`);
+    // console.log(`initialValues: ${this.props.initialValues.username}`);
 
     const email = value =>
       (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
@@ -141,6 +143,7 @@ class Settings extends Component {
 }
 // const mapStateToProps = state => ({
 //   error: state.auth.error,
+//   user: state.users[0],
 // });
 
 // export default reduxForm({
@@ -161,7 +164,7 @@ Settings = reduxForm({
 // You have to connect() to any reducers that you wish to connect to yourself
 Settings = connect(
   state => ({
-    initialValues: state[0] }),
+    initialValues: state.users[0] }),
   { load: getUser, updateUser }, // bind account loading action creator
 )(Settings);
 

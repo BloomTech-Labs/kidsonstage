@@ -9,7 +9,8 @@ export default (ComposedComponent) => {
     }
     render() {
       /* eslint-disable no-mixed-operators */
-      return sessionStorage.getItem('token').length > 0 === true ? (
+      const token = sessionStorage.getItem('token');
+      return (token && (token.length > 0)) === true ? (
         <ComposedComponent />
       ) : (
         <div />
