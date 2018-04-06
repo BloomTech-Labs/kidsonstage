@@ -17,6 +17,12 @@ export default class NavBar extends Component {
           <button className="Nav_button">
             <Link to="/signin">Sign In</Link>
           </button>
+          <button className="Nav_button">
+            <Link to="/settings">Settings</Link>
+          </button> 
+          <button className="Nav_button">
+            <Link to="/events">Events</Link>
+          </button>                    
           {/* <button className="Nav_button"><Link to="/signout">Sign Out</Link></button> need to determine signed in state for this */}
         </ul>
       </div>
