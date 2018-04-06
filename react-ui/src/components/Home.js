@@ -16,7 +16,7 @@ export default class Home extends Component {
     return (
       <div className="home">
         <div className="carousel">
-          <img src={centerPng} />
+          <img src={centerPng} alt="carousel" />
         </div>
         <div className="home_text">
 					Welcome to Kids On Stage! A queue notification system for any event!

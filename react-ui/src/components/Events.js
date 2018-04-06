@@ -6,7 +6,8 @@ import { addEvent, deleteEvent, getEvents, getGroups } from '../actions';
 import formatTime from './normalizers/normalizeTime';
 import './css/events.css';
 
-/* eslint-disable react/prop-types, no-console */
+/* eslint-disable react/prop-types, no-console, no-param-reassign,
+        jsx-a11y/no-noninteractive-element-interactions */
 /*
 {
   "clubName": "Mark Club",
@@ -44,43 +45,43 @@ import './css/events.css';
 const renderGroups = ({
   props, fields, eventId, meta: { error },
 }) => {
-  props.load(eventId);
+  if (eventId) props.load(eventId);
   return (
     <ul>
-      <li>
+      <li key={-1}>
         <button type="button" onClick={() => fields.push()}>
         Add Group
         </button>
       </li>
       {fields.map((group, index) => (
-        <li key={group.name}>
+        <li key={`${group}.Remove`}>
           <button
             type="button"
             title="Remove Group"
             onClick={() => {
+            if (group.id) props.deleteGroup(group.id);
             fields.remove(index);
-            props.deleteGroup(group.id);
           }}
           />
           <Field
-            name="name"
+            name={`${group}.name`}
             type="text"
             component="input"
             label={`${index + 1}) `}
             placeholder="name"
           />
           <Field
-            name="time"
+            name={`${group}.time`}
             type="text"
             placeholder="HH:MM"
             normalize={formatTime}
             component="input"
           />
-          <Field name="completed" label="completed" component="input" type="checkbox" className="checkbox" />
+          <Field name={`${group}.completed`} label="completed" component="input" type="checkbox" className="checkbox" />
           {/* todo replace check box with flag image */}
         </li>
     ))}
-      {error && <li className="error">{error}</li>}
+      {error && <li key={-2} className="error">{error}</li>}
     </ul>);
 };
 
@@ -99,20 +100,23 @@ const renderGroups = ({
 */
 
 
-const renderAdminEvents = ({ fields, meta: { error, submitFailed } }) => (
+const renderAdminEvents = ({ props, fields, meta: { error, submitFailed } }) => (
   <ul>
-    <li>
-      <button type="button" onClick={() => fields.push({})}>
+    <li key={-1}>
+      <button type="button" onClick={() => fields.push()}>
         Add Event
       </button>
       {submitFailed && error && <span>{error}</span>}
     </li>
     {fields.map((event, index) => (
-      <li key={event.eventDate || index}>
+      <li key={`${event}Remove`}>
         <button
           type="button"
           title="Remove Event"
-          onClick={() => fields.remove(index)}
+          onClick={() => {
+            if (event.id) props.deleteEvent(event.id);
+            fields.remove(index);
+          }}
         />
         <Field
           name={`${event}.title`}
@@ -121,21 +125,35 @@ const renderAdminEvents = ({ fields, meta: { error, submitFailed } }) => (
           placeholder="title"
         />
         <Field
-          name={`${event}.eventDate`}
+          name={`${event}.date`}
           type="text"
           component="input"
           placeholder="Event Date"
         />
-        <Field name="activated" label="activated" component="input" type="checkbox" className="checkbox" />
-        <Field name="completed" label="completed" component="input" type="checkbox" className="checkbox" />
+        <Field name={`${event}.activated`} label="activated" component="input" type="checkbox" className="checkbox" />
+        <Field name={`${event}completed`} label="completed" component="input" type="checkbox" className="checkbox" />
 
-        <FieldArray name={`${event}.groups`} component={renderGroups} eventId={event.id} />
-
+        <FieldArray name={`${event}.ga`} component={renderGroups} eventId={event.id} />
       </li>
     ))}
     {error && <li className="error">{error}</li>}
-  </ul>
-);
+  </ul>);
+
+const onKeyPress = (event) => {
+  // console.log(`kp event ${JSON.stringify(event.which)}`);
+  if (event.which === 13 /* Enter */) {
+    event.preventDefault();
+  }
+};
+/*
+{"admin":[{"title":"event 1","date":"1-1-1","fa":[{"name":"group 1-1","time":"0101"}]}]}
+
+
+{"admin":[{"title":"Event 1","date":"1-1-2018","ga":[{"name":"group 1-1","time":"0101"},
+{"name":"group 2-2","time":"0202"},{"name":"group 3-3","time":"0303"}]},
+{"title":"Event 2","date":"2-2-2018","ga":[{"name":"group 2-1","time":"0404"},
+{"name":"group 3-1","time":"0505"}]}]}
+*/
 
 const EventsForm = (props) => {
   const handleFormSubmit = (values) => {
@@ -146,9 +164,9 @@ const EventsForm = (props) => {
   } = props;
   load();
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={handleSubmit(handleFormSubmit)} onKeyPress={onKeyPress} >
       <FieldArray name="admin" component={renderAdminEvents} />
-      <button type="submit" disabled={submitting || pristine}>
+      <button type="submit" disabled={submitting || pristine} onKeyPress={onKeyPress} >
           Save
       </button>
     </form>
@@ -195,11 +213,12 @@ const Events = reduxForm({
   form: 'settings', // a unique identifier for this form
   touchOnBlur: true,
 })(EventsForm);
+// export default Events;
 
 
 // You have to connect() to any reducers that you wish to connect to yourself
 export default connect(
-  state => ({ initialValues: state.events }),
+  state => ({ initialValues: state.events || [] }),
   { load: getEvents, addEvent, deleteEvent }, // bind account loading action creator
 )(Events);
 
@@ -212,6 +231,6 @@ const Groups = reduxForm({
 
 // You have to connect() to any reducers that you wish to connect to yourself
 connect(
-  state => ({ initialValues: state.groups }),
+  state => ({ initialValues: state.groups || [] }),
   { load: getGroups }, // bind account loading action creator
 )(Groups);

@@ -27,9 +27,10 @@ export const getEvents = () => (dispatch) => {
   axios
     .get(`${ROOT_URL}/events/byUser/${id}`, config)
     .then((response) => {
+      // console.log(`getEvents data: ${response.data}`);
       dispatch({
         type: GET_EVENTS,
-        payload: response.data,
+        payload: response.data || [],
       });
     })
     .catch((err) => {
@@ -40,6 +41,7 @@ export const getEvents = () => (dispatch) => {
 
 
 export const getGroups = eventId => (dispatch) => {
+  if (!eventId) return;
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   const body = { userId: id };
@@ -57,7 +59,7 @@ export const getGroups = eventId => (dispatch) => {
     .then((response) => {
       dispatch({
         type: GET_GROUPS,
-        payload: response.data,
+        payload: response.data || [],
       });
     })
     .catch((err) => {
