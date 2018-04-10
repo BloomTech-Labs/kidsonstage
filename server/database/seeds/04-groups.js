@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
 		.del() // delete all user's
 		.then(function() {
 			return knex('groups').insert([
-				// Swim Tournament
+				// Swim Tournament - EVENT 1
 				{
 					id: 1,
 					eventId: 1,
@@ -41,7 +41,7 @@ exports.seed = function(knex, Promise) {
 					time: "1:00:00",
 				},
 
-				// Chess tournament
+				// Chess tournament - EVENT 2
 				{
 					id: 6,
 					eventId: 2,
@@ -67,7 +67,7 @@ exports.seed = function(knex, Promise) {
 					time: "12:45:00",
 				},
 				
-				// Choir Performance
+				// Choir Performance - EVENT 3
 				{
 					id: 10,
 					eventId: 3,
@@ -93,7 +93,7 @@ exports.seed = function(knex, Promise) {
 					time: "12:45:00",
 				},
 
-				// Track and Field
+				// Track and Field - Event 4
 				{
 					id: 14,
 					eventId: 4,
@@ -119,7 +119,7 @@ exports.seed = function(knex, Promise) {
 					time: "12:45:00",
 				},
 
-				// Basketball Tournament
+				// Basketball Tournament - Event 5
 				{
 					id: 18,
 					eventId: 5,
