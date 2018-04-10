@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
 		tbl.increments('id').primary(); // primary key
         tbl.integer('eventId').references('id').inTable('events');
         tbl.string('name',100).notNullable();
-        tbl.dateTime('time').notNullable();
+        tbl.time('time').notNullable();
         tbl.boolean('completed').notNullable().defaultTo(false);
 	});
 };
