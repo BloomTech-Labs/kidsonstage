@@ -1,8 +1,8 @@
 var dotenv = require('dotenv');
 var cfg = {};
 
-cfg.accountSid = env.TWILIO_ACCOUNT_SID;
-cfg.authToken = env.TWILIO_AUTH_TOKEN;
+cfg.accountSid = process.env.TWILIO_ACCOUNT_SID;
+cfg.authToken = process.env.TWILIO_AUTH_TOKEN;
 //use this line for live
 //cfg.sendingNumber = env.TWILIO_NUMBER;
 

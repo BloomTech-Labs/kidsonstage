@@ -14,31 +14,31 @@ exports.seed = function(knex, Promise) {
 					id: 1,
 					eventId: 1,
 					name: "Southside Dolphins",
-					time: "12:00:00",
+					time: "12:30:00",
 				},
 				{
 					id: 2,
 					eventId: 1,
 					name: "Eastern Great White Sharks",
-					time: "12:15:00",
+					time: "12:45:00",
 				},
 				{
 					id: 3,
 					eventId: 1,
 					name: "Northern Private Barracuda",
-					time: "12:30:00",
+					time: "13:00:00",
 				},
 				{
 					id: 4,
 					eventId: 1,
 					name: "Minnows",
-					time: "12:45:00",
+					time: "13:15:00",
 				},
 				{
 					id: 5,
 					eventId: 1,
 					name: "Blue Whales",
-					time: "1:00:00",
+					time: "13:30:00",
 				},
 
 				// Chess tournament - EVENT 2

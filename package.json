@@ -14,6 +14,7 @@
     "react-ui/node_modules"
   ],
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
@@ -24,12 +25,14 @@
     "express": "^4.16.3",
     "jwt-simple": "^0.5.1",
     "knex": "^0.14.4",
+    "moment": "^2.22.0",
     "nodemon": "^1.17.3",
     "npm": "^5.8.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pg": "^7.4.1"
+    "pg": "^7.4.1",
+    "twilio": "^3.14.0"
   },
   "repository": {
     "type": "git",
