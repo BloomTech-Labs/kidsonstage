@@ -3,6 +3,10 @@ const express = require('express');
 const notifyRouter = express.Router();
 
 const db = require('../config/db.js');
+import { notifyFunction } from './notifyFn';
+import { sendSms } from '../twilio/twilioClient';
+
+
 
 //return all users subscribed to groups with notify set to email
 notifyRouter.get('/events/:eventId', function(req, res) {
@@ -17,28 +21,40 @@ notifyRouter.get('/events/:eventId', function(req, res) {
     .then(function(records) {
       if (records) {
         let endResults = [];
-
         let groupNames = records.map(item => item.name)
           .filter((value, index, self) => self.indexOf(value) === index);
-        
+
         for (let i = 0; i < groupNames.length; i++) {
           let mainObject = {};
           let subscribers = [];
+          let time;
 
           for (let j = 0; j < records.length; j++) {
             if (records[j].name === groupNames[i]) {
               let subscriber = {};
-              subscriber.email = records[j].email;
-              subscriber.phoneNumber = records[j].phoneNumber;
-              subscriber.byEmail = records[j].byEmail;
-              subscriber.byPhone = records[j].byPhone;
+              if (records[j].byEmail === true) {
+                subscriber.email = records[j].email;
+              }
+              if (records[j].byPhone === true) {
+                subscriber.phoneNumber = records[j].phoneNumber;
+              }
+              
+              subscriber.username = records[j].username;
+              time = records[j].time;
+
               subscribers.push(subscriber);
             }
           }
           mainObject.name = groupNames[i];
+          mainObject.time = time;
           mainObject.subscribers = subscribers;
+          
           endResults.push(mainObject);
         }
+
+        notifyFunction(endResults);
+        // sendSms('2109920265', 'test message newnewnew');
+        
         
         res.status(200).json(endResults);
       } else {
