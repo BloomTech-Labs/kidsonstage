@@ -26,7 +26,7 @@ export function notifyFunction(data) {
         }
       };
       // sgMail.sendMultiple(message);
-      console.log(message);
+      // console.log(message);
     }
   }
 }

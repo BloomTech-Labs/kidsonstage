@@ -1,17 +1,26 @@
-var config = require('./twilioConfig');
+require('dotenv').config({path: '../../.env'});
 
-module.exports.sendSms = function(to, message) {
-  var client = require('twilio')(config.accountSid, config.authToken);
-  // console.log(client.api.messages.create())
-  return client.api.messages
+export function sendSms(to, message) {
+  // Twilio Credentials
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_TOKEN;
+  const sendingNumber = process.env.TWILIO_NUMBER;
+  // Require the twilio module and create a REST client
+  const client = require('twilio')(accountSid, authToken);
+
+  client.messages
     .create({
-      body: message,
       to: to,
-      from: config.sendingNumber,
-    }).then(function(data) {
+      from: sendingNumber,
+      body: message
+    })
+    .then(function(data) {
       console.log('Administrator notified');
     }).catch(function(err) {
       console.error('Could not notify administrator');
       console.error(err);
     });
-};
+}
+
+
+
