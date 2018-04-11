@@ -3,7 +3,7 @@ import { ROOT_URL, authError } from './index';
 
 export const ADD_EVENT = 'ADD_EVENT';
 export const DELETE_EVENT = 'DELETE_EVENT';
-export const GET_EVENTS = 'GET_USERS';
+export const GET_EVENTS = 'GET_EVENTS';
 export const ADD_GROUPS = 'ADD_GROUPS';
 export const GET_GROUPS = 'ADD_GROUPS';
 export const DELETE_GROUP = 'DELETE_GROUP';
