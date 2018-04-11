@@ -17,13 +17,6 @@ export default class Home extends Component {
       <div className="home">
         <div className="carousel">
           {/* <img src={centerPng} /> */}
-          <figure className="icon-cards">
-            <div className="icon-cards__content">
-              <div className="icon-cards__item" />
-              <div className="icon-cards__item" />
-              <div className="icon-cards__item" />
-            </div>
-          </figure>
           <figure class="icon-cards">
             <div class="icon-cards__content">
               <div class="icon-cards__item"></div>

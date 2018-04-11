@@ -10,7 +10,7 @@ const saltRounds = 10;
 
 usersRouter.get('/', function(req, res) {
 	// /api/users/
-
+	
 	db('users')
 		.then(function(records) {
 			res.status(200).json(records);
