@@ -60,7 +60,7 @@ exports.seed = function(knex, Promise) {
 					phoneNumber: "403-303-1323",
 					vcode: 12345678,
 					validated: true,
-					byEmail: false,
+					byEmail: true,
 					byPhone: true
 				},
 				{
@@ -68,8 +68,8 @@ exports.seed = function(knex, Promise) {
 					userClass: 1,
 					username: "user1",
 					password: "password",
-					email: "tylersanford0311@gmail.com",
-					phoneNumber: "525-555-5343",
+					email: "boomer1204@gmail.com",
+					phoneNumber: "210-992-0265",
 					vcode: 12345678,
 					validated: true,
 					byEmail: true,
@@ -80,8 +80,8 @@ exports.seed = function(knex, Promise) {
 					userClass: 1,
 					username: "user2",
 					password: "password",
-					email: "tylersanford0311@gmail.com",
-					phoneNumber: "223-496-7696",
+					email: "boomer1204@gmail.com",
+					phoneNumber: "210-992-0265",
 					vcode: 12345678,
 					validated: true,
 					byEmail: true,
@@ -92,8 +92,8 @@ exports.seed = function(knex, Promise) {
 					userClass: 1,
 					username: "user3",
 					password: "password",
-					email: "tylersanford0311@gmail.com",
-					phoneNumber: "619-843-6642",
+					email: "boomer1204@gmail.com",
+					phoneNumber: "608-695-4106",
 					vcode: 12345678,
 					validated: false,
 					byEmail: false,
@@ -106,10 +106,10 @@ exports.seed = function(knex, Promise) {
 					username: "user4",
 					password: "password",
 					email: "tylersanford0311@gmail.com",
-					phoneNumber: "444-426-2342",
+					phoneNumber: "608-695-4106",
 					vcode: 12345678,
 					validated: true,
-					byEmail: true,
+					byEmail: false,
 					byPhone: true
 				},
 				{
@@ -118,11 +118,11 @@ exports.seed = function(knex, Promise) {
 					username: "user5",
 					password: "password",
 					email: "tylersanford0311@gmail.com",
-					phoneNumber: "353-652-4562",
+					phoneNumber: "608-695-4106",
 					vcode: 12345678,
 					validated: true,
 					byEmail: true,
-					byPhone: false
+					byPhone: true
 				}
 			]);
 		});

@@ -3,10 +3,7 @@ const express = require('express');
 const notifyRouter = express.Router();
 
 const db = require('../config/db.js');
-import { notifyFunction } from './notifyFn';
-import { sendSms } from '../twilio/twilioClient';
-
-
+import { notifyFunction } from './notifyRepository';
 
 //return all users subscribed to groups with notify set to email
 notifyRouter.get('/events/:eventId', function(req, res) {
@@ -53,9 +50,6 @@ notifyRouter.get('/events/:eventId', function(req, res) {
         }
 
         notifyFunction(endResults);
-        // sendSms('2109920265', 'test message newnewnew');
-        
-        
         res.status(200).json(endResults);
       } else {
       	res.status(404).json(null);
