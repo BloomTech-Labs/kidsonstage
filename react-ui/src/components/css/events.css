@@ -1,4 +1,4 @@
-.loader {
+/* .loader {
   margin: 10% auto;
   font-size: 10px;
   position: relative;
@@ -41,4 +41,10 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+} */
+
+.eventCard {
+  border: 1px solid black;
+  width:400px;
+  height:400px;
 }

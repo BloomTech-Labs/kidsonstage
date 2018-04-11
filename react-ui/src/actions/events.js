@@ -34,7 +34,7 @@ export const getEvents = () => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       dispatch(authError('Failed to fetch events'));
     });
 };
