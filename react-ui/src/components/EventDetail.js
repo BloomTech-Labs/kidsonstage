@@ -35,38 +35,34 @@ const EventsForm = (props) => {
   const {
     loadEvent,
   } = props;
-  
-  const eventId = window.location.pathname.split('/')[2];
-  // const eventId = event.id;
-
-  console.log(eventId);
+  //console.log(`eventId: ${eventId}`);
   // console.log(`loadEvent type ${typeof loadEvent}`);
   // console.log(`getEvent type ${typeof getEvent}`);
-  loadEvent(eventId);
+  // loadEvent(eventId);
   // console.log(`event ${JSON.stringify(event)}`);
   return (
     <div>
       <Field
-        name="event.title"
+        name="title"
         type="text"
         component="input"
         placeholder="title"
         readOnly="true"
       />
       <Field
-        name="event.eventDate"
+        name="eventDate"
         type="text"
         component="input"
         placeholder="Event Date"
         readOnly="true"
       />
-      <RenderGroups eventId={eventId} />
+      <RenderGroups  />
     </div>
 
   );
 };
 EventsForm.propTypes = {
-  loadEvent: PropTypes.func.isRequired,
+  // loadEvent: PropTypes.func.isRequired,
 };
 
 const EventDetail = reduxForm({
@@ -77,7 +73,6 @@ const EventDetail = reduxForm({
 
 export default connect(
   state => ({
-    initialValues: { event: state.event },
-  }),
-  { loadEvent: getEvent },
+    initialValues: state.event,
+  })
 )(EventDetail);
