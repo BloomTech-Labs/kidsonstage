@@ -10,5 +10,8 @@ module.exports = {
         "jsx-a11y/alt-text": "off"  
             
     },
-    "parser": "babel-eslint",                                                                         
+    "parser": "babel-eslint",
+    "plugins": [
+        "jsx-a11y"
+      ],                                                                         
 };

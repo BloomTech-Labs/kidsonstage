@@ -15,9 +15,7 @@ const createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <Router>
-      <div>
-        <App />
-      </div>
+      <App />
     </Router>
   </Provider>,
   document.getElementById('root'),
