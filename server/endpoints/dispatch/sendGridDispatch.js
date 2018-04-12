@@ -19,5 +19,5 @@ export function sendGridDispatch(emailArr, name, difference) {
   };
 
   // DISABLED UNTIL LIVE
-  // sgMail.sendMultiple(message);
+  sgMail.sendMultiple(message);
 }

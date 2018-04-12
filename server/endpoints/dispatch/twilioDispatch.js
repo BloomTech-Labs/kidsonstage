@@ -22,18 +22,18 @@ export function twilioDispatch(phoneArr, name, difference) {
     }
     
     // DISABLED UNTIL LIVE
-    // client.messages
-    //   .create({
-    //     to: formatedNumber,
-    //     from: sendingNumber,
-    //     body: message
-    //   })
-    //   .then(function(data) {
-    //     console.log('Administrator notified');
-    //   }).catch(function(err) {
-    //     console.error('Could not notify administrator');
-    //     console.error(err);
-    //   });
+    client.messages
+      .create({
+        to: formatedNumber,
+        from: sendingNumber,
+        body: message
+      })
+      .then(function(data) {
+        console.log('Administrator notified');
+      }).catch(function(err) {
+        console.error('Could not notify administrator');
+        console.error(err);
+      });
   }
 }
 
