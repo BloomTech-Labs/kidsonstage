@@ -13,6 +13,14 @@
 	height: 1024px;
 }
 
-.App-intro {
-	font-size: large;
+.App--Body {
+	border: 1px solid black;
+	/* display: flex; */
+}
+
+.sideNavBar--Container {
+	border: 1px solid black;
+	width: 20%;
+	height: 400px;
+	margin: 30px;
 }

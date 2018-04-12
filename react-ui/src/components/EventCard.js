@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import './css/events.css';
 
@@ -18,20 +19,27 @@ import './css/events.css';
 //   Collapse
 // } from 'reactstrap';
 
-class Event extends Component {
+class EventCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    const { id } = props;
+    this.state = { id };
   }
+
+  // componentDidMount() {
+  //   this.setState({this.props.id});
+  // }
 
   render() {
     return (
-      <div className="eventCard">
-        {this.props.title}<br /><br />
-        {this.props.eventDate} <br />
-      </div>
+      <LinkContainer exact to="/events/details">
+        <div className="eventCard--Container">
+          <div className="eventCard--Title">{this.props.title}</div>
+          <div className="eventCard--Date">{this.props.eventDate}</div>
+        </div>
+      </LinkContainer>
     );
   }
 }
 
-export default Event;
+export default EventCard;
