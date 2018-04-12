@@ -6,8 +6,9 @@ module.exports = {
     "rules": {
         "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
         "react/jsx-filename-extension": "off",
-        "jsx-a11y/anchor-is-valid": "off", 
-        "jsx-a11y/alt-text": "off"  
+        "jsx-a11y/alt-text": "off",
+        "jsx-a11y/href-no-hash": "off",
+        "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]  
             
     },
     "parser": "babel-eslint",

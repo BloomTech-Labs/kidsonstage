@@ -18,7 +18,7 @@ import './css/events.css';
 //   Collapse
 // } from 'reactstrap';
 
-class Event extends Component {
+class EventCard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -26,12 +26,12 @@ class Event extends Component {
 
   render() {
     return (
-      <div className="eventCard">
-        {this.props.title}<br /><br />
-        {this.props.eventDate} <br />
+      <div className="eventCard--Container">
+        <div className="eventCard--Title">{this.props.title}</div>
+        <div className="eventCard--Date">{this.props.eventDate}</div>
       </div>
     );
   }
 }
 
-export default Event;
+export default EventCard;

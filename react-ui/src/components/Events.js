@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { getEvents } from '../actions';
 
 import EventCard from './EventCard';
+import NewEventCard from './NewEventCard';
+
+import './css/events.css';
 
 const mapStateToProps = (state) => {
   return {
@@ -31,7 +34,7 @@ class Events extends Component {
   render() {
     return (
       <div className="wrapper">
-        <div className="page body">
+        <div className="page-body">
           {this.props.events.map((event, i) => {
             return (
               <EventCard
@@ -42,6 +45,7 @@ class Events extends Component {
               />
             );
           })}
+          <NewEventCard />
         </div>
       </div>
     );
