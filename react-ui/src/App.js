@@ -13,6 +13,9 @@ import Users from './components/Users';
 import RequireAuth from './components/HOC/RequireAuth';
 import Events from './components/Events';
 import EventsNew from './components/EventsNew';
+// import RfEvents from './components/RfEvents';
+import EventDetail from './components/EventDetail';
+
 
 import './App.css';
 
@@ -61,9 +64,12 @@ class App extends Component {
             <Route path="/signup" component={Register} />
             <Route path="/settings" component={RequireAuth(Settings)} />
             <Route exact path="/events" component={RequireAuth(Events)} />
+            {/* <Route path="/rfevents" component={RequireAuth(RfEvents)} /> */}
             <Route exact path="/events/new" component={RequireAuth(EventsNew)} />
+            <Route path="/eventDetail" component={RequireAuth(EventDetail)} />
           </div>
         </div>
+
       </div>
     );
   }

@@ -4,10 +4,13 @@ import { ROOT_URL, authError } from './index';
 export const ADD_EVENT = 'ADD_EVENT';
 export const DELETE_EVENT = 'DELETE_EVENT';
 export const GET_EVENTS = 'GET_EVENTS';
+export const GET_EVENT = 'GET_EVENT';
 export const ADD_GROUPS = 'ADD_GROUPS';
 export const GET_GROUPS = 'ADD_GROUPS';
 export const DELETE_GROUP = 'DELETE_GROUP';
 export const ADD_GROUP = 'ADD_GROUP';
+export const EDIT_GROUP = 'EDIT_GROUP';
+
 /* eslint-disable no-console, semi-style */
 
 axios.defaults.withCredentials = true;
@@ -174,4 +177,57 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
       dispatch(authError('Failed to fetch users'));
     });
 };
-
+export const editGroup = group => (dispatch) => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  const body = { userId: id, ...group };
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    .put(`${ROOT_URL}/events/${group.eventId}/groups/${group.id}`, body, config)
+    .then((response) => {
+      dispatch({
+        type: EDIT_GROUP,
+        payload: response.data[0],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(authError('Failed to add group'));
+    });
+};
+// /:eventId/groups/:groupId
+export const getEvent = eventId => (dispatch) => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    .get(`${ROOT_URL}/events/${eventId}`, config)
+    .then((response) => {
+      console.log(`getEvent title: ${response.data[0].title}`);
+      console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
+      dispatch({
+        type: GET_EVENT,
+        payload: response.data[0] || {},
+      });
+    })
+    .catch((err) => {
+      console.log(`getEvent ${err}`);
+      dispatch(authError('Failed to fetch event'));
+    });
+};
