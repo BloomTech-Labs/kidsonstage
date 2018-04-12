@@ -21,14 +21,20 @@ import './css/events.css';
 class EventCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    const { id } = props;
+    this.state = { id };
   }
+
+  // componentDidMount() {
+  //   this.setState({this.props.id});
+  // }
 
   render() {
     return (
       <div className="eventCard--Container">
         <div className="eventCard--Title">{this.props.title}</div>
         <div className="eventCard--Date">{this.props.eventDate}</div>
+        
       </div>
     );
   }
