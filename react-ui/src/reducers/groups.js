@@ -1,4 +1,4 @@
-import { GET_GROUPS, ADD_GROUP, DELETE_GROUP } from '../actions';
+import { GET_GROUPS, ADD_GROUP, DELETE_GROUP, EDIT_GROUP } from '../actions';
 
 export default (groups = [], action) => {
   switch (action.type) {
@@ -8,6 +8,8 @@ export default (groups = [], action) => {
       return [action.payload, ...groups];
     case DELETE_GROUP:
       return groups.filter(event => event.id !== action.payload.id);
+    case EDIT_GROUP:
+      return [action.payload, ...(groups.filter(event => event.id !== action.payload.id))];
     default:
       return groups;
   }
