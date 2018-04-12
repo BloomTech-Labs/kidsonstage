@@ -1,21 +1,26 @@
-
+/* eslint-disable no-console */
 
 const normalizeTime = (value, previousValue) => { // todo check that all group times are increasing
   if (!value) {
     return value;
   }
-  const onlyNums = value.replace(/[^\d]/g, '');
+  if (value.length === 5 && value[2] === ':') return value;
+  if (value.length >= 8) {
+    console.log(`typeof value ${typeof value}`);
+    return value.substring(0, 5);
+  }
+  let onlyNums = value.replace(/[^\d]/g, '');
   if (!previousValue || value.length > previousValue.length) {
     // typing forward
     if (onlyNums.length === 2) {
       return `${onlyNums}:`;
     }
   }
-  if (onlyNums.length <= 4) {
+  if (onlyNums.length <= 3) {
     return onlyNums;
   }
-  if (onlyNums[0] === '0') onlyNums[0] = ' ';
-  return `${onlyNums.slice(0, 2)}:${onlyNums.slice(3, 5)}`;
+  if (onlyNums[0] === '0') onlyNums = ` ${onlyNums.slice(1)}`;
+  return `${onlyNums.slice(0, 2)}:${onlyNums.slice(2, 4)}`;
 };
 export default normalizeTime;
 /**
