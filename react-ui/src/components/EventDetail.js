@@ -35,7 +35,11 @@ const EventsForm = (props) => {
   const {
     loadEvent,
   } = props;
-  const eventId = props.eventId || 2;
+  
+  const eventId = window.location.pathname.split('/')[2];
+  // const eventId = event.id;
+
+  console.log(eventId);
   // console.log(`loadEvent type ${typeof loadEvent}`);
   // console.log(`getEvent type ${typeof getEvent}`);
   loadEvent(eventId);

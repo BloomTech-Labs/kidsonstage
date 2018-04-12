@@ -32,7 +32,7 @@ class EventCard extends Component {
 
   render() {
     return (
-      <LinkContainer exact to="/events/details">
+      <LinkContainer exact to={`/events/${this.props.id}/details`}>
         <div className="eventCard--Container">
           <div className="eventCard--Title">{this.props.title}</div>
           <div className="eventCard--Date">{this.props.eventDate}</div>

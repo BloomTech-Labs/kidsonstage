@@ -66,7 +66,7 @@ class App extends Component {
             <Route exact path="/events" component={RequireAuth(Events)} />
             {/* <Route path="/rfevents" component={RequireAuth(RfEvents)} /> */}
             <Route exact path="/events/new" component={RequireAuth(EventsNew)} />
-            <Route exact path="/events/details" component={RequireAuth(EventDetail)} />
+            <Route exact path="/events/:eventId/details" component={RequireAuth(EventDetail)} />
           </div>
         </div>
 
