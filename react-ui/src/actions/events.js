@@ -36,7 +36,7 @@ export const getEvents = () => (dispatch) => {
         payload: response.data || [],
       });
     })
-    .catch((err) => {
+    .catch(() => {
       // console.log(err);
       dispatch(authError('Failed to fetch events'));
     });
@@ -219,8 +219,8 @@ export const getEvent = eventId => (dispatch) => {
   axios
     .get(`${ROOT_URL}/events/${eventId}`, config)
     .then((response) => {
-      console.log(`getEvent title: ${response.data[0].title}`);
-      console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
+      // console.log(`getEvent title: ${response.data[0].title}`);
+      // console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
       dispatch({
         type: GET_EVENT,
         payload: response.data[0] || {},
