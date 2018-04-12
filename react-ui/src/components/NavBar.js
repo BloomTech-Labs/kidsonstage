@@ -1,31 +1,77 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 
-import './css/navbar.css';
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarNav,
+  NavbarToggler,
+  Collapse
+} from 'mdbreact';
+import { Button } from 'reactstrap';
+
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 
 export default class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapse: false,
+      isWideEnough: false
+    };
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    this.setState({
+      collapse: !this.state.collapse
+    });
+  }
+
   render() {
     return (
-      <div className="Section_NavBar">
-        <ul>
-          <button className="Nav_button">
-            <Link to="/">Home</Link>
-          </button>
-          <button className="Nav_button">
-            <Link to="/signup">Sign Up</Link>
-          </button>
-          <button className="Nav_button">
-            <Link to="/signin">Sign In</Link>
-          </button>
-          <button className="Nav_button">
-            <Link to="/settings">Settings</Link>
-          </button> 
-          <button className="Nav_button">
-            <Link to="/events">Events</Link>
-          </button>                    
-          {/* <button className="Nav_button"><Link to="/signout">Sign Out</Link></button> need to determine signed in state for this */}
-        </ul>
-      </div>
+      <Navbar color="success-color-dark" dark expand="md" scrolling>
+        <NavbarBrand href="/">
+          <strong>Kids on Stage!</strong>
+        </NavbarBrand>
+        {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
+        <Collapse isOpen={this.state.collapse} navbar>
+          <NavbarNav left className="nav">
+            <LinkContainer
+              exact
+              to="/"
+              className="nav-item"
+              activeClassName="success-color"
+            >
+              <Button color="success-color-dark">Home</Button>
+            </LinkContainer>
+            <LinkContainer
+              className="nav-item nav-link"
+              to="/signin"
+              activeClassName="success-color"
+            >
+              <Button color="success-color-dark">Sign In</Button>
+            </LinkContainer>
+            <LinkContainer
+              exact
+              to="/signup"
+              className="nav-item"
+              activeClassName="success-color"
+            >
+              <Button color="success-color-dark">Sign Up</Button>
+            </LinkContainer>
+            <LinkContainer
+              className="nav-item nav-link"
+              to="/settings"
+              activeClassName="success-color"
+            >
+              <Button color="success-color-dark">Settings</Button>
+            </LinkContainer>
+          </NavbarNav>
+        </Collapse>
+      </Navbar>
     );
   }
 }
