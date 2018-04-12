@@ -69,6 +69,13 @@ export default class NavBar extends Component {
             >
               <Button color="success-color-dark">Settings</Button>
             </LinkContainer>
+            <LinkContainer
+              className="nav-item nav-link"
+              to="/events"
+              activeClassName="success-color"
+            >
+              <Button color="success-color-dark">Events</Button>
+            </LinkContainer>
           </NavbarNav>
         </Collapse>
       </Navbar>

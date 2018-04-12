@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import './css/events.css';
 
@@ -31,11 +32,12 @@ class EventCard extends Component {
 
   render() {
     return (
-      <div className="eventCard--Container">
-        <div className="eventCard--Title">{this.props.title}</div>
-        <div className="eventCard--Date">{this.props.eventDate}</div>
-        
-      </div>
+      <LinkContainer exact to="/events/details">
+        <div className="eventCard--Container">
+          <div className="eventCard--Title">{this.props.title}</div>
+          <div className="eventCard--Date">{this.props.eventDate}</div>
+        </div>
+      </LinkContainer>
     );
   }
 }
