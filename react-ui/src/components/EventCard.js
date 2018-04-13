@@ -18,8 +18,8 @@ import './css/events.css';
 //   CardHeader,
 //   Collapse
 // } from 'reactstrap';
-
-import { getEvent,getGroups } from '../actions'
+/* eslint-disable no-console */
+import { getEvent, getGroups } from '../actions';
 
 class EventCard extends Component {
   constructor(props) {
@@ -27,17 +27,26 @@ class EventCard extends Component {
     const { id } = props;
     this.state = { id };
     console.log(`EventCard id ${id}`);
-
   }
 
   componentDidMount() {
-    this.props.setEvent(this.state.id);
-    this.props.setGroups(this.state.id);
+    // this.props.setEvent(this.state.id);
+    // this.props.setGroups(this.state.id);
   }
 
   render() {
     return (
-      <LinkContainer exact to="/events/details">
+      <LinkContainer
+        exact
+        to="/events/details"
+        onClick={() => {
+        sessionStorage.setItem('eventId', this.state.id);
+        this.props.setEvent(this.state.id);
+        this.props.setGroups(this.state.id);
+        console.log(`EventCard click eventId ${this.state.id}`);
+        document.location.reload(false);
+        }}
+      >
         <div className="eventCard--Container">
           <div className="eventCard--Title">{this.props.title}</div>
           <div className="eventCard--Date">{this.props.eventDate}</div>
@@ -48,15 +57,11 @@ class EventCard extends Component {
 }
 
 // export default EventCard;
-const mapStateToProps = (state) => {
-  return {
-  }
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setEvent: (id) =>  dispatch(getEvent(id)),
-    setGroups: (id) => dispatch(getGroups(id)),
-  }
-}
+const mapStateToProps = state => ({
+});
+const mapDispatchToProps = dispatch => ({
+  setEvent: id => dispatch(getEvent(id)),
+  setGroups: id => dispatch(getGroups(id)),
+});
 
-export default connect(mapStateToProps,mapDispatchToProps)(EventCard);
+export default connect(mapStateToProps, mapDispatchToProps)(EventCard);

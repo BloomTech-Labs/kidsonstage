@@ -35,28 +35,29 @@ const EventsForm = (props) => {
   const {
     loadEvent,
   } = props;
-  //console.log(`eventId: ${eventId}`);
+  const eventId = sessionStorage.getItem('eventId');
+  console.log(`Event Detail eventId: ${eventId}`);
   // console.log(`loadEvent type ${typeof loadEvent}`);
   // console.log(`getEvent type ${typeof getEvent}`);
-  // loadEvent(eventId);
+  loadEvent(eventId);
   // console.log(`event ${JSON.stringify(event)}`);
   return (
     <div>
       <Field
-        name="title"
+        name="event.title"
         type="text"
         component="input"
         placeholder="title"
         readOnly="true"
       />
       <Field
-        name="eventDate"
+        name="event.eventDate"
         type="text"
         component="input"
         placeholder="Event Date"
         readOnly="true"
       />
-      <RenderGroups  />
+      <RenderGroups eventId={eventId} />
     </div>
 
   );
@@ -73,6 +74,7 @@ const EventDetail = reduxForm({
 
 export default connect(
   state => ({
-    initialValues: state.event,
-  })
+    initialValues: { event: state.event },
+  }),
+  { loadEvent: getEvent },
 )(EventDetail);

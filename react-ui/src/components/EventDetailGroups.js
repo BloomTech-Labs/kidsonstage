@@ -2,13 +2,14 @@ import React from 'react';
 import { Field, reduxForm, FieldArray } from 'redux-form';
 import { connect } from 'react-redux';
 import formatTime from './normalizers/normalizeTime';
+import { getGroups } from '../actions';
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
-        jsx-a11y/no-noninteractive-element-interactions */
+        jsx-a11y/no-noninteractive-element-interactions, arrow-body-style */
 const renderGroups = ({
-  props, fields, meta: { error },
-}) =>
-  // if (eventId) load(eventId);
-  (
+  props, fields, eventId, load, meta: { error },
+}) => {
+  if (eventId) load(eventId);
+  return (
     <ul>
       <li key={-1}>
         <button type="button" onClick={() => fields.push()}>
@@ -45,6 +46,7 @@ const renderGroups = ({
     ))}
       {error && <li key={-2} className="error">{error}</li>}
     </ul>);
+};
 const onKeyPress = (event) => {
   // console.log(`kp event ${JSON.stringify(event.which)}`);
   if (event.which === 13 /* Enter */) {
@@ -79,6 +81,9 @@ const EventDetail = reduxForm({
 })(EventDetailsGroups);
 // export default EventDetail;
 
-export default connect(state => ({
-  initialValues: { groupFA: state.groups },
-}))(EventDetail);
+export default connect(
+  state => ({
+    initialValues: { groupFA: state.groups },
+  }),
+  { load: getGroups },
+)(EventDetail);
