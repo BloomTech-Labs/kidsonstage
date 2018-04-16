@@ -92,6 +92,7 @@ eventsRouter.get('/:eventId/groups', function(req, res) {
 
   db('groups')
     .where('eventId', eventId)
+    .orderBy('time')
     .then(function(records) {
       res.status(200).json(records);
     })
