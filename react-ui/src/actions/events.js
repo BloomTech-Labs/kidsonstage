@@ -10,6 +10,8 @@ export const GET_GROUPS = 'ADD_GROUPS';
 export const DELETE_GROUP = 'DELETE_GROUP';
 export const ADD_GROUP = 'ADD_GROUP';
 export const EDIT_GROUP = 'EDIT_GROUP';
+export const SET_EVENT_ID = 'SET_EVENT_ID';
+export const GET_EVENT_ID = 'GET_EVENT_ID';
 
 /* eslint-disable no-console, semi-style */
 
@@ -99,7 +101,7 @@ export const addEvent = event => (dispatch) => {
       dispatch(authError('Failed to fetch users'));
     });
 };
-export const addGroup = (event, group) => (dispatch) => {
+export const addGroup = group => (dispatch) => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   const body = { userId: id, ...group };
@@ -113,7 +115,7 @@ export const addGroup = (event, group) => (dispatch) => {
     },
   };
   axios
-    .put(`${ROOT_URL}/events/${event.id}/groups`, body, config)
+    .put(`${ROOT_URL}/events/${group.eventId}/groups`, body, config)
     .then((response) => {
       dispatch({
         type: ADD_GROUP,
@@ -178,6 +180,7 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
     });
 };
 export const editGroup = group => (dispatch) => {
+  // console.log(`editGroup group id: ${group.id} name ${group.name} eventId: ${group.eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   const body = { userId: id, ...group };
@@ -193,9 +196,10 @@ export const editGroup = group => (dispatch) => {
   axios
     .put(`${ROOT_URL}/events/${group.eventId}/groups/${group.id}`, body, config)
     .then((response) => {
+      console.log(`edit group response ${JSON.stringify(response.config.data)}`);
       dispatch({
         type: EDIT_GROUP,
-        payload: response.data[0],
+        payload: JSON.parse(response.config.data),
       });
     })
     .catch((err) => {
@@ -230,4 +234,20 @@ export const getEvent = eventId => (dispatch) => {
       console.log(`getEvent ${err}`);
       dispatch(authError('Failed to fetch event'));
     });
+};
+export const setEventId = eventId => (dispatch) => {
+  if (!eventId) dispatch(authError('bad event id'));
+  sessionStorage.setItem('eventId', eventId);
+  console.log(`dispatching eventID ${eventId}`);
+  dispatch({
+    type: SET_EVENT_ID,
+    payload: eventId,
+  });
+};
+export const getEventId = () => (dispatch) => {
+  const eventId = sessionStorage.getItem('eventId');
+  dispatch({
+    type: SET_EVENT_ID,
+    payload: eventId,
+  });
 };

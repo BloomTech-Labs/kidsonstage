@@ -1,10 +1,10 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { getEvent } from '../actions';
 import RenderGroups from './EventDetailGroups';
-import './css/events.css';
+import './css/eventDetail.css';
 
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
@@ -33,38 +33,45 @@ import './css/events.css';
 
 const EventsForm = (props) => {
   const {
-    loadEvent,
+    load,
   } = props;
+  // const eventId = sessionStorage.getItem('eventId');
+  // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
   const eventId = sessionStorage.getItem('eventId');
-  console.log(`Event Detail eventId: ${eventId}`);
+  // console.log(`Event Detail history? ${props.history}`);
+  // console.log(`Event Detail eventId: ${eventId}`);
   // console.log(`loadEvent type ${typeof loadEvent}`);
   // console.log(`getEvent type ${typeof getEvent}`);
-  loadEvent(eventId);
+  if (eventId > 0) load(eventId);
   // console.log(`event ${JSON.stringify(event)}`);
   return (
     <div>
-      <Field
-        name="event.title"
-        type="text"
-        component="input"
-        placeholder="title"
-        readOnly="true"
-      />
-      <Field
-        name="event.eventDate"
-        type="text"
-        component="input"
-        placeholder="Event Date"
-        readOnly="true"
-      />
-      <RenderGroups eventId={eventId} />
+      {eventId > 0 &&
+      <div>
+        <Field
+          name="event.title"
+          type="text"
+          component="input"
+          placeholder="title"
+          readOnly="true"
+        />
+        <Field
+          name="event.eventDate"
+          type="text"
+          component="input"
+          placeholder="Event Date"
+          readOnly="true"
+        />
+        <RenderGroups eventId={eventId} history={props.history} />
+      </div>
+      }
     </div>
 
   );
 };
-EventsForm.propTypes = {
-  // loadEvent: PropTypes.func.isRequired,
-};
+// EventsForm.propTypes = {
+//   // loadEvent: PropTypes.func.isRequired,
+// };
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
@@ -72,9 +79,10 @@ const EventDetail = reduxForm({
 })(EventsForm);
 // export default EventDetail;
 
-export default connect(
-  state => ({
-    initialValues: { event: state.event },
-  }),
-  { loadEvent: getEvent },
-)(EventDetail);
+export default connect(state => ({
+  initialValues: { event: state.event },
+}), dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }
+))(EventDetail);
+// export default connect(state => ({
+//   initialValues: { event: state.event },
+// }), { load: eventId => getEvent(eventId) })(EventDetail);

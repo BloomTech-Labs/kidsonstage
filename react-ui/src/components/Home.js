@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import centerPng from './graphics/landing-center-graphic.png';
+// import centerPng from './graphics/landing-center-graphic.png';
 import './css/home.css';
 
 export default class Home extends Component {
@@ -17,16 +17,16 @@ export default class Home extends Component {
       <div className="home">
         <div className="carousel">
           {/* <img src={centerPng} /> */}
-          <figure class="icon-cards">
-            <div class="icon-cards__content">
-              <div class="icon-cards__item"></div>
-              <div class="icon-cards__item"></div>
-              <div class="icon-cards__item"></div>
+          <figure className="icon-cards">
+            <div className="icon-cards__content">
+              <div className="icon-cards__item" />
+              <div className="icon-cards__item" />
+              <div className="icon-cards__item" />
             </div>
-				  </figure>
+          </figure>
         </div>
         <div className="home_text">
-					Welcome to Kids On Stage! A queue notification system for any event!
+            Welcome to Kids On Stage! A queue notification system for any event!
         </div>
         <button className="cta_button">
           <Link to="/signup">Buy Now</Link>
