@@ -1,64 +1,56 @@
 /* Registration (new user) page. */
-
-.register-box {
-	padding: 25%;
-	height: 500px;
-	border-color: black;
-	align-items: center;
-	justify-content: center;
+.register--container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+	height: 88vh;
 }
 
-.register-form {
+.register--form_container {
+  background-color: rgb(245, 245, 245);
+  display: flex;
+  flex-direction: column;
+	align-items: center;
+  /* justify-content: center; */
+  height: 28em;
+  width: 25em;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.register--form {
+  margin-top: 50px;
+  justify-content: center;
+  text-align: center;
+  width:50%;
+}
+
+
+.register--form_field {
+	border: none;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 10px;
+  height: 35px;
+}
+
+.register--form_buttons {
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	width: 100%;
 }
 
-.label {
-	justify-content: center;
-	color: black;
-	width: 25%;
+.register--form_buttons button:nth-child(1) {
+  border-radius: 5px;
+	height: 35px;
+	width: 50%;
+	background-color:green;
+	color: white;
 }
 
-.inputText {
-	color: black;
-	width: 25%;
-	text-justify: center;
-}
-
-.contact-text {
-	text-align: center;
-	vertical-align: center;
-	line-height: 15px;
-	padding: 5px;
-	color: black;
-	/* width: 50%; */
-}
-
-#text-preference {
-	color: black;
-	justify-content: center;
-	width: 25%;
-}
-
-#email-preference {
-	color: black;
-}
-
-.checkbox {
-	display: inline;
-}
-
-.button {
-	width: 150px;
-	height: 50px;
-	background-color: transparent;
-	justify-content: center;
-}
-
-.button:hover {
-	width: 150px;
-	height: 50px;
-	text-decoration: none;
-	background-color: blue;
+.register--form_buttons button:nth-child(2) {
+  border-radius: 5px;
+	height: 35px;
+	width: 50%;
+	background-color:red;
+	color: white;
 }
