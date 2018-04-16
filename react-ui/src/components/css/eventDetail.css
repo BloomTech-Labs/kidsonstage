@@ -1,0 +1,27 @@
+.BI {
+  width: 21px;
+  height:21px;
+}
+/* .line-through {
+  text-decoration: line-through;
+} */
+/*
+
+#competedGroup {
+  display:inline;
+}
+
+
+#completedGroup:checked + label {
+  display: none;
+}  .mycheckbox input[type="checkbox"] {
+  display: none;
+}
+.mycheckbox input[type="checkbox"]+label {
+   background: url('../graphics/completed.png') no-repeat;
+  width:20px;
+  height: 20px;
+}
+.mycheckbox input[type="checkbox"]:checked + label {
+display: none;
+} */

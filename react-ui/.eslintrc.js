@@ -8,8 +8,8 @@ module.exports = {
         "react/jsx-filename-extension": "off",
         "jsx-a11y/alt-text": "off",
         "jsx-a11y/href-no-hash": "off",
-        "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]  
-            
+        "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }], 
+        "no-plusplus": "off"       
     },
     "parser": "babel-eslint",
     "plugins": [
