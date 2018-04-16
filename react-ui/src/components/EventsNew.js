@@ -4,7 +4,11 @@ import './css/events.css';
 
 class EventsNew extends Component {
   render() {
-    return <div>Create New Event</div>;
+    return (
+      <div>
+        Create New Event
+      </div>
+    );
   }
 }
 

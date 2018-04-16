@@ -15,7 +15,7 @@ import Events from './components/Events';
 import EventsNew from './components/EventsNew';
 // import RfEvents from './components/RfEvents';
 import EventDetail from './components/EventDetail';
-
+import Billing from './components/stripe';
 
 import './App.css';
 
@@ -67,6 +67,7 @@ class App extends Component {
             {/* <Route path="/rfevents" component={RequireAuth(RfEvents)} /> */}
             <Route exact path="/events/new" component={RequireAuth(EventsNew)} />
             <Route exact path="/events/details" component={RequireAuth(EventDetail)} />
+            <Route exact path="/events/purchase" component={RequireAuth(Billing)} />
           </div>
         </div>
 
