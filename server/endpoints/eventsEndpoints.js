@@ -20,6 +20,7 @@ eventsRouter.post('/', function(req, res) {
 // ADD FUNCTION FOR SETTING TIME / FRONT END CALANDER PICKER
   db('events')
     .insert({ owner, title, eventDate })
+    .returning('id')
     .then(function(records) {
       res.status(200).json(records);
     })
@@ -108,8 +109,8 @@ eventsRouter.post('/:eventId/groups', function(req, res) {
   db('groups')
     .insert({ eventId, name, time })
     .returning('id')
-    .then(function(id) {
-      res.status(200).json(id);
+    .then(function(records) {
+      res.status(200).json(records);
     })
     .catch(function(err) {
       res.status(500).json({ error: 'Could not create new group', err});
