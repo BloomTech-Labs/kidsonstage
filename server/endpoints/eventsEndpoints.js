@@ -104,7 +104,7 @@ eventsRouter.get('/:eventId/groups', function(req, res) {
 eventsRouter.post('/:eventId/groups', function(req, res) {
   const { eventId } = req.params;
   const { name, time } = req.body;
-
+  console.log(`addGroup ${eventId} name: ${name} time: ${time}`);
   db('groups')
     .insert({ eventId, name, time })
     .returning('id')

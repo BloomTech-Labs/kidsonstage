@@ -7,25 +7,36 @@ import './css/eventDetail.css';
 import completedBI from './graphics/completed.png';
 import pencilBI from './graphics/pencil.png';
 import trashBI from './graphics/trash.png';
-import { editGroup, deleteGroup } from '../actions';
+import { addGroup, editGroup, deleteGroup } from '../actions';
 
-/* eslint-disable react/forbid-prop-types, no-console */
+/* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary */
 
 class EventDetailGroupRow extends Component {
   constructor(props) {
     super(props);
     const thisGroup = this.props.groups[this.props.index];
     this.state = {
-      readOnly: true,
+      readOnly: (thisGroup !== undefined),
       group: (thisGroup !== undefined) ? thisGroup : {
         id: -1, name: '', time: '00:00', completed: false,
       },
       completed: thisGroup ? thisGroup.completed : false,
+      eventId: this.props.eventId,
     };
     // console.log(`index: ${this.props.index} group length: ${this.props.groups.length} `);
     // console.log(`groupId ${this.state.group.id}`);
   }
-
+  add(group) {
+    console.log(`eventId: ${this.state.eventId} group name: ${group.name}`);
+    this.props.add(this.state.eventId, group);
+  }
+  sendGroup(group, edit) {
+    if (group.name && group.time && group.time !== '00:00') {
+      console.log(`group.name: ${group.name} group.time: ${group.time} group.eventId: ${group.eventId}`);
+      return (group.id > 0 ? edit(group) : this.add(group));
+    }
+    return null;
+  }
   render() {
     const {
       fields, groupText, index, remove, edit,
@@ -47,7 +58,7 @@ class EventDetailGroupRow extends Component {
             {
               group,
             },
-            (group.name && group.time) ? edit(this.state.group) : null,
+            this.sendGroup(group, edit),
           );
           }}
         />
@@ -61,12 +72,13 @@ class EventDetailGroupRow extends Component {
           style={{ textDecoration: this.state.completed ? 'line-through' : 'none' }}
           onBlur={(event) => {
             const group = Object.assign(this.state.group);
-            group.time = event.target.value;
+            console.log(`time: ${event.target.value}`);
+            group.time = `${event.target.value}:00`; // event.target.value;
             this.setState(
             {
               group,
             },
-            (group.name && group.time) ? edit(this.state.group) : null,
+            this.sendGroup(group, edit),
           );
           }}
         />
@@ -89,7 +101,7 @@ class EventDetailGroupRow extends Component {
                 group,
                 completed: true,
               },
-              (group.name && group.time) ? edit(this.state.group) : null,
+              this.sendGroup(group, edit),
               );
             }
           }}
@@ -111,8 +123,8 @@ class EventDetailGroupRow extends Component {
           type="button"
           title="Remove Group"
           onClick={() => {
+            if (this.state.group.id > 0) remove(this.state.group);
             fields.remove(index);
-            remove(this.state.group);
           }}
         >
           <img src={trashBI} id="pencilBI" alt="edit" className="BI" />
@@ -128,11 +140,14 @@ EventDetailGroupRow.propTypes = {
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
   edit: PropTypes.func.isRequired,
+  add: PropTypes.func.isRequired,
+  eventId: PropTypes.number.isRequired,
 };
 export default connect(state => ({
   groups: state.groups,
 }), dispatch => ({
   edit: group => dispatch(editGroup(group)),
-  remove: group => dispatch(deleteGroup(group)),
+  remove: group => dispatch(deleteGroup(group.eventId, group.id)),
+  add: (eventId, group) => dispatch(addGroup(eventId, group)),
 }
 ))(EventDetailGroupRow);

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getEvent } from '../actions';
 import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
+import normalizeDate from './normalizers/normalizeDate';
 
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
@@ -37,7 +38,7 @@ const EventsForm = (props) => {
   } = props;
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
-  const eventId = sessionStorage.getItem('eventId');
+  const eventId = Number(sessionStorage.getItem('eventId'));
   // console.log(`Event Detail history? ${props.history}`);
   // console.log(`Event Detail eventId: ${eventId}`);
   // console.log(`loadEvent type ${typeof loadEvent}`);
@@ -61,6 +62,7 @@ const EventsForm = (props) => {
           component="input"
           placeholder="Event Date"
           readOnly="true"
+          normalize={normalizeDate}
         />
         <RenderGroups eventId={eventId} history={props.history} />
       </div>

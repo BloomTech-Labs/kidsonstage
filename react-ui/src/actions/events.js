@@ -101,10 +101,12 @@ export const addEvent = event => (dispatch) => {
       dispatch(authError('Failed to fetch users'));
     });
 };
-export const addGroup = group => (dispatch) => {
+export const addGroup = (eventId, group) => (dispatch) => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
-  const body = { userId: id, ...group };
+  const body = { userId: id, eventId, ...group };
+  console.log(`addGroup group.name ${group.name} group.time: ${group.time}`);
+  console.log(`addGroup body.name ${body.name} body.time: ${body.time}  eventId: ${eventId}` );
   if (!id || !token) {
     dispatch(authError('Not logged in'));
     return;
@@ -115,16 +117,19 @@ export const addGroup = group => (dispatch) => {
     },
   };
   axios
-    .put(`${ROOT_URL}/events/${group.eventId}/groups`, body, config)
+    .post(`${ROOT_URL}/events/${eventId}/groups`, body, config)
     .then((response) => {
+      console.log(`addGroup id ${response.data}`);
       dispatch({
         type: ADD_GROUP,
-        payload: response.data,
+        payload: {
+          id: response.data, eventId, name: group.name, time: group.time,
+        },
       });
     })
     .catch((err) => {
-      console.log(err);
-      dispatch(authError('Failed to fetch users'));
+      console.log(`addGroup ${err}`);
+      dispatch(authError('Failed to add group'));
     });
 };
 
@@ -150,11 +155,12 @@ export const deleteEvent = event => (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
-      dispatch(authError('Failed to fetch users'));
+      dispatch(authError('Failed to delete event'));
     });
 };
 
 export const deleteGroup = (eventId, groupId) => (dispatch) => {
+  console.log(`delete groupId ${groupId} eventId: ${eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   if (!id || !token) {
@@ -176,7 +182,7 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
-      dispatch(authError('Failed to fetch users'));
+      dispatch(authError('Failed to delete group'));
     });
 };
 export const editGroup = group => (dispatch) => {
