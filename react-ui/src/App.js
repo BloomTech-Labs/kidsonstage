@@ -18,6 +18,9 @@ import EventDetail from './components/EventDetail';
 import Billing from './components/stripe';
 
 import './App.css';
+import './assets/react-toolbox/theme.css';
+import theme from './assets/react-toolbox/theme.js';
+import ThemeProvider from 'react-toolbox/lib/ThemeProvider';
 
 class App extends Component {
   constructor(props) {
@@ -52,26 +55,39 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <NavBar />
-        <div className="App--Body">
-          {/* <div className="sideNavBar--Container">SideNavBar</div> */}
-          <div>
-            <Route exact path="/" component={Home} />
-            <Route path="/signin" component={SignIn} />
-            <Route path="/users" component={RequireAuth(Users)} />
-            <Route path="/signout" component={SignOut} />
-            <Route path="/signup" component={Register} />
-            <Route path="/settings" component={RequireAuth(Settings)} />
-            <Route exact path="/events" component={RequireAuth(Events)} />
-            {/* <Route path="/rfevents" component={RequireAuth(RfEvents)} /> */}
-            <Route exact path="/events/new" component={RequireAuth(EventsNew)} />
-            <Route exact path="/events/details" component={RequireAuth(EventDetail)} />
-            <Route exact path="/events/purchase" component={RequireAuth(Billing)} />
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <NavBar />
+          <div className="App--Body">
+            {/* <div className="sideNavBar--Container">SideNavBar</div> */}
+            <div>
+              <Route exact path="/" component={Home} />
+              <Route path="/signin" component={SignIn} />
+              <Route path="/users" component={RequireAuth(Users)} />
+              <Route path="/signout" component={SignOut} />
+              <Route path="/signup" component={Register} />
+              <Route path="/settings" component={RequireAuth(Settings)} />
+              <Route exact path="/events" component={RequireAuth(Events)} />
+              {/* <Route path="/rfevents" component={RequireAuth(RfEvents)} /> */}
+              <Route
+                exact
+                path="/events/new"
+                component={RequireAuth(EventsNew)}
+              />
+              <Route
+                exact
+                path="/events/details"
+                component={RequireAuth(EventDetail)}
+              />
+              <Route
+                exact
+                path="/events/purchase"
+                component={RequireAuth(Billing)}
+              />
+            </div>
           </div>
         </div>
-
-      </div>
+      </ThemeProvider>
     );
   }
 }
