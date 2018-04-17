@@ -107,8 +107,9 @@ eventsRouter.post('/:eventId/groups', function(req, res) {
 
   db('groups')
     .insert({ eventId, name, time })
-    .then(function(records) {
-      res.status(200).json(records);
+    .returning('id')
+    .then(function(id) {
+      res.status(200).json(id);
     })
     .catch(function(err) {
       res.status(500).json({ error: 'Could not create new group', err});
