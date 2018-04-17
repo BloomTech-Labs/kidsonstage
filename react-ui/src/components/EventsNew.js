@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-
-import { Progress } from 'reactstrap';
-
-=======
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addEvent } from '../actions';
->>>>>>> master
 import './css/events.css';
 
 /* eslint-disable react/forbid-prop-types */
@@ -29,12 +23,6 @@ class EventsNew extends Component {
       handleSubmit, pristine, submitting,
     } = this.props;
     return (
-<<<<<<< HEAD
-      <div>
-        Add New Event
-        <Progress value="50">Step 1 of 2 - Create Event</Progress>
-      </div>
-=======
       <form onSubmit={handleSubmit(this.handleFormSubmit)} id="new-event-form" >
         <Field
           name="title"
@@ -59,7 +47,6 @@ class EventsNew extends Component {
           Save
         </button>
       </form>
->>>>>>> master
     );
   }
 }
