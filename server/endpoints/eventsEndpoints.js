@@ -162,24 +162,21 @@ eventsRouter.put('/:eventId/groups/:groupId', function(req, res) {
     });
 });
 
-// CANT DELETE ATM PROBLEMS WITH "detail": "Key (id)=(1) is still referenced from table \"eventSubscribers\".",
-// eventsRouter.delete('/:eventId/groups/:groupId', function(req, res) {
-//   const { eventId, groupId } = req.params;
+eventsRouter.delete('/:eventId/groups/:groupId', function(req, res) {
+  // delete group
+  const { eventId, groupId } = req.params;
 
-//   db('groups')
-//     .where('eventId', eventId)
-//     .select('id', groupId)
-//     .del()
-//     .then(function(records) {
-//       res.status(200).json(records);
-//     })
-//     .catch(function(err) {
-//       res.status(500).json({ error: 'Could not delete group', err});
-//     });
-
-// });
-
-
+  db('groups')
+    .where('eventId', eventId)
+    .where('id', groupId)
+    .del()
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: 'Could not delete group from DB', err});
+    });
+});
 
 module.exports = eventsRouter;
 
