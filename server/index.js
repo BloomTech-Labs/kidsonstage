@@ -12,6 +12,7 @@ const path = require('path');
 const usersEndpoints = require('./endpoints/usersEndpoints.js');
 const eventsEndpoints = require('./endpoints/eventsEndpoints.js');
 const notifyEndpoints = require('./endpoints/notifyEndpoints.js');
+const checkoutEndpoints = require('./endpoints/checkoutEndpoints.js');
 
 const PORT = process.env.PORT || process.env.LOCAL_PORT;
 const server = express();
@@ -24,6 +25,7 @@ server.use(cors({credentials: true, origin: process.env.CLIENT_URL }));
 server.use('/api/users', usersEndpoints);
 server.use('/api/events', eventsEndpoints);
 server.use('/api/notify', notifyEndpoints);
+server.use('/api/checkout', checkoutEndpoints);
 
 // USED FOR PRODUCTION ONLY
 if (process.env.NODE_ENV === 'production') {

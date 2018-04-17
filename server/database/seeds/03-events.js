@@ -11,31 +11,26 @@ exports.seed = function(knex, Promise) {
 		.then(function() {
 			return knex('events').insert([
 				{
-					id: 1,
 					owner: 2,
 					title: "Swim Tournament",
 					eventDate: "2018-04-11 12:30:00",
 				},
 				{
-					id: 2,
 					owner: 3,
 					title: "Chess Tournament",
 					eventDate: "2018-04-12 12:30:00",
 				},
 				{
-					id: 3,
 					owner: 4,
 					title: "Choir Performance",
 					eventDate: "2018-04-13 12:30:00",
 				},
 				{
-					id: 4,
 					owner: 2,
 					title: "Track & Field Tournament",
 					eventDate: "2018-04-14 12:30:00",
 				},
 				{
-					id: 5,
 					owner: 3,
 					title: "Basketball Tournament",
 					eventDate: "2018-04-15 12:30:00",
