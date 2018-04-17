@@ -2,9 +2,9 @@ import React from 'react';
 import { injectStripe } from 'react-stripe-elements';
 import axios from 'axios';
 import CardSection from './CardSection';
-import { Container, Row, Button, Input, Form, Badge, Col } from 'reactstrap';
+import { Container, Button, Form } from 'reactstrap';
 
-import { ROOT_URL, authError } from '../../actions/index';
+import { ROOT_URL } from '../../actions/index';
 
 class CheckoutForm extends React.Component {
   state = {
