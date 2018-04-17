@@ -13,7 +13,8 @@ exports.up = function(knex, Promise) {
     tbl
       .integer('groupId')
       .references('id')
-      .inTable('groups');
+      .inTable('groups')
+      .onDelete('CASCADE');
   });
 };
 
