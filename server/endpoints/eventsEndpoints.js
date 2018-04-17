@@ -36,7 +36,7 @@ eventsRouter.delete('/', function(req, res) {
     .where('id', id)
     .del()
     .then(function(records) {
-      res.status(200).json(records);
+      res.status(200).json(id);
     })
     .catch(function(err) {
       res.status(500).json({ error: 'Could not delete event from DB', err});
@@ -171,7 +171,7 @@ eventsRouter.delete('/:eventId/groups/:groupId', function(req, res) {
     .where('id', groupId)
     .del()
     .then(function(records) {
-      res.status(200).json(records);
+      res.status(200).json(groupId);
     })
     .catch(function(err) {
       res.status(500).json({ error: 'Could not delete group from DB', err});
