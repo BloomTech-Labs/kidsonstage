@@ -11,7 +11,7 @@ export default (ComposedComponent) => {
       /* eslint-disable no-mixed-operators */
       const token = sessionStorage.getItem('token');
       return (token && (token.length > 0)) === true ? (
-        <ComposedComponent />
+        <ComposedComponent history={this.props.history} />
       ) : (
         <div />
       );

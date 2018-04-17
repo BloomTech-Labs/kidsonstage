@@ -1,7 +1,7 @@
 import React from 'react';
 import { /* Field, */ reduxForm, FieldArray } from 'redux-form';
 import { connect } from 'react-redux';
-import { getGroups, addGroup } from '../actions';
+import { getGroups } from '../actions';
 import EventDetailGroupRow from './EventDetailGroupRow';
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions, arrow-body-style,
@@ -12,19 +12,29 @@ const renderGroups = ({
 }) => {
   if (eventId) load(eventId);
   return (
-    <ul>
-      <li key={-1}>
-        <button type="button" onClick={() => fields.push()}>
+    <div>
+      {eventId > 0 &&
+      <ul>
+        <li key={-1}>
+          <button type="button" onClick={() => fields.push()}>
         Add Group
-        </button>
-      </li>
-      {fields.map((group, index) => (
-        <li key={`${group}.row`}>
-          <EventDetailGroupRow fields={fields} groupText={group} index={index} />
+          </button>
         </li>
+        {fields.map((group, index) => (
+          <li key={`${group}.row`}>
+            <EventDetailGroupRow
+              eventId={eventId}
+              fields={fields}
+              groupText={group}
+              index={index}
+            />
+          </li>
       ))}
-      {error && <li key={-2} className="error">{error}</li>}
-    </ul>);
+        {error && <li key={-2} className="error">{error}</li>}
+      </ul>
+    }
+    </div>
+  );
 };
 const onKeyPress = (event) => {
   // console.log(`kp event ${JSON.stringify(event.which)}`);
@@ -37,9 +47,9 @@ const EventDetailsGroups = (props) => {
   const {
     load, history,
   } = props;
-  const {
-    pristine, /* reset, */ submitting,
-  } = props;
+  // const {
+  //   pristine, /* reset, */ submitting,
+  // } = props;
   // const handleFormSubmit = () => {
   //   // const dirties = formValues('groupFA').map((f, i) => {
   //   //   if (f.dirty) console.log(`f.name ${f.name} is dirty`);
@@ -74,7 +84,7 @@ const EventDetailsGroups = (props) => {
       <FieldArray name="groupFA" component={renderGroups} eventId={eventId} load={load} />
       <button
         type="button"
-        disabled={submitting || !pristine}
+        // disabled={submitting || !pristine}
         onKeyPress={onKeyPress}
         onClick={() => history.push('/events')}
       >
@@ -89,11 +99,17 @@ const EventDetail = reduxForm({
 })(EventDetailsGroups);
 // export default EventDetail;
 
+const fiveLenthDate = (groups) => {
+  return groups.map((group) => {
+    const { time, ...rest } = group;
+    rest.time = time.substring(0, 5);
+    return rest;
+  });
+};
 export default connect(state => ({
-  initialValues: { groupFA: state.groups },
+  initialValues: { groupFA: fiveLenthDate(state.groups) },
 }), dispatch => ({
   load: eventId => dispatch(getGroups(eventId)),
-  add: group => dispatch(addGroup(group)),
 }
 ))(EventDetail);
 

@@ -128,21 +128,19 @@ class Register extends Component {
 
               <fieldset>
                 <Field
-                  className="register--form_field"
+                  className="register--form_field checkbox"
                   name="byPhone"
                   id="byPhone"
                   component="input"
                   type="checkbox"
-                  className="checkbox"
                 />
                 <span>Texts? </span>
                 <Field
-                  className="register--form_field"
+                  className="register--form_field checkbox"
                   name="byEmail"
                   id="byEmail"
                   component="input"
                   type="checkbox"
-                  className="checkbox"
                 />
                 <span>Email?</span>
               </fieldset>
