@@ -123,7 +123,6 @@ eventsRouter.get('/:eventId/userId/:userId', function(req, res) {
   db('eventSubscribers')
     .where('eventId', eventId)
     .where('userId', userId)
-    .select('id')
     .then(function(records) {
       res.status(200).json(records);
     })
