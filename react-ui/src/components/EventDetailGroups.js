@@ -16,7 +16,14 @@ const renderGroups = ({
       {eventId > 0 &&
       <ul>
         <li key={-1}>
-          <button type="button" onClick={() => fields.push()}>
+          <button
+            id="addGroupButton"
+            type="button"
+            onClick={() => {
+              sessionStorage.setItem('pushingNewGroup', 1);
+              fields.push();
+            }}
+          >
         Add Group
           </button>
         </li>
