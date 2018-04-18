@@ -194,7 +194,7 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`delete error: ${JSON.stringify(err, null, 2)}`);
       dispatch(authError('Failed to delete group'));
     });
 };
