@@ -9,11 +9,34 @@ import pencilBI from './graphics/pencil.png';
 import trashBI from './graphics/trash.png';
 import { addGroup, editGroup, deleteGroup } from '../actions';
 
-/* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary */
+/* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary, jsx-a11y/no-static-element-interactions */
 
+const tab = (e) => {
+  if (e.which === 13) {
+    e.target.nextSibling.focus();
+    e.preventDefault();
+  }
+};
 class EventDetailGroupRow extends Component {
   constructor(props) {
     super(props);
+
+    const ng = Number(sessionStorage.getItem('pushingNewGroup')) === 1;
+    sessionStorage.setItem('pushingNewGroup', 0);
+    // console.log(`rowProps: ${JSON.stringify(this.rowProps, null, 2)}`);
+    // console.log(`props: ${JSON.stringify(this.props, null, 2)}`);
+    // const inputs = document.getElementsByTagName('input');
+    // console.log(`inputs length ${inputs.length}`);
+    // for (let x = 0; x < inputs.length; x++) {
+    //   const input = inputs[x];
+    //   input.onkeypress = tab;
+    // }
+
+    const thisGroup = !ng ? this.props.groups[this.props.index] : undefined;
+    const readOnly = (thisGroup !== undefined && thisGroup.name && thisGroup.name.length > 1);
+    // if (readOnly) console.log(`thisGroup.name ${thisGroup.name}`);
+    // const tg = thisGroup;
+    // if (tg) console.log(`id ${tg.id}`);
     const ng = Number(sessionStorage.getItem('pushingNewGroup')) === 1;
     sessionStorage.setItem('pushingNewGroup', 0);
     const thisGroup = !ng ? this.props.groups[this.props.index] : undefined;
@@ -45,6 +68,7 @@ class EventDetailGroupRow extends Component {
     console.log(`eventId: ${this.state.eventId} group name: ${group.name}`);
     this.props.add(this.state.eventId, group);
   }
+
   sendGroup(group, edit) {
     if (group.name && group.time && group.time !== '00:00' && group.time.length >= 5) {
       console.log(`group.name: ${group.name} group.time: ${group.time} group.eventId: ${group.eventId}`);
@@ -57,7 +81,7 @@ class EventDetailGroupRow extends Component {
       fields, groupText, index, remove, edit,
     } = this.props;
     return (
-      <div>
+      <div onKeyPress={tab}>
         <Field
           name={`${groupText}.name`}
           type="text"
