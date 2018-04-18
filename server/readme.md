@@ -30,4 +30,3 @@
 | +   | [PUT]    | 'api/events/:eventId/groups/:groupId'                   | 'api/events/11/groups/6'                    | Edits info of a group under eventId                             |
 | +   | [DELETE] | 'api/events/:eventId/groups/:groupId'                   | 'api/events/11/groups/6'                    | Deletes a group out of an event                                 |
 
-create twilio event route
