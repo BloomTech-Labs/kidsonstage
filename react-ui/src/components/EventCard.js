@@ -3,6 +3,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import './css/events.css';
 
+import normalizeDate from './normalizers/normalizeDate';
+
 import { getEvent, getGroups } from '../actions';
 
 import { Navbar, NavbarBrand } from 'mdbreact';
@@ -38,7 +40,7 @@ class EventCard extends Component {
             <NavbarBrand tag="span">{this.props.title}</NavbarBrand>
           </Navbar>
           {/* <div className="eventCard--Title"></div> */}
-          <div className="eventCard--Date">{this.props.eventDate}</div>
+          <div className="eventCard--Date">{normalizeDate(this.props.eventDate)}</div>
         </div>
       </LinkContainer>
     );
