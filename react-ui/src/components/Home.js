@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faArrowRight from '@fortawesome/fontawesome-free-solid/faArrowRight';
+
+import { Button } from 'mdbreact';
+
 // import centerPng from './graphics/landing-center-graphic.png';
+
 import './css/home.css';
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
 
 export default class Home extends Component {
   constructor(props) {
@@ -15,22 +24,17 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home">
-        <div className="carousel">
-          {/* <img src={centerPng} /> */}
-          <figure className="icon-cards">
-            <div className="icon-cards__content">
-              <div className="icon-cards__item" />
-              <div className="icon-cards__item" />
-              <div className="icon-cards__item" />
-            </div>
-          </figure>
-        </div>
         <div className="home_text">
-            Welcome to Kids On Stage! A queue notification system for any event!
+          <h1>Kids on Stage!</h1>
+
+          <h2>A queue notification system for any event!</h2>
+
+          <Link to="/signup">
+            <Button color="success" size="lg">
+              Create Event <FontAwesomeIcon icon={faArrowRight} />
+            </Button>
+          </Link>
         </div>
-        <button className="cta_button">
-          <Link to="/signup">Buy Now</Link>
-        </button>
       </div>
     );
   }

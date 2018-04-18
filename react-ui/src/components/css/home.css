@@ -1,137 +1,29 @@
-/* home page minus navbar */
-
-/* COLOR SCHEME: 
-1. Text Colors: SMOKEY BLACK: #0C120C
-2. Highlight Color (such as button hover): SEA FOAM GREEN: #BBE1C3
-3. Border Colors: 
-    A. NICKEL: #6D7275
-    B. LIGHT GREY: #C7D6D5
-4. Page Background Color: ANTI-FLASH-WHITE: #ECEBF3 */
-
 .home {
-	display: flex;
-	flex-direction: column;
-	align-content: center;
-	justify-content: center;
-	align-items: center;
-}
-
-.carousel {
-	/* align-self: center;
-	justify-content: center; */
-	transform: scale(1);
-}
-
-.icon-cards {
-	position: relative;
-	/* align-self: center;
-	justify-content: center; */
-	top: 35%;
-	left: 45%;
-	width: 500px;
-	height: 500px;
-	perspective: 1300px;
-	transform: translate(-50%, -50%);
-}
-.icon-cards__content {
-	position: relative;
-	margin: 0px;
-	width: 100%;
-	height: 100%;
-	transform-style: preserve-3d;
-	transform: translateZ(-250px) rotateY(0);
-	animation: carousel 10s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
-}
-.icon-cards__item {
-	position: absolute;
-	top: 90%;
-	width: 350px;
-	height: 350px;
-	border-radius: 6px;
-}
-.icon-cards__item:nth-child(1) {
-	background: url('./images/drill_squad.jpg') no-repeat;
-	height: 336px;
-	width: 448px;
-	transform: rotateY(0) translateZ(182px);
-}
-.icon-cards__item:nth-child(2) {
-	background: url('./images/swimmers.jpg') no-repeat;
-	height: 336px;
-	width: 448px;
-	transform: rotateY(120deg) translateZ(182px);
-}
-.icon-cards__item:nth-child(3) {
-	background: url('./images/track.jpg') no-repeat;
-	height: 336px;
-	width: 448px;
-	transform: rotateY(240deg) translateZ(182px);
-}
-
-@keyframes carousel {
-	0%,
-	17.5% {
-		transform: translateZ(-182px) rotateY(0);
-	}
-	27.5%,
-	45% {
-		transform: translateZ(-182px) rotateY(-120deg);
-	}
-	55%,
-	72.5% {
-		transform: translateZ(-182px) rotateY(-240deg);
-	}
-	82.5%,
-	100% {
-		transform: translateZ(-182px) rotateY(-360deg);
-	}
-}
-body {
-	background: white;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .home_text {
-	font-size: 20px;
-	padding: 75px;
+  text-align: center;
+  line-height: 1.28571429em;
+  font-weight: bold;
 }
 
-.cta_button {
-	padding: 20px;
-	height: 50px;
-	width: 250px;
-	font-size: 35px;
-	background-color: transparent;
-	border-color: transparent;
-	color: #0c120c;
+.home_text h1 {
+  margin-bottom: 0;
+  margin-top: 3em;
+  line-height: 1.28571429em;
+  font-size: 4em;
+  font-weight: bold;
+ 
 }
 
-.cta_button > a {
-	padding: 20px;
-	height: 50px;
-	width: 250px;
-	text-decoration: none;
-	background-color: transparent;
-	border: solid 3px #0c120c;
-	color: #0c120c;
+.home_text h2 {
+  font-size: 1.7em;
+  margin-top: 1.5em;
+  line-height: 1.28571429em;
+  font-weight: bold;
 }
-
-.cta_button:hover > a {
-	padding: 20px;
-	height: 50px;
-	width: 250px;
-	color: #0c120c;
-	background-color: #bbe1c3;
-}
-
-/* .icon-cards__item:nth-child(1) {
-	background: rgba(252, 192, 77, 0.9);
-	transform: rotateY(0) translateZ(182px);
-}
-.icon-cards__item:nth-child(2) {
-	background: rgba(49, 192, 204, 0.9);
-	transform: rotateY(120deg) translateZ(182px);
-}
-.icon-cards__item:nth-child(3) {
-	background: rgba(236, 233, 242, 0.9);
-	transform: rotateY(240deg) translateZ(182px);
-} */
