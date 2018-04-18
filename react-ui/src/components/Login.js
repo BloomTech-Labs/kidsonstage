@@ -26,8 +26,14 @@ const renderTextField = ({
 }) => (
   <TextField
     floatingLabelText={label}
-    floatingLabelStyle={{
-      color: 'rgb(56, 193, 63)'
+    floatingLabelFocusStyle={{
+      color: 'black'
+    }}
+    underlineFocusStyle={{
+      borderColor: 'white'
+    }}
+    underlineStyle={{
+      borderColor: 'grey',
     }}
     errorText={touched && error}
     {...input}

@@ -29,6 +29,7 @@
 }
 
 .login--button {
+  margin-top: 5%;
   width: 100%;
   background-color: rgb(56, 193, 63);
   color: white;
