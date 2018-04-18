@@ -14,7 +14,9 @@ import { Navbar, NavbarBrand } from 'mdbreact';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
 
-const renderGroups = ({ load, fields, eventId, props, meta: { error } }) => {
+const renderGroups = ({
+ load, fields, eventId, props, meta: { error } 
+}) => {
   if (eventId) load(eventId);
   return (
     <div className="eventDetail--form_container">
@@ -121,12 +123,12 @@ const EventDetailsGroups = (props) => {
 };
 const EventDetail = reduxForm({
   form: 'eventdetailGroups', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
 })(EventDetailsGroups);
 // export default EventDetail;
 
-const fiveLenthDate = groups => {
-  return groups.map(group => {
+const fiveLenthDate = (groups) => {
+  return groups.map((group) => {
     const { time, ...rest } = group;
     rest.time = time.substring(0, 5);
     return rest;
@@ -134,11 +136,11 @@ const fiveLenthDate = groups => {
 };
 export default connect(
   state => ({
-    initialValues: { groupFA: fiveLenthDate(state.groups) }
+    initialValues: { groupFA: fiveLenthDate(state.groups) },
   }),
   dispatch => ({
-    load: eventId => dispatch(getGroups(eventId))
-  })
+    load: eventId => dispatch(getGroups(eventId)),
+  }),
 )(EventDetail);
 
 // const selector = formValueSelector('EventDetailsGroups');
