@@ -7,40 +7,54 @@ import EventDetailGroupRow from './EventDetailGroupRow';
         jsx-a11y/no-noninteractive-element-interactions, arrow-body-style,
         jsx-a11y/label-has-for
         */
+
+import './css/eventDetail.css';
+import { Navbar, NavbarBrand } from 'mdbreact';
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
+
 const renderGroups = ({
-  load, fields, eventId, props, meta: { error },
+ load, fields, eventId, props, meta: { error } 
 }) => {
   if (eventId) load(eventId);
   return (
-    <div>
-      {eventId > 0 &&
-      <ul>
-        <li key={-1}>
-          <button
-            id="addGroupButton"
-            type="button"
-            onClick={() => {
-              sessionStorage.setItem('pushingNewGroup', 1);
-              fields.push();
-            }}
-          >
-        Add Group
-          </button>
-        </li>
-        {fields.map((group, index) => (
-          <li key={`${group}.row`}>
-            <EventDetailGroupRow
-              rowProps={props}
-              eventId={eventId}
-              fields={fields}
-              groupText={group}
-              index={index}
-            />
+    <div className="eventDetail--form_container">
+      <Navbar className="eventDetail--box_navbar" dark>
+        <NavbarBrand tag="span">Group Info</NavbarBrand>
+      </Navbar>
+      {eventId > 0 && (
+        <ul>
+          <li key={-1}>
+            <button
+              id="addGroupButton"
+              type="button"
+              onClick={() => {
+                sessionStorage.setItem('pushingNewGroup', 1);
+                fields.push();
+              }}
+            >
+              Add Group
+            </button>
           </li>
-      ))}
-        {error && <li key={-2} className="error">{error}</li>}
-      </ul>
-    }
+          {fields.map((group, index) => (
+            <li key={`${group}.row`}>
+              <EventDetailGroupRow
+                rowProps={props}
+                eventId={eventId}
+                fields={fields}
+                groupText={group}
+                index={index}
+              />
+            </li>
+          ))}
+          {error && (
+            <li key={-2} className="error">
+              {error}
+            </li>
+          )}
+        </ul>
+      )}
     </div>
   );
 };
@@ -52,9 +66,7 @@ const onKeyPress = (event) => {
 };
 const EventDetailsGroups = (props) => {
   // console.log(`Event Detail Group history? ${props.history}`);
-  const {
-    load, history,
-  } = props;
+  const { load, history } = props;
   // const {
   //   pristine, /* reset, */ submitting,
   // } = props;
@@ -88,16 +100,24 @@ const EventDetailsGroups = (props) => {
   // console.log(`Groups load type ${typeof load}`);
   // console.log(`Groups getGroups type ${typeof getGroups}`);
   return (
-    <form onKeyPress={onKeyPress} >
-      <FieldArray name="groupFA" component={renderGroups} eventId={eventId} load={load} props={props} />
-      <button
-        type="button"
-        // disabled={submitting || !pristine}
-        onKeyPress={onKeyPress}
-        onClick={() => history.push('/events')}
-      >
-          Return to Events
-      </button>
+    <form onKeyPress={onKeyPress}>
+      <FieldArray
+        name="groupFA"
+        component={renderGroups}
+        eventId={eventId}
+        load={load}
+        props={props}
+      />
+      <div className="eventDetail--return_button_container">
+        <button
+          type="button"
+          // disabled={submitting || !pristine}
+          onKeyPress={onKeyPress}
+          onClick={() => history.push('/events')}
+        >
+          Return to Events <FontAwesomeIcon icon={faUndoAlt} />
+        </button>
+      </div>
     </form>
   );
 };
@@ -114,12 +134,14 @@ const fiveLenthDate = (groups) => {
     return rest;
   });
 };
-export default connect(state => ({
-  initialValues: { groupFA: fiveLenthDate(state.groups) },
-}), dispatch => ({
-  load: eventId => dispatch(getGroups(eventId)),
-}
-))(EventDetail);
+export default connect(
+  state => ({
+    initialValues: { groupFA: fiveLenthDate(state.groups) },
+  }),
+  dispatch => ({
+    load: eventId => dispatch(getGroups(eventId)),
+  }),
+)(EventDetail);
 
 // const selector = formValueSelector('EventDetailsGroups');
 // const FA = connect((state) => {
