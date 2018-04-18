@@ -8,10 +8,11 @@ import { Button } from 'mdbreact';
 
 // import centerPng from './graphics/landing-center-graphic.png';
 
-import './css/home.css';
+
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+import './css/home.css';
 
 export default class Home extends Component {
   constructor(props) {
@@ -23,14 +24,14 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div className="home">
-        <div className="home_text">
+      <div className="home--container">
+        <div className="home--landing_container">
           <h1>Kids on Stage!</h1>
 
           <h2>A queue notification system for any event!</h2>
 
           <Link to="/signup">
-            <Button color="success" size="lg">
+            <Button className="home--button" color="success" size="lg">
               Create Event <FontAwesomeIcon icon={faArrowRight} />
             </Button>
           </Link>

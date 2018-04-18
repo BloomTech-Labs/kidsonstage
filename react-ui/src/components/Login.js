@@ -6,6 +6,11 @@ import PropTypes from 'prop-types';
 import { login } from '../actions';
 
 import './css/login.css';
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdbreact/dist/css/mdb.css';
+
+import { Button, Input } from 'mdbreact';
 
 class SignIn extends Component {
   handleFormSubmit = ({ username, password }) => {
@@ -24,19 +29,34 @@ class SignIn extends Component {
     return (
       <div className="login--container">
         <div className="login--form_container">
-          <div className="login--icon"></div>
+          {/* <div className="login--icon_container">
+            <div className="login--icon" />
+          </div> */}
           <div className="login--form">
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-              <fieldset>
-                
-                <Field className="login--form_field" name="username" component="input" type="text" placeholder="Username"/>
-              </fieldset>
-              <fieldset>
-                
-                <Field className="login--form_field" name="password" component="input" type="password" placeholder="Password" />
-              </fieldset>
-              <button action="submit">Sign In</button>
-              {this.renderAlert()}
+              <p className="h5 text-center mb-4">Sign in</p>
+              <Input
+                label="Type your email"
+                icon="envelope"
+                group
+                type="email"
+                validate
+                error="wrong"
+                success="right"
+              />
+              <Input
+                label="Type your password"
+                icon="lock"
+                group
+                type="password"
+                validate
+              />
+              <div className="text-center">
+                <Button block color="success" action="submit">
+                  Login
+                </Button>
+                {this.renderAlert()}
+              </div>
             </form>
           </div>
         </div>
