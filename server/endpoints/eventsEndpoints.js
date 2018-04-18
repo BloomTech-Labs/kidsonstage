@@ -117,12 +117,12 @@ eventsRouter.post('/:eventId/groups', function(req, res) {
     });
 });
 
-eventsRouter.get('/:eventId/groups/:groupId', function(req, res) {
-  const { eventId, groupId } = req.params;
+eventsRouter.get('/:eventId/userId/:userId', function(req, res) {
+  const { eventId, userId } = req.params;
 
   db('eventSubscribers')
     .where('eventId', eventId)
-    .where('groupId', groupId)
+    .where('userId', userId)
     .then(function(records) {
       res.status(200).json(records);
     })
