@@ -8,11 +8,11 @@ import './css/events.css';
 /* eslint-disable react/forbid-prop-types */
 class EventsNew extends Component {
   handleFormSubmit = ({
-    title, date, activated = false, completed = false,
+    title, eventDate, activated = false, completed = false, owner = sessionStorage.getItem('id'),
   }) => {
     this.props.save(
       {
-        title, date, activated, completed,
+        title, eventDate, activated, completed, owner,
       },
       this.props.history.push('/events'),
     );
@@ -32,7 +32,7 @@ class EventsNew extends Component {
           placeholder="title"
         />
         <Field
-          name="date"
+          name="eventDate"
           type="text"
           component="input"
           label="date"
