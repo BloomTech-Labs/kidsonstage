@@ -37,6 +37,13 @@ class EventDetailGroupRow extends Component {
     // if (readOnly) console.log(`thisGroup.name ${thisGroup.name}`);
     // const tg = thisGroup;
     // if (tg) console.log(`id ${tg.id}`);
+    const ng = Number(sessionStorage.getItem('pushingNewGroup')) === 1;
+    sessionStorage.setItem('pushingNewGroup', 0);
+    const thisGroup = !ng ? this.props.groups[this.props.index] : undefined;
+    const readOnly = (thisGroup !== undefined && thisGroup.name && thisGroup.name.length > 1);
+    if (readOnly) console.log(`thisGroup.name ${thisGroup.name}`);
+    const tg = thisGroup;
+    if (tg) console.log(`id ${tg.id}`);
     if (!readOnly) {
       const g = this.props.groups[this.props.index];
       if (g) {
