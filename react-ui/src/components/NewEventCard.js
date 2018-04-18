@@ -4,23 +4,9 @@ import { LinkContainer } from 'react-router-bootstrap';
 import faPlusCircle from '@fortawesome/fontawesome-free-solid/faPlusCircle';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
+import { Navbar, NavbarBrand } from 'mdbreact';
+
 import './css/events.css';
-
-// import 'bootstrap/dist/css/bootstrap.css';
-
-// import {
-//   Card,
-//   Button,
-//   Badge,
-//   CardImg,
-//   CardBody,
-//   CardTitle,
-//   CardText,
-//   CardSubtitle,
-//   CardImgOverlay,
-//   CardHeader,
-//   Collapse
-// } from 'reactstrap';
 
 class NewEventCard extends Component {
   constructor(props) {
@@ -31,9 +17,12 @@ class NewEventCard extends Component {
   render() {
     return (
       <LinkContainer exact to="/events/new">
-        <div className="newEventCard--Container">
-          <div className="newEventCard--Title">Add Event</div>
-          <div className="newEventCard--Body">
+        <div className="eventCard--Container">
+          <Navbar className="eventCard--box_navbar" dark>
+            <NavbarBrand tag="span">Add Event</NavbarBrand>
+          </Navbar>
+
+          <div className="eventCard--Body">
             <FontAwesomeIcon size="5x" icon={faPlusCircle} />
           </div>
         </div>

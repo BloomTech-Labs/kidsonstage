@@ -1,48 +1,3 @@
-/* .loader {
-  margin: 10% auto;
-  font-size: 10px;
-  position: relative;
-  text-indent: -9999em;
-  border-top: 1.1em solid rgba(100, 100, 100, 0.2);
-  border-right: 1.1em solid rgba(100, 100, 100, 0.2);
-  border-bottom: 1.1em solid rgba(100, 100, 100, 0.2);
-  border-left: 1.1em solid grey;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation: load8 1.1s infinite linear;
-  animation: load8 1.1s infinite linear;
-}
-
-.loader,
-.loader:after {
-  border-radius: 50%;
-  width: 10em;
-  height: 10em;
-}
-
-@-webkit-keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-} */
-
 .wrapper {
   margin: 20px;
 }
@@ -55,33 +10,32 @@
 }
 
 .eventCard--Container {
-  border: 1px solid black;
-  width:300px;
-  height:300px;
+  width: 300px;
+  height: 300px;
   margin: 10px;
+  background-color: rgb(218, 219, 218);
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.eventCard--Title {
-  text-align:center;
-}
-
-.newEventCard--Container {
-  border: 1px solid black;
-  width:300px;
-  height:300px;
-  margin: 10px;
-}
-
-.newEventCard--Title {
-  text-align:center;
-}
-
-.newEventCard--Body {
-  text-align:center;
+.eventCard--Body {
+  text-align: center;
   vertical-align: middle;
-  margin-top:80px;
+  margin-top: 80px;
 }
 
-.addEvent-PlusIcon {
-  
+.eventCard-PlusIcon {
+}
+
+.eventCard--box_navbar {
+  background-color: #1faa00;
+  width: 100%;
+  height: 10%;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.eventCard--Date {
+  text-align: center;
+  margin-top: 35%;
 }

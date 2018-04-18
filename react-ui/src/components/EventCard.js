@@ -3,23 +3,11 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
 import './css/events.css';
 
-// import 'bootstrap/dist/css/bootstrap.css';
+import normalizeDate from './normalizers/normalizeDate';
 
-// import {
-//   Card,
-//   Button,
-//   Badge,
-//   CardImg,
-//   CardBody,
-//   CardTitle,
-//   CardText,
-//   CardSubtitle,
-//   CardImgOverlay,
-//   CardHeader,
-//   Collapse
-// } from 'reactstrap';
-/* eslint-disable no-console */
 import { getEvent, getGroups } from '../actions';
+
+import { Navbar, NavbarBrand } from 'mdbreact';
 
 class EventCard extends Component {
   constructor(props) {
@@ -40,16 +28,19 @@ class EventCard extends Component {
         exact
         to="/events/details"
         onClick={() => {
-        sessionStorage.setItem('eventId', this.state.id);
-        this.props.setEvent(this.state.id);
-        this.props.setGroups(this.state.id);
-        console.log(`EventCard click eventId ${this.state.id}`);
-        document.location.reload(false);
+          sessionStorage.setItem('eventId', this.state.id);
+          this.props.setEvent(this.state.id);
+          this.props.setGroups(this.state.id);
+          console.log(`EventCard click eventId ${this.state.id}`);
+          document.location.reload(false);
         }}
       >
         <div className="eventCard--Container">
-          <div className="eventCard--Title">{this.props.title}</div>
-          <div className="eventCard--Date">{this.props.eventDate}</div>
+          <Navbar className="eventCard--box_navbar" dark>
+            <NavbarBrand tag="span">{this.props.title}</NavbarBrand>
+          </Navbar>
+          {/* <div className="eventCard--Title"></div> */}
+          <div className="eventCard--Date">{normalizeDate(this.props.eventDate)}</div>
         </div>
       </LinkContainer>
     );
@@ -57,11 +48,10 @@ class EventCard extends Component {
 }
 
 // export default EventCard;
-const mapStateToProps = state => ({
-});
+const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
   setEvent: id => dispatch(getEvent(id)),
-  setGroups: id => dispatch(getGroups(id)),
+  setGroups: id => dispatch(getGroups(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventCard);
