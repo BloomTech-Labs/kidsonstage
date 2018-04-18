@@ -1,6 +1,6 @@
 .BI {
   width: 21px;
-  height:21px;
+  height: 21px;
 }
 /* .line-through {
   text-decoration: line-through;
@@ -44,11 +44,22 @@ display: none;
   margin: 20px;
 }
 
+.eventDetail--box_content {
+  margin-top: 3%;
+  margin-bottom: 3%;
+}
+
+.eventDetail--form_container:nth-child(1) {
+  background-color: rgb(218, 219, 218);
+  align-items: center;
+  width: 35em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .eventDetail--form_container ul {
   list-style-type: none;
   margin-top: 20px;
   padding-right: 40px;
-  
 }
 
 .eventDetail--form_container_button {
