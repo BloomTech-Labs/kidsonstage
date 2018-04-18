@@ -7,22 +7,20 @@
 }
 
 .register--form_container {
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(218, 219, 218);
   display: flex;
   flex-direction: column;
 	align-items: center;
-  /* justify-content: center; */
-  height: 28em;
   width: 25em;
-  border-radius: 4px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .register--form {
-  margin-top: 50px;
+  margin-top: 5%;
+  margin-bottom: 15%;
   justify-content: center;
   text-align: center;
-  width:50%;
+  width:70%;
 }
 
 
@@ -32,18 +30,20 @@
   width: 100%;
   margin-bottom: 10px;
   height: 35px;
+  
 }
 
 .register--form_buttons {
 	display: flex;
-	width: 100%;
+  width: 100%;
+  margin-top: 5%;
 }
 
 .register--form_buttons button:nth-child(1) {
   border-radius: 5px;
 	height: 35px;
 	width: 50%;
-	background-color:green;
+  background-color: rgb(56, 193, 63);
 	color: white;
 }
 
@@ -51,6 +51,25 @@
   border-radius: 5px;
 	height: 35px;
 	width: 50%;
-	background-color:red;
+	background-color: #a30000;
 	color: white;
+}
+
+.register--contact {
+  font-size: 1em;
+  margin-top: 5%;
+}
+
+.register--contact_checkbox {
+  display: flex;
+  flex-direction: column;
+  font-size: .8em;
+}
+
+.register--box_navbar {
+  background-color: #1faa00;
+  width: 100%;
+  height: 10%;
+  justify-content: center;
+  box-shadow: none;
 }

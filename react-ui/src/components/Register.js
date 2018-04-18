@@ -8,6 +8,45 @@ import './css/register.css';
 
 // const { DOM: { input /* select, textarea */ } } = React;
 
+import { TextField, Checkbox } from 'material-ui';
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faUser,
+  faKey,
+  faAt,
+  faPhone
+} from '@fortawesome/fontawesome-free-solid';
+
+import { Navbar, NavbarBrand } from 'mdbreact';
+
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    floatingLabelText={label}
+    floatingLabelFocusStyle={{
+      color: 'black'
+    }}
+    underlineFocusStyle={{
+      borderColor: 'white'
+    }}
+    underlineStyle={{
+      borderColor: 'grey'
+    }}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
+      color: 'red'
+    }}
+  />
+);
+
 class Register extends Component {
   handleFormSubmit = ({
     username = 'mark',
@@ -65,27 +104,30 @@ class Register extends Component {
     return (
       <div className="register--container">
         <div className="register--form_container">
-          <div className="register--icon" />
+          <Navbar className="register--box_navbar" dark>
+            <NavbarBrand tag="span">Sign Up</NavbarBrand>
+          </Navbar>
+
           <div className="register--form">
             <form
               onSubmit={handleSubmit(this.handleFormSubmit)}
               id="submit-button"
             >
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faUser} /> <Field
                   className="register--form_field"
                   name="username"
-                  component="input"
+                  component={renderTextField}
                   type="text"
                   placeholder="User Name"
                   //id="username"
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faAt} /> <Field
                   className="register--form_field"
                   name="email"
-                  component="input"
+                  component={renderTextField}
                   validate={email}
                   warn={aol}
                   placeholder="Email"
@@ -93,10 +135,10 @@ class Register extends Component {
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faPhone} /> <Field
                   className="register--form_field"
                   name="phone"
-                  component="input"
+                  component={renderTextField}
                   type="text"
                   placeholder="Phone Number"
                   normalize={normalizePhone}
@@ -104,46 +146,46 @@ class Register extends Component {
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faKey} /> <Field
                   className="register--form_field"
                   name="password"
-                  component="input"
+                  component={renderTextField}
                   type="password"
                   placeholder="Password"
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faKey} /> <Field
                   className="register--form_field"
                   name="confirmPassword"
-                  component="input"
+                  component={renderTextField}
                   type="password"
                   placeholder="Confirm Password"
                 />
               </fieldset>
 
-              <div className="contact-text">
+              <div className="register--contact">
                 How would you like to be contacted?
+                <fieldset>
+                  <div className="register--contact_checkbox">
+                    <Field
+                      name="byPhone"
+                      id="byPhone"
+                      component={Checkbox}
+                      type="checkbox"
+                      label="Text Messaging"
+                    />
+                    <Field
+                      name="byEmail"
+                      id="byEmail"
+                      component={Checkbox}
+                      type="checkbox"
+                      label="Email"
+                    />
+                  </div>
+                </fieldset>
               </div>
 
-              <fieldset>
-                <Field
-                  className="register--form_field checkbox"
-                  name="byPhone"
-                  id="byPhone"
-                  component="input"
-                  type="checkbox"
-                />
-                <span>Texts? </span>
-                <Field
-                  className="register--form_field checkbox"
-                  name="byEmail"
-                  id="byEmail"
-                  component="input"
-                  type="checkbox"
-                />
-                <span>Email?</span>
-              </fieldset>
               <div className="register--form_buttons">
                 <button type="submit" disabled={pristine || submitting}>
                   Sign Up
