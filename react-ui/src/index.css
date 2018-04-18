@@ -10,8 +10,9 @@
 	margin: 0;
 	padding: 0;
 	font-family: sans-serif;
-}
-
+	height: 100vh;
+} */
+/* 
 .new-user-label {
 	display: flex;
 	width: 50%;

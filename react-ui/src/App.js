@@ -65,12 +65,23 @@ class App extends Component {
             <Route path="/settings" component={RequireAuth(Settings)} />
             <Route exact path="/events" component={RequireAuth(Events)} />
             {/* <Route path="/rfevents" component={RequireAuth(RfEvents)} /> */}
-            <Route exact path="/events/new" component={RequireAuth(EventsNew)} />
-            <Route exact path="/events/details" component={RequireAuth(EventDetail)} />
-            <Route exact path="/events/purchase" component={RequireAuth(Billing)} />
+            <Route
+              exact
+              path="/events/new"
+              component={RequireAuth(EventsNew)}
+            />
+            <Route
+              exact
+              path="/events/details"
+              component={RequireAuth(EventDetail)}
+            />
+            <Route
+              exact
+              path="/events/purchase"
+              component={RequireAuth(Billing)}
+            />
           </div>
         </div>
-
       </div>
     );
   }

@@ -6,9 +6,9 @@ import {
   NavbarBrand,
   NavbarNav,
   NavbarToggler,
-  Collapse
+  Collapse,
+  Button,
 } from 'mdbreact';
-import { Button } from 'reactstrap';
 
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -32,7 +32,7 @@ export default class NavBar extends Component {
 
   render() {
     return (
-      <Navbar color="success-color-dark" dark expand="md" scrolling>
+      <Navbar color="blue-grey darken-2" dark expand="md" scrolling>
         <NavbarBrand href="/">
           <strong>Kids on Stage!</strong>
         </NavbarBrand>
