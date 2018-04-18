@@ -33,7 +33,7 @@ const renderTextField = ({
       borderColor: 'white'
     }}
     underlineStyle={{
-      borderColor: 'grey',
+      borderColor: 'grey'
     }}
     errorText={touched && error}
     {...input}
