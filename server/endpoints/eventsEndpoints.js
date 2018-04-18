@@ -123,6 +123,7 @@ eventsRouter.get('/:eventId/userId/:userId', function(req, res) {
   db('eventSubscribers')
     .where('eventId', eventId)
     .where('userId', userId)
+    .select('id')
     .then(function(records) {
       res.status(200).json(records);
     })
@@ -137,8 +138,9 @@ eventsRouter.post('/:eventId/groups/:groupId', function(req, res) {
   
   db('eventSubscribers')
     .insert({ eventId, groupId, userId })
+    .returning('id')
     .then(function(records) {
-      res.status(200).json(records);
+      res.status(200).json(id);
     })
     .catch(function(err) {
       // COME BACK HERE AND ADD MORE ERROR CATCHES FOR ALREADY SUBSCRIBED, NO EVENT, ETC
