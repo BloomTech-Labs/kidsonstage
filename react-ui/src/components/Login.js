@@ -6,11 +6,37 @@ import PropTypes from 'prop-types';
 import { login } from '../actions';
 
 import './css/login.css';
-import 'font-awesome/css/font-awesome.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'mdbreact/dist/css/mdb.css';
+// import { TextField } from 'redux-form-material-ui'
+import TextField from 'material-ui/TextField';
 
-import { Button, Input } from 'mdbreact';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faUser,
+  faKey
+} from '@fortawesome/fontawesome-free-solid';
+
+import { Navbar, NavbarBrand } from 'mdbreact';
+
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    floatingLabelText={label}
+    floatingLabelStyle={{
+      color: 'rgb(56, 193, 63)'
+    }}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
+      color: 'red'
+    }}
+  />
+);
 
 class SignIn extends Component {
   handleFormSubmit = ({ username, password }) => {
@@ -29,34 +55,37 @@ class SignIn extends Component {
     return (
       <div className="login--container">
         <div className="login--form_container">
-          {/* <div className="login--icon_container">
-            <div className="login--icon" />
-          </div> */}
+          <Navbar className="login--box_navbar" dark>
+            <NavbarBrand tag="span">Log In</NavbarBrand>
+          </Navbar>
+
+          {/* <div className="login--icon"></div> */}
           <div className="login--form">
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
-              <p className="h5 text-center mb-4">Sign in</p>
-              <Input
-                label="Type your email"
-                icon="envelope"
-                group
-                type="email"
-                validate
-                error="wrong"
-                success="right"
-              />
-              <Input
-                label="Type your password"
-                icon="lock"
-                group
-                type="password"
-                validate
-              />
-              <div className="text-center">
-                <Button block color="success" action="submit">
-                  Login
-                </Button>
-                {this.renderAlert()}
-              </div>
+              <fieldset>
+                <FontAwesomeIcon icon={faUser} />{' '}
+                <Field
+                  className="login--form_field"
+                  name="username"
+                  component={renderTextField}
+                  type="text"
+                  label="Username"
+                />
+              </fieldset>
+              <fieldset>
+                <FontAwesomeIcon icon={faKey} />{' '}
+                <Field
+                  className="login--form_field"
+                  name="password"
+                  component={renderTextField}
+                  type="password"
+                  label="Password"
+                />
+              </fieldset>
+              <button className="login--button" type="submit">
+                Sign In <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+              {this.renderAlert()}
             </form>
           </div>
         </div>
