@@ -44,6 +44,20 @@ display: none;
   margin: 20px;
 }
 
+.eventDetail--form_container ul {
+  list-style-type: none;
+  margin-top: 20px;
+  padding-right: 40px;
+  
+}
+
+.eventDetail--form_container_button {
+  width: 100%;
+  background-color: rgb(56, 193, 63);
+  color: white;
+  margin-top: 20px;
+}
+
 .eventDetail--box_navbar {
   background-color: #1faa00;
   width: 100%;

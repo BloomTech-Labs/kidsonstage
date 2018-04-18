@@ -25,18 +25,7 @@ const renderGroups = ({
       </Navbar>
       {eventId > 0 && (
         <ul>
-          <li key={-1}>
-            <button
-              id="addGroupButton"
-              type="button"
-              onClick={() => {
-                sessionStorage.setItem('pushingNewGroup', 1);
-                fields.push();
-              }}
-            >
-              Add Group
-            </button>
-          </li>
+          
           {fields.map((group, index) => (
             <li key={`${group}.row`}>
               <EventDetailGroupRow
@@ -47,7 +36,21 @@ const renderGroups = ({
                 index={index}
               />
             </li>
+            
           ))}
+          <li key={-1}>
+            <button
+              className="eventDetail--form_container_button"
+              id="addGroupButton"
+              type="button"
+              onClick={() => {
+                sessionStorage.setItem('pushingNewGroup', 1);
+                fields.push();
+              }}
+            >
+              Add Group
+            </button>
+          </li>
           {error && (
             <li key={-2} className="error">
               {error}

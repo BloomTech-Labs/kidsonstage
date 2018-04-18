@@ -9,6 +9,7 @@ import normalizeDate from './normalizers/normalizeDate';
 
 import './css/eventDetail.css';
 import { Navbar, NavbarBrand } from 'mdbreact';
+import TextField from 'material-ui/TextField';
 
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
