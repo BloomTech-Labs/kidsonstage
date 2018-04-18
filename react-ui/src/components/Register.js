@@ -14,7 +14,9 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
   faArrowRight,
   faUser,
-  faKey
+  faKey,
+  faAt,
+  faPhone
 } from '@fortawesome/fontawesome-free-solid';
 
 import { Navbar, NavbarBrand } from 'mdbreact';
@@ -112,7 +114,7 @@ class Register extends Component {
               id="submit-button"
             >
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faUser} /> <Field
                   className="register--form_field"
                   name="username"
                   component={renderTextField}
@@ -122,7 +124,7 @@ class Register extends Component {
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faAt} /> <Field
                   className="register--form_field"
                   name="email"
                   component={renderTextField}
@@ -133,7 +135,7 @@ class Register extends Component {
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faPhone} /> <Field
                   className="register--form_field"
                   name="phone"
                   component={renderTextField}
@@ -144,7 +146,7 @@ class Register extends Component {
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faKey} /> <Field
                   className="register--form_field"
                   name="password"
                   component={renderTextField}
@@ -153,7 +155,7 @@ class Register extends Component {
                 />
               </fieldset>
               <fieldset>
-                <Field
+              <FontAwesomeIcon icon={faKey} /> <Field
                   className="register--form_field"
                   name="confirmPassword"
                   component={renderTextField}
