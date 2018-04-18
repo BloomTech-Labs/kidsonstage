@@ -6,6 +6,37 @@ import PropTypes from 'prop-types';
 import { login } from '../actions';
 
 import './css/login.css';
+// import { TextField } from 'redux-form-material-ui'
+import TextField from 'material-ui/TextField';
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faUser,
+  faKey
+} from '@fortawesome/fontawesome-free-solid';
+
+import { Navbar, NavbarBrand } from 'mdbreact';
+
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    floatingLabelText={label}
+    floatingLabelStyle={{
+      color: 'rgb(56, 193, 63)'
+    }}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
+      color: 'red'
+    }}
+  />
+);
 
 class SignIn extends Component {
   handleFormSubmit = ({ username, password }) => {
@@ -24,18 +55,36 @@ class SignIn extends Component {
     return (
       <div className="login--container">
         <div className="login--form_container">
-          <div className="login--icon"></div>
+          <Navbar className="login--box_navbar" dark>
+            <NavbarBrand tag="span">Log In</NavbarBrand>
+          </Navbar>
+
+          {/* <div className="login--icon"></div> */}
           <div className="login--form">
             <form onSubmit={handleSubmit(this.handleFormSubmit)}>
               <fieldset>
-                
-                <Field className="login--form_field" name="username" component="input" type="text" placeholder="Username"/>
+                <FontAwesomeIcon icon={faUser} />{' '}
+                <Field
+                  className="login--form_field"
+                  name="username"
+                  component={renderTextField}
+                  type="text"
+                  label="Username"
+                />
               </fieldset>
               <fieldset>
-                
-                <Field className="login--form_field" name="password" component="input" type="password" placeholder="Password" />
+                <FontAwesomeIcon icon={faKey} />{' '}
+                <Field
+                  className="login--form_field"
+                  name="password"
+                  component={renderTextField}
+                  type="password"
+                  label="Password"
+                />
               </fieldset>
-              <button action="submit">Sign In</button>
+              <button className="login--button" type="submit">
+                Sign In <FontAwesomeIcon icon={faArrowRight} />
+              </button>
               {this.renderAlert()}
             </form>
           </div>
