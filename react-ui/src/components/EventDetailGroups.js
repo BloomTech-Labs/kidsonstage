@@ -8,7 +8,7 @@ import EventDetailGroupRow from './EventDetailGroupRow';
         jsx-a11y/label-has-for
         */
 const renderGroups = ({
-  load, fields, eventId, meta: { error },
+  load, fields, eventId, props, meta: { error },
 }) => {
   if (eventId) load(eventId);
   return (
@@ -30,6 +30,7 @@ const renderGroups = ({
         {fields.map((group, index) => (
           <li key={`${group}.row`}>
             <EventDetailGroupRow
+              rowProps={props}
               eventId={eventId}
               fields={fields}
               groupText={group}
@@ -88,7 +89,7 @@ const EventDetailsGroups = (props) => {
   // console.log(`Groups getGroups type ${typeof getGroups}`);
   return (
     <form onKeyPress={onKeyPress} >
-      <FieldArray name="groupFA" component={renderGroups} eventId={eventId} load={load} />
+      <FieldArray name="groupFA" component={renderGroups} eventId={eventId} load={load} props={props} />
       <button
         type="button"
         // disabled={submitting || !pristine}
