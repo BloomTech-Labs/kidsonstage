@@ -9,16 +9,47 @@ import pencilBI from './graphics/pencil.png';
 import trashBI from './graphics/trash.png';
 import { addGroup, editGroup, deleteGroup } from '../actions';
 
-/* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary */
+/* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary, jsx-a11y/no-static-element-interactions */
 
+const tab = (e) => {
+  if (e.which === 13) {
+    e.target.nextSibling.focus();
+    e.preventDefault();
+  }
+};
 class EventDetailGroupRow extends Component {
   constructor(props) {
     super(props);
-    const thisGroup = this.props.groups[this.props.index];
+
+    const ng = Number(sessionStorage.getItem('pushingNewGroup')) === 1;
+    sessionStorage.setItem('pushingNewGroup', 0);
+    // console.log(`rowProps: ${JSON.stringify(this.rowProps, null, 2)}`);
+    // console.log(`props: ${JSON.stringify(this.props, null, 2)}`);
+    // const inputs = document.getElementsByTagName('input');
+    // console.log(`inputs length ${inputs.length}`);
+    // for (let x = 0; x < inputs.length; x++) {
+    //   const input = inputs[x];
+    //   input.onkeypress = tab;
+    // }
+
+    const thisGroup = !ng ? this.props.groups[this.props.index] : undefined;
+    const readOnly = (thisGroup !== undefined && thisGroup.name && thisGroup.name.length > 1);
+    // if (readOnly) console.log(`thisGroup.name ${thisGroup.name}`);
+    // const tg = thisGroup;
+    // if (tg) console.log(`id ${tg.id}`);
+    if (!readOnly) {
+      const g = this.props.groups[this.props.index];
+      if (g) {
+        g.id = -1;
+        g.name = '';
+        g.time = '00:00';
+        g.completed = false;
+      }
+    }
     this.state = {
-      readOnly: (thisGroup !== undefined),
+      readOnly,
       group: (thisGroup !== undefined) ? thisGroup : {
-        id: -1, name: '', time: '00:00', completed: false,
+        id: -1, eventId: this.props.eventId, name: '', time: '00:00', completed: false,
       },
       completed: thisGroup ? thisGroup.completed : false,
       eventId: this.props.eventId,
@@ -30,8 +61,9 @@ class EventDetailGroupRow extends Component {
     console.log(`eventId: ${this.state.eventId} group name: ${group.name}`);
     this.props.add(this.state.eventId, group);
   }
+
   sendGroup(group, edit) {
-    if (group.name && group.time && group.time !== '00:00') {
+    if (group.name && group.time && group.time !== '00:00' && group.time.length >= 5) {
       console.log(`group.name: ${group.name} group.time: ${group.time} group.eventId: ${group.eventId}`);
       return (group.id > 0 ? edit(group) : this.add(group));
     }
@@ -42,7 +74,7 @@ class EventDetailGroupRow extends Component {
       fields, groupText, index, remove, edit,
     } = this.props;
     return (
-      <div>
+      <div onKeyPress={tab}>
         <Field
           name={`${groupText}.name`}
           type="text"
@@ -72,7 +104,7 @@ class EventDetailGroupRow extends Component {
           style={{ textDecoration: this.state.completed ? 'line-through' : 'none' }}
           onBlur={(event) => {
             const group = Object.assign(this.state.group);
-            console.log(`time: ${event.target.value}`);
+            // console.log(`time: ${event.target.value}`);
             group.time = `${event.target.value}:00`; // event.target.value;
             this.setState(
             {
@@ -96,6 +128,7 @@ class EventDetailGroupRow extends Component {
               const group = Object.assign(this.state.group);
               console.log(`group name ${group.name} complete click`);
               group.completed = true;
+              if (group.id <= 0) group.id = sessionStorage.getItem(`group.id:${this.state.group.name}`);
               this.setState(
               {
                 group,
@@ -123,8 +156,27 @@ class EventDetailGroupRow extends Component {
           type="button"
           title="Remove Group"
           onClick={() => {
-            if (this.state.group.id > 0) remove(this.state.group);
-            fields.remove(index);
+            console.log(`remove id ${this.state.group.id} eventId ${this.state.eventId}`);
+            if (this.state.group.id <= 0) {
+              const { id, ...group } = this.state.group;
+              group.id = sessionStorage.getItem(`group.id:${this.state.group.name}`);
+              this.setState({
+                group,
+              }, () => {
+                console.log(`session removing ${this.state.group.id}`);
+                remove(group);
+                fields.remove(index);
+              });
+            } else {
+              this.setState({
+                group: this.props.groups[this.props.index],
+              }, () => {
+                console.log(`removing ${this.state.group.id} ${this.state.group.name} `);
+                remove(this.state.group);
+                fields.remove(index);
+                document.location.reload(false);
+              });
+            }
           }}
         >
           <img src={trashBI} id="pencilBI" alt="edit" className="BI" />
@@ -143,8 +195,17 @@ EventDetailGroupRow.propTypes = {
   add: PropTypes.func.isRequired,
   eventId: PropTypes.number.isRequired,
 };
+
+const n1Check = (groups) => {
+  groups.forEach((group) => {
+    if (group.id <= 0 && group.name.length > 1) {
+      console.log(`name: ${group.name} time: ${group.time}`);
+    }
+  });
+  return groups;
+};
 export default connect(state => ({
-  groups: state.groups,
+  groups: n1Check(state.groups),
 }), dispatch => ({
   edit: group => dispatch(editGroup(group)),
   remove: group => dispatch(deleteGroup(group.eventId, group.id)),
