@@ -25,3 +25,40 @@
 .mycheckbox input[type="checkbox"]:checked + label {
 display: none;
 } */
+
+.eventDetail--container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+  height: 88vh;
+}
+
+.eventDetail--form_container {
+  background-color: rgb(218, 219, 218);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 35em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 20px;
+}
+
+.eventDetail--box_navbar {
+  background-color: #1faa00;
+  width: 100%;
+  height: 30px;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.eventDetail--return_button_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.eventDetail--return_button_container button {
+  background-color: rgb(56, 193, 63);
+  color: white;
+}

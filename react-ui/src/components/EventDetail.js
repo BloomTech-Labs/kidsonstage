@@ -7,6 +7,9 @@ import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
 import normalizeDate from './normalizers/normalizeDate';
 
+import './css/eventDetail.css';
+import { Navbar, NavbarBrand } from 'mdbreact';
+
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
 /*
@@ -33,9 +36,7 @@ import normalizeDate from './normalizers/normalizeDate';
 */
 
 const EventsForm = (props) => {
-  const {
-    load,
-  } = props;
+  const { load } = props;
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
   const eventId = Number(sessionStorage.getItem('eventId'));
@@ -46,28 +47,35 @@ const EventsForm = (props) => {
   if (eventId > 0) load(eventId);
   // console.log(`event ${JSON.stringify(event)}`);
   return (
-    <div>
-      {eventId > 0 &&
-      <div>
-        <Field
-          name="event.title"
-          type="text"
-          component="input"
-          placeholder="title"
-          readOnly="true"
-        />
-        <Field
-          name="event.formattedDate"
-          type="text"
-          component="input"
-          placeholder="Event Date"
-          readOnly="true"
-        />
-        <RenderGroups eventId={eventId} history={props.history} />
+    <div className="eventDetail--container">
+      <div className="eventDetail--form_container">
+        <Navbar className="eventDetail--box_navbar" dark>
+          <NavbarBrand tag="span">Event Info</NavbarBrand>
+        </Navbar>
+        {eventId > 0 && (
+          <div>
+            Event Name:{' '}
+            <Field
+              name="event.title"
+              type="text"
+              component="input"
+              placeholder="title"
+              readOnly="true"
+            />
+            <br />
+            Event Date:{' '}
+            <Field
+              name="event.formattedDate"
+              type="text"
+              component="input"
+              placeholder="Event Date"
+              readOnly="true"
+            />
+          </div>
+        )}
       </div>
-      }
+      <RenderGroups eventId={eventId} history={props.history} />
     </div>
-
   );
 };
 // EventsForm.propTypes = {
@@ -76,11 +84,11 @@ const EventsForm = (props) => {
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
-  touchOnBlur: true,
+  touchOnBlur: true
 })(EventsForm);
 // export default EventDetail;
 
-const nomalizeEventDate = (event) => {
+const nomalizeEventDate = event => {
   if (event && event.eventDate) {
     const newDate = normalizeDate(event.eventDate);
     // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
@@ -91,10 +99,12 @@ const nomalizeEventDate = (event) => {
   }
   return event;
 };
-export default connect(state => ({
-  initialValues: { event: nomalizeEventDate(state.event) },
-}), dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }
-))(EventDetail);
+export default connect(
+  state => ({
+    initialValues: { event: nomalizeEventDate(state.event) }
+  }),
+  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) })
+)(EventDetail);
 // export default connect(state => ({
 //   initialValues: { event: state.event },
 // }), { load: eventId => getEvent(eventId) })(EventDetail);
