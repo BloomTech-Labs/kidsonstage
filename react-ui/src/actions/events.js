@@ -74,12 +74,15 @@ export const getGroups = eventId => (dispatch) => {
 };
 export const addEvent = event => (dispatch) => {
   const token = sessionStorage.getItem('token');
-  const id = sessionStorage.getItem('id');
+  const id = sessionStorage.getItem('id'); sessionStorage.getItem('id');
+  console.log(`addEvent ${JSON.stringify(event)}`);
   if (!id || !token) {
+    console.log('addEvent not logged in');
     dispatch(authError('Not logged in'));
     return;
   }
   if (id !== event.owner) {
+    console.log(`addEvent Illegal id: ${id} event.owner: ${event.owner}`);
     dispatch(authError('Illegal'));
     return;
   }
@@ -91,13 +94,15 @@ export const addEvent = event => (dispatch) => {
   axios
     .post(`${ROOT_URL}/events`, event, config)
     .then((response) => {
+      console.log(`addEvent id ${JSON.stringify(response.data[0])}`);
+      // to do verify JSON.parse(response.config.data == event)
       dispatch({
         type: ADD_EVENT,
-        payload: response.data,
+        payload: { id: response.data[0], ...event },
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.log(`addEvent ${err}`);
       dispatch(authError('Failed to fetch users'));
     });
 };
@@ -106,7 +111,7 @@ export const addGroup = (eventId, group) => (dispatch) => {
   const id = sessionStorage.getItem('id');
   const body = { userId: id, eventId, ...group };
   console.log(`addGroup group.name ${group.name} group.time: ${group.time}`);
-  console.log(`addGroup body.name ${body.name} body.time: ${body.time}  eventId: ${eventId}` );
+  console.log(`addGroup body.name ${body.name} body.time: ${body.time}  eventId: ${eventId}`);
   if (!id || !token) {
     dispatch(authError('Not logged in'));
     return;
@@ -120,10 +125,16 @@ export const addGroup = (eventId, group) => (dispatch) => {
     .post(`${ROOT_URL}/events/${eventId}/groups`, body, config)
     .then((response) => {
       console.log(`addGroup id ${response.data}`);
+      // to do verify JSON.parse(response.config.data == group)
+      sessionStorage.setItem(`group.id:${group.name}`, response.data);
       dispatch({
         type: ADD_GROUP,
         payload: {
-          id: response.data, eventId, name: group.name, time: group.time,
+          id: response.data,
+          eventId,
+          name: group.name,
+          time: group.time,
+          completed: group.completed,
         },
       });
     })
@@ -148,6 +159,7 @@ export const deleteEvent = event => (dispatch) => {
   axios
     .delete(`${ROOT_URL}/events`, event, config)
     .then((response) => {
+      console.log(`delete event response ${JSON.stringify(response.data)}`);
       dispatch({
         type: DELETE_EVENT,
         payload: response.data,
@@ -175,9 +187,10 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
   axios
     .delete(`${ROOT_URL}/events/${eventId}/groups/${groupId}`, config)
     .then((response) => {
+      console.log(`delete group response ${Number(response.data)}`);
       dispatch({
         type: DELETE_GROUP,
-        payload: response.data,
+        payload: Number(response.data),
       });
     })
     .catch((err) => {
@@ -210,7 +223,7 @@ export const editGroup = group => (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
-      dispatch(authError('Failed to add group'));
+      dispatch(authError('Failed to edit group'));
     });
 };
 // /:eventId/groups/:groupId

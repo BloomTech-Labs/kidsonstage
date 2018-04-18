@@ -57,12 +57,11 @@ const EventsForm = (props) => {
           readOnly="true"
         />
         <Field
-          name="event.eventDate"
+          name="event.formattedDate"
           type="text"
           component="input"
           placeholder="Event Date"
           readOnly="true"
-          normalize={normalizeDate}
         />
         <RenderGroups eventId={eventId} history={props.history} />
       </div>
@@ -81,8 +80,19 @@ const EventDetail = reduxForm({
 })(EventsForm);
 // export default EventDetail;
 
+const nomalizeEventDate = (event) => {
+  if (event && event.eventDate) {
+    const newDate = normalizeDate(event.eventDate);
+    // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
+    if (newDate) {
+      event.formattedDate = newDate;
+      // console.log(`set formattedDate: ${event.formattedDate}`);
+    }
+  }
+  return event;
+};
 export default connect(state => ({
-  initialValues: { event: state.event },
+  initialValues: { event: nomalizeEventDate(state.event) },
 }), dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }
 ))(EventDetail);
 // export default connect(state => ({
