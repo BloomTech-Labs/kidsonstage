@@ -5,6 +5,7 @@ import UsersReducer from './users';
 import EventReducer from './events';
 import GroupReducer from './groups';
 import ActiveEvent from './activeEvent';
+import PartGroupReducer from './participantGroups'
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   events: EventReducer,
   event: ActiveEvent,
   groups: GroupReducer,
+  partGroups: PartGroupReducer,
 });
 
 export default rootReducer;

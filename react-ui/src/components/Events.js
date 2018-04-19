@@ -43,6 +43,7 @@ class Events extends Component {
                 activated={event.activated}
                 key={i}
                 id={event.id}
+                owner={event.owner}
               />
             );
           })}

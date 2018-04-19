@@ -6,9 +6,12 @@ export const DELETE_EVENT = 'DELETE_EVENT';
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_EVENT = 'GET_EVENT';
 export const ADD_GROUPS = 'ADD_GROUPS';
-export const GET_GROUPS = 'ADD_GROUPS';
+export const GET_GROUPS = 'GET_GROUPS';
+export const GET_PART_GROUPS = 'GET_PART_GROUPS';
 export const DELETE_GROUP = 'DELETE_GROUP';
+export const DELETE_PART_GROUP = 'DELETE_PART_GROUP';
 export const ADD_GROUP = 'ADD_GROUP';
+export const ADD_PART_GROUP = 'ADD_PART_GROUP';
 export const EDIT_GROUP = 'EDIT_GROUP';
 export const SET_EVENT_ID = 'SET_EVENT_ID';
 export const GET_EVENT_ID = 'GET_EVENT_ID';
@@ -30,7 +33,7 @@ export const getEvents = () => (dispatch) => {
     },
   };
   axios
-    .get(`${ROOT_URL}/events/byUser/${id}`, config)
+    .get(`${ROOT_URL}/events`, config)
     .then((response) => {
       // console.log(`getEvents data: ${response.data}`);
       dispatch({
@@ -43,7 +46,69 @@ export const getEvents = () => (dispatch) => {
       dispatch(authError('Failed to fetch events'));
     });
 };
-
+// eventsRouter.get('/:eventId/userId/:userId
+export const getPartGroups = eventId => (dispatch) => {
+  if (!eventId) return;
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    .get(`${ROOT_URL}/events/${eventId}/userId/${id}`, config)
+    .then((response) => {
+      // console.log(`getPartGroups ${JSON.stringify(response.data, null, 2)}`);
+      dispatch({
+        type: GET_PART_GROUPS,
+        payload: response.data || [],
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch(authError('Failed to fetch groups'));
+    });
+};
+// eventsRouter.post('/:eventId/groups/:groupId',
+export const addPartGroup = partGroup => (dispatch) => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  const { eventId, groupId } = partGroup;
+  const body = { userId: id };
+  console.log(`addPartGroup groupId ${groupId} eventId ${eventId} userId ${id}`);
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    .post(`${ROOT_URL}/events/${eventId}/groups/${groupId}`, body, config)
+    .then((response) => {
+      console.log(`addPartGroup id ${JSON.stringify(response.data[0], null, 2)}`);
+      dispatch({
+        type: ADD_PART_GROUP,
+        payload: {
+          id: response.data[0],
+          eventId,
+          userId: id,
+          groupId,
+        },
+      });
+    })
+    .catch((error, err) => {
+      console.log(`addPartGroup ${error} ${err} `);
+      dispatch(authError('Failed to add partGroup'));
+    });
+};
 
 export const getGroups = eventId => (dispatch) => {
   if (!eventId) return;
@@ -191,6 +256,35 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
       dispatch({
         type: DELETE_GROUP,
         payload: Number(response.data),
+      });
+    })
+    .catch((err) => {
+      console.log(`delete error: ${JSON.stringify(err, null, 2)}`);
+      dispatch(authError('Failed to delete group'));
+    });
+};
+// ('/:eventId/groups/:groupId/userId/:userId',
+export const deletePartGroup = (eventId, groupId) => (dispatch) => {
+  console.log(`delete partGroupId ${groupId} eventId: ${eventId}`);
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    .delete(`${ROOT_URL}/events/${eventId}/groups/${groupId}/userId/${id}`, config)
+    .then((response) => {
+      console.log(`delete group response ${JSON.stringify(response, null, 2)}`);
+      console.log(`delete group response ${Number(response.data[0])}`);
+      dispatch({
+        type: DELETE_GROUP,
+        payload: Number(response.data[0]),
       });
     })
     .catch((err) => {

@@ -1,7 +1,9 @@
 import React from 'react';
 import { /* Field, */ reduxForm, FieldArray } from 'redux-form';
 import { connect } from 'react-redux';
-import { getGroups } from '../actions';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
+import { getGroups, getPartGroups } from '../actions';
 import EventDetailGroupRow from './EventDetailGroupRow';
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions, arrow-body-style,
@@ -10,11 +12,13 @@ import EventDetailGroupRow from './EventDetailGroupRow';
 
 import './css/eventDetail.css';
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
-
-const renderGroups = ({ load, fields, eventId, props, meta: { error } }) => {
-  if (eventId) load(eventId);
+const renderGroups = ({
+  groupFA, partGroups, load, loadPart, fields, eventId, admin, props, meta: { error },
+}) => {
+  if (eventId) {
+    load(eventId);
+    loadPart(eventId);
+  }
   return (
     <div>
       {eventId > 0 && (
@@ -24,12 +28,16 @@ const renderGroups = ({ load, fields, eventId, props, meta: { error } }) => {
               <EventDetailGroupRow
                 rowProps={props}
                 eventId={eventId}
+                admin={admin}
                 fields={fields}
                 groupText={group}
                 index={index}
+                groupP={groupFA[index]}
+                partGroups={partGroups}
               />
             </li>
           ))}
+          {admin > 0 &&
           <li key={-1}>
             <button
               className="eventDetail--form_container_button"
@@ -43,6 +51,7 @@ const renderGroups = ({ load, fields, eventId, props, meta: { error } }) => {
               Add Group
             </button>
           </li>
+          }
           {error && (
             <li key={-2} className="error">
               {error}
@@ -53,13 +62,13 @@ const renderGroups = ({ load, fields, eventId, props, meta: { error } }) => {
     </div>
   );
 };
-const onKeyPress = event => {
+const onKeyPress = (event) => {
   // console.log(`kp event ${JSON.stringify(event.which)}`);
   if (event.which === 13 /* Enter */) {
     event.preventDefault();
   }
 };
-const EventDetailsGroups = props => {
+const EventDetailsGroups = (props) => {
   // console.log(`Event Detail Group history? ${props.history}`);
   const { load, history } = props;
   // const {
@@ -100,8 +109,11 @@ const EventDetailsGroups = props => {
         name="groupFA"
         component={renderGroups}
         eventId={eventId}
+        admin={props.admin}
         load={load}
         props={props}
+        groupFA={props.initialValues.groupFA}
+        partGroups={props.initialValues.partGroups}
       />
       <div className="eventDetail--return_button_container">
         <button
@@ -118,24 +130,35 @@ const EventDetailsGroups = props => {
 };
 const EventDetail = reduxForm({
   form: 'eventdetailGroups', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
 })(EventDetailsGroups);
 // export default EventDetail;
 
-const fiveLenthDate = groups => {
-  return groups.map(group => {
+const fiveLenthDate = (state) => {
+  return state.groups.map((group) => {
+    const partIndex = state.partGroups.findIndex(partGroup => partGroup.groupId);
+
+    const partGroup = (partIndex >= 0 ? state.partGroups[partIndex] : undefined);
+    group.partGroup = partGroup;
+    // this.setState({
+    //   group: { ...group, partGroup },
+    // });
+    group.checked = (partIndex >= 0);
     const { time, ...rest } = group;
+    // console.log(`partIndex: ${partIndex} partGroups.length: ${state.partGroups.length}
+    //     group.partGroup ${rest.partGroup} group.checked ${rest.checked} `);
     rest.time = time.substring(0, 5);
     return rest;
   });
 };
 export default connect(
   state => ({
-    initialValues: { groupFA: fiveLenthDate(state.groups) }
+    initialValues: { groupFA: fiveLenthDate(state), partGroups: state.partGroups },
   }),
   dispatch => ({
-    load: eventId => dispatch(getGroups(eventId))
-  })
+    load: eventId => dispatch(getGroups(eventId)),
+    loadPart: eventId => dispatch(getPartGroups(eventId)),
+  }),
 )(EventDetail);
 
 // const selector = formValueSelector('EventDetailsGroups');

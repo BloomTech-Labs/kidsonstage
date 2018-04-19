@@ -161,10 +161,11 @@ eventsRouter.post('/:eventId/groups/:groupId', function(req, res) {
     .insert({ eventId, groupId, userId })
     .returning('id')
     .then(function(records) {
-      res.status(200).json(id);
+      res.status(200).json(records);
     })
     .catch(function(err) {
       // COME BACK HERE AND ADD MORE ERROR CATCHES FOR ALREADY SUBSCRIBED, NO EVENT, ETC
+      console.log(`eventSubscribers insert ${err}`);
       res.status(500).json({ error: 'Could not subscribe to group', err });
     });
 });
