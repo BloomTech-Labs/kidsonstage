@@ -7,7 +7,7 @@ import './css/eventDetail.css';
 import completedBI from './graphics/completed.png';
 import pencilBI from './graphics/pencil.png';
 import trashBI from './graphics/trash.png';
-import { addGroup, editGroup, deleteGroup } from '../actions';
+import { addGroup, editGroup, deleteGroup, addPartGroup, deletePartGroup } from '../actions';
 
 /* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary,
     jsx-a11y/no-static-element-interactions */
@@ -19,34 +19,38 @@ const tab = (e) => {
   }
 };
 class EventDetailGroupRow extends Component {
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (!prevState.partGroup) {
+  //     const partGroups = nextProps.partGroups.filter(partGroup =>
+  //       partGroup.groupId === nextProps.group.id);
+  //     if (partGroups && partGroups.length) {
+  //       this.setState({
+  //         partGroup: partGroups[0],
+  //       });
+  //     }
+  //   }
+  // }
   constructor(props) {
     super(props);
-
+    // console.log(`partGroups ${JSON.stringify(this.props.partGroups, null, 2)}`);
+    console.log(`admin: ${this.props.admin}`);
     const ng = Number(sessionStorage.getItem('pushingNewGroup')) === 1;
     sessionStorage.setItem('pushingNewGroup', 0);
-    // console.log(`rowProps: ${JSON.stringify(this.rowProps, null, 2)}`);
-    // console.log(`props: ${JSON.stringify(this.props, null, 2)}`);
-    // const inputs = document.getElementsByTagName('input');
-    // console.log(`inputs length ${inputs.length}`);
-    // for (let x = 0; x < inputs.length; x++) {
-    //   const input = inputs[x];
-    //   input.onkeypress = tab;
-    // }
-
-    const thisGroup = !ng ? this.props.groups[this.props.index] : undefined;
-    const readOnly = (thisGroup !== undefined && thisGroup.name && thisGroup.name.length > 1);
-    // if (readOnly) console.log(`thisGroup.name ${thisGroup.name}`);
-    // const tg = thisGroup;
-    // if (tg) console.log(`id ${tg.id}`);
-    if (!readOnly) {
-      const g = this.props.groups[this.props.index];
-      if (g) {
-        g.id = -1;
-        g.name = '';
-        g.time = '00:00';
-        g.completed = false;
-      }
+    const thisGroup = !ng ? this.props.groupP : undefined;
+    const readOnly = (thisGroup !== undefined && thisGroup.name && thisGroup.name.length > 1) ||
+                (this.props.admin === 1);
+    if (thisGroup !== undefined) {
+      console.log(`checked: ${thisGroup.checked}
+      partGroup.groupId: ${thisGroup.partGroup ? thisGroup.partGroup.groupId : undefined}
+      props.partGroups.length: ${props.partGroups ? props.partGroups.length : undefined}
+      `);
     }
+    // console.log(`groupP: ${JSON.stringify(props.groupP, null, 2)}`);
+    // let checked = false;
+    // if (this.props.admin === 0 && thisGroup && thisGroup.id && this.props.eventId &&
+    //   this.props.partGroups && this.props.partGroups.Length > 0) {
+    //   checked = (partGroups && partGroups.Length > 0);
+    // }
     this.state = {
       readOnly,
       group: (thisGroup !== undefined) ? thisGroup : {
@@ -54,10 +58,12 @@ class EventDetailGroupRow extends Component {
       },
       completed: thisGroup ? thisGroup.completed : false,
       eventId: this.props.eventId,
+      admin: this.props.admin,
+      checked: (thisGroup !== undefined) ? thisGroup.checked : false,
+      partGroup: (thisGroup !== undefined) ? thisGroup.partGroup : undefined,
     };
-    // console.log(`index: ${this.props.index} group length: ${this.props.groups.length} `);
-    // console.log(`groupId ${this.state.group.id}`);
   }
+
   add(group) {
     console.log(`eventId: ${this.state.eventId} group name: ${group.name}`);
     this.props.add(this.state.eventId, group);
@@ -97,6 +103,7 @@ class EventDetailGroupRow extends Component {
         />
         <Field
           name={`${groupText}.time`}
+          id="time"
           type="text"
           placeholder="HH:MM"
           normalize={formatTime}
@@ -115,11 +122,44 @@ class EventDetailGroupRow extends Component {
           );
           }}
         />
+        {this.state.admin === 0 &&
+        // <div className="subscribeCheckbox">
+        <span id="Subscribe">
+          <Field
+            name={`${groupText}.subscribed`}
+            id="subscribeGroup"
+            title="Subscripe to Group"
+            label="subscibed"
+            checked={this.state.checked}
+            component="input"
+            type="checkbox"
+            className="checkbox"
+            onClick={(/* event */) => {
+              // const checked = event.target.value;
+              this.setState({
+                checked: !this.state.checked,
+              }, () => {
+                if (this.state.checked) {
+                  if (this.state.partGroup) {
+                    this.props.addPart(this.state.partGroup);
+                  } else {
+                    this.props.addPart({ eventId: this.state.eventId, groupId: this.state.group.id });
+                  }
+                } else if (this.state.partGroup) {
+                  this.props.removePart(this.state.partGroup);
+                }
+              });
+            }}
+          />
+          <span>Subscribe</span>
+        </span>
+        }
         {/* <div className="mycheckbox">
           <Field name={`${group}.completed`} id="competedGroup" title="Complete Group"
           label="completed" component="input" type="checkbox" className="checkbox" />
           <label htmlFor="completedGroup" />
         </div> */}
+        {this.state.admin > 0 &&
         <button
           type="button"
           title="Complete Group"
@@ -142,6 +182,8 @@ class EventDetailGroupRow extends Component {
         >
           <img src={completedBI} id="completedBI" alt="completed" className="BI" />
         </button>
+        }
+        {this.state.admin > 0 &&
         <button
           type="button"
           title="Edit Group"
@@ -153,6 +195,8 @@ class EventDetailGroupRow extends Component {
         >
           <img src={pencilBI} id="pencilBI" alt="edit" className="BI" />
         </button>
+        }
+        {this.state.admin > 0 &&
         <button
           type="button"
           title="Remove Group"
@@ -182,34 +226,43 @@ class EventDetailGroupRow extends Component {
         >
           <img src={trashBI} id="pencilBI" alt="edit" className="BI" />
         </button>
+        }
       </div>
     );
   }
 }
 EventDetailGroupRow.propTypes = {
   groups: PropTypes.arrayOf(PropTypes.object).isRequired,
+  groupP: PropTypes.object.isRequired,
+  partGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
   fields: PropTypes.object.isRequired,
   groupText: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   remove: PropTypes.func.isRequired,
+  removePart: PropTypes.func.isRequired,
   edit: PropTypes.func.isRequired,
   add: PropTypes.func.isRequired,
+  addPart: PropTypes.func.isRequired,
   eventId: PropTypes.number.isRequired,
+  admin: PropTypes.number.isRequired,
 };
 
-const n1Check = (groups) => {
-  groups.forEach((group) => {
-    if (group.id <= 0 && group.name.length > 1) {
-      console.log(`name: ${group.name} time: ${group.time}`);
-    }
-  });
-  return groups;
-};
-export default connect(state => ({
-  groups: n1Check(state.groups),
+// const n1Check = (groups) => {
+//   groups.forEach((group) => {
+//     if (group.id <= 0 && group.name.length > 1) {
+//       console.log(`name: ${group.name} time: ${group.time}`);
+//     }
+//   });
+//   return groups;
+// };
+export default connect(/* state */() => ({
+  // groups: n1Check(state.groups),
+  // partGroups: state.partGroups,
 }), dispatch => ({
   edit: group => dispatch(editGroup(group)),
   remove: group => dispatch(deleteGroup(group.eventId, group.id)),
   add: (eventId, group) => dispatch(addGroup(eventId, group)),
+  removePart: partGroup => dispatch(deletePartGroup(partGroup.eventId, partGroup.id)),
+  addPart: (eventId, group) => dispatch(addPartGroup(eventId, group)),
 }
 ))(EventDetailGroupRow);
