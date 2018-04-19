@@ -42,10 +42,10 @@ class CheckoutForm extends React.Component {
               })
               .then((res2) => {
                 console.log('Charge success: ', res2.data);
+                console.log('Event activated!');
               })
               .catch((err2) => {
                 console.log('there was an error', err2);
-                console.log('Event activated!');
                 // window.location = '/';
               });
 
