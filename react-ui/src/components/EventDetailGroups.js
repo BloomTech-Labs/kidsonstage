@@ -9,7 +9,6 @@ import EventDetailGroupRow from './EventDetailGroupRow';
         */
 
 import './css/eventDetail.css';
-import { Navbar, NavbarBrand } from 'mdbreact';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
