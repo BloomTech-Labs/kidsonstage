@@ -179,5 +179,22 @@ eventsRouter.delete('/:eventId/groups/:groupId', function(req, res) {
     });
 });
 
+eventsRouter.delete('/:eventId/groups/:groupId/userId/:userId', function(req, res) {
+  // Deletes subscriber from eventSubscribers
+  const { eventId, groupId, userId } = req.params;
+
+  db('eventSubscribers')
+    .where('eventId', eventId)
+    .where('groupId', groupId)
+    .where('userId', userId)
+    .del()
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: 'Could not delete subscriber from group', err});
+    });
+});
+
 module.exports = eventsRouter;
 
