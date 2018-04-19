@@ -54,7 +54,7 @@ const EventsForm = (props) => {
           <NavbarBrand tag="span">Event Info</NavbarBrand>
         </Navbar>
         {eventId > 0 && (
-          <div>
+          <div className="eventDetail--box_content">
             Event Name:{' '}
             <Field
               name="event.title"

@@ -18,6 +18,7 @@
 .App--Body {
 	/* border: 1px solid black; */
 	/* display: flex; */
+	background-color: #607d8b;
 }
 
 .sideNavBar--Container {
@@ -25,4 +26,8 @@
 	width: 20%;
 	height: 400px;
 	margin: 30px;
+}
+
+html {
+	background-color: #607d8b;
 }
