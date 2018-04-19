@@ -85,3 +85,9 @@ display: none;
   color: white;
   width: 80%;
 }
+
+.eventDetail--activated {
+  font-size: 20px;
+  font-weight: bold;
+  color: green;
+}

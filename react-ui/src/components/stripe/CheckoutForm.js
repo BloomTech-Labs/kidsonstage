@@ -68,7 +68,6 @@ class CheckoutForm extends React.Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-          <h1 align="center">PAY FOR EVENT</h1>
           <Container>
             <CardSection />
             {/* <AddressSection /> */}

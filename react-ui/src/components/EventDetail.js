@@ -37,11 +37,12 @@ import Billing from './stripe';
     });
 */
 
-const EventsForm = props => {
+const EventsForm = (props) => {
   const { load } = props;
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
   const eventId = Number(sessionStorage.getItem('eventId'));
+  
   // console.log(`Event Detail history? ${props.history}`);
   // console.log(`Event Detail eventId: ${eventId}`);
   // console.log(`loadEvent type ${typeof loadEvent}`);
@@ -89,10 +90,15 @@ const EventsForm = props => {
         </Navbar>
         <br />
         <div className="eventDetail--box_content">
-          Active Status:{' '}
-          {props.initialValues.event.activated === true ? 'TRUE' : 'FALSE'}
-          <Billing eventId={eventId} />
-          
+          {/* Display stripe payment box if event isn't activated */}
+
+          {props.initialValues.event.activated === true ? (
+            <div className="eventDetail--activated">ACTIVATED</div>
+          ) : (
+            <Billing eventId={eventId} />
+          )}
+
+
         </div>
       </div>
     </div>
@@ -104,11 +110,11 @@ const EventsForm = props => {
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
 })(EventsForm);
 // export default EventDetail;
 
-const nomalizeEventDate = event => {
+const nomalizeEventDate = (event) => {
   if (event && event.eventDate) {
     const newDate = normalizeDate(event.eventDate);
     // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
@@ -121,9 +127,9 @@ const nomalizeEventDate = event => {
 };
 export default connect(
   state => ({
-    initialValues: { event: nomalizeEventDate(state.event) }
+    initialValues: { event: nomalizeEventDate(state.event) },
   }),
-  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) })
+  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }),
 )(EventDetail);
 // export default connect(state => ({
 //   initialValues: { event: state.event },
