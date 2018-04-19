@@ -39,8 +39,12 @@ class EventCard extends Component {
           <Navbar className="eventCard--box_navbar" dark>
             <NavbarBrand tag="span">{this.props.title}</NavbarBrand>
           </Navbar>
+          
+
           {/* <div className="eventCard--Title"></div> */}
-          <div className="eventCard--Date">{normalizeDate(this.props.eventDate)}</div>
+          <div className="eventCard--Date">{normalizeDate(this.props.eventDate)}<br />
+          Active Status: {this.props.title === true ? "TRUE" : "FALSE"}
+          </div>
         </div>
       </LinkContainer>
     );
