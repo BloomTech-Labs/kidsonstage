@@ -75,7 +75,12 @@ const EventsForm = (props) => {
           </div>
         )}
       </div>
-      <RenderGroups eventId={eventId} history={props.history} />
+      <div className="eventDetail--form_container">
+        <Navbar className="eventDetail--box_navbar" dark>
+          <NavbarBrand tag="span">Group Info</NavbarBrand>
+        </Navbar>
+        <RenderGroups eventId={eventId} history={props.history} />
+      </div>
     </div>
   );
 };
@@ -85,11 +90,11 @@ const EventsForm = (props) => {
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
 })(EventsForm);
 // export default EventDetail;
 
-const nomalizeEventDate = event => {
+const nomalizeEventDate = (event) => {
   if (event && event.eventDate) {
     const newDate = normalizeDate(event.eventDate);
     // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
@@ -102,9 +107,9 @@ const nomalizeEventDate = event => {
 };
 export default connect(
   state => ({
-    initialValues: { event: nomalizeEventDate(state.event) }
+    initialValues: { event: nomalizeEventDate(state.event) },
   }),
-  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) })
+  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }),
 )(EventDetail);
 // export default connect(state => ({
 //   initialValues: { event: state.event },
