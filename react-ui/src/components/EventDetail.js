@@ -42,7 +42,6 @@ const EventsForm = (props) => {
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
   const eventId = Number(sessionStorage.getItem('eventId'));
-  
   // console.log(`Event Detail history? ${props.history}`);
   // console.log(`Event Detail eventId: ${eventId}`);
   // console.log(`loadEvent type ${typeof loadEvent}`);
