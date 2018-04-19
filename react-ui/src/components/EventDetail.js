@@ -11,6 +11,7 @@ import './css/eventDetail.css';
 import { Navbar, NavbarBrand } from 'mdbreact';
 import TextField from 'material-ui/TextField';
 
+import Billing from './stripe';
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
 /*
@@ -36,7 +37,7 @@ import TextField from 'material-ui/TextField';
     });
 */
 
-const EventsForm = (props) => {
+const EventsForm = props => {
   const { load } = props;
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
@@ -74,21 +75,24 @@ const EventsForm = (props) => {
             />
           </div>
         )}
-        </div>
-        <div className="eventDetail--form_container">
+      </div>
+      <div className="eventDetail--form_container">
         <Navbar className="eventDetail--box_navbar" dark>
           <NavbarBrand tag="span">Group Info</NavbarBrand>
         </Navbar>
         <RenderGroups eventId={eventId} history={props.history} />
-        </div>
-        <div className="eventDetail--form_container">
+      </div>
+
+      <div className="eventDetail--form_container">
         <Navbar className="eventDetail--box_navbar" dark>
           <NavbarBrand tag="span">Event Status</NavbarBrand>
-        </Navbar><br />
+        </Navbar>
+        <br />
         <div className="eventDetail--box_content">
-        Active Status:{' '}
-        {props.initialValues.event.activated === true ? 'TRUE' : 'FALSE'}
-        <button>Click to Activate</button>
+          Active Status:{' '}
+          {props.initialValues.event.activated === true ? 'TRUE' : 'FALSE'}
+          <Billing eventId={eventId} />
+          
         </div>
       </div>
     </div>

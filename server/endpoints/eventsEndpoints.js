@@ -4,20 +4,19 @@ const eventsRouter = express.Router();
 
 const db = require('../config/db.js');
 
-
 eventsRouter.get('/', function(req, res) {
   db('events')
-  .then(function(records) {
-    res.status(200).json(records);
-  })
-  .catch(function(err) {
-    res.status(500).json({ error: 'Could not retrieve any events' });
-  });
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: 'Could not retrieve any events' });
+    });
 });
 
 eventsRouter.post('/', function(req, res) {
   const { owner, title, eventDate } = req.body;
-// ADD FUNCTION FOR SETTING TIME / FRONT END CALANDER PICKER
+  // ADD FUNCTION FOR SETTING TIME / FRONT END CALANDER PICKER
   db('events')
     .insert({ owner, title, eventDate })
     .returning('id')
@@ -25,7 +24,7 @@ eventsRouter.post('/', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not add new event to DB', err});
+      res.status(500).json({ error: 'Could not add new event to DB', err });
     });
 });
 
@@ -39,7 +38,7 @@ eventsRouter.delete('/', function(req, res) {
       res.status(200).json(id);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not delete event from DB', err});
+      res.status(500).json({ error: 'Could not delete event from DB', err });
     });
 });
 
@@ -65,7 +64,9 @@ eventsRouter.get('/:eventId', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not retrieve any events by that ID' });
+      res
+        .status(500)
+        .json({ error: 'Could not retrieve any events by that ID' });
     });
 });
 
@@ -79,14 +80,31 @@ eventsRouter.get('/:eventId/activate', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Active record does not exist', err});
+      res.status(500).json({ error: 'Active record does not exist', err });
     });
 });
 
-// eventsRouter.put('/:eventId/activate', function(req, res) {
-//   const { eventId } = req.params;
+eventsRouter.put('/:eventId/activate', function(req, res) {
+  const { eventId } = req.params;
+  const { status } = req.body;
+
+  if (status === 'succeeded') {
+    db('events')
+    .where('id', eventId)
+    .select('activated')
+    .update('activated', true)
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: 'Could not activate event', err });
+    });
+  } else {
+    res.status(500).json({ error: 'Event must be paid for' });
+  }
+
   
-// });
+});
 
 eventsRouter.get('/:eventId/groups', function(req, res) {
   const { eventId } = req.params;
@@ -98,7 +116,9 @@ eventsRouter.get('/:eventId/groups', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not return any groups owned by event', err});
+      res
+        .status(500)
+        .json({ error: 'Could not return any groups owned by event', err });
     });
 });
 
@@ -113,7 +133,7 @@ eventsRouter.post('/:eventId/groups', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not create new group', err});
+      res.status(500).json({ error: 'Could not create new group', err });
     });
 });
 
@@ -127,14 +147,16 @@ eventsRouter.get('/:eventId/userId/:userId', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not return any subscribers in that group', err});
+      res
+        .status(500)
+        .json({ error: 'Could not return any subscribers in that group', err });
     });
 });
 
 eventsRouter.post('/:eventId/groups/:groupId', function(req, res) {
   const { eventId, groupId } = req.params;
   const { userId } = req.body;
-  
+
   db('eventSubscribers')
     .insert({ eventId, groupId, userId })
     .returning('id')
@@ -143,7 +165,7 @@ eventsRouter.post('/:eventId/groups/:groupId', function(req, res) {
     })
     .catch(function(err) {
       // COME BACK HERE AND ADD MORE ERROR CATCHES FOR ALREADY SUBSCRIBED, NO EVENT, ETC
-      res.status(500).json({ error: 'Could not subscribe to group', err});
+      res.status(500).json({ error: 'Could not subscribe to group', err });
     });
 });
 
@@ -159,7 +181,9 @@ eventsRouter.put('/:eventId/groups/:groupId', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not return any groups owned by event', err});
+      res
+        .status(500)
+        .json({ error: 'Could not return any groups owned by event', err });
     });
 });
 
@@ -175,11 +199,14 @@ eventsRouter.delete('/:eventId/groups/:groupId', function(req, res) {
       res.status(200).json(groupId);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not delete group from DB', err});
+      res.status(500).json({ error: 'Could not delete group from DB', err });
     });
 });
 
-eventsRouter.delete('/:eventId/groups/:groupId/userId/:userId', function(req, res) {
+eventsRouter.delete('/:eventId/groups/:groupId/userId/:userId', function(
+  req,
+  res
+) {
   // Deletes subscriber from eventSubscribers
   const { eventId, groupId, userId } = req.params;
 
@@ -192,9 +219,10 @@ eventsRouter.delete('/:eventId/groups/:groupId/userId/:userId', function(req, re
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'Could not delete subscriber from group', err});
+      res
+        .status(500)
+        .json({ error: 'Could not delete subscriber from group', err });
     });
 });
 
 module.exports = eventsRouter;
-

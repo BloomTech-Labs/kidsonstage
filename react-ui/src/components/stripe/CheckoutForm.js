@@ -6,35 +6,54 @@ import { Container, Button, Form } from 'reactstrap';
 
 import { ROOT_URL } from '../../actions/index';
 
-class CheckoutForm extends React.Component {
-  state = {
-    email: '',
-  };
+const eventId = Number(sessionStorage.getItem('eventId'));
 
+class CheckoutForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: ''
+    };
+  }
 
   handleSubmit = (ev) => {
     // We don't want to let default form submission happen here, which would refresh the page.
     ev.preventDefault();
     const email = this.state.email;
+    const event = this.props.eventId;
 
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
     this.props.stripe
-      .createToken({ name: 'Woody Carpenter' }) //User to purchase paperStack
+      .createToken({ name: 'Woody Carpenter' }) //User to purchase Event
       .then(({ token }) => {
         console.log('Received Stripe token:', token);
         axios
-          .post(`${ROOT_URL}/checkout`, {
+          .post(`${ROOT_URL}/checkout/events/${event}`, {
             token: token.id,
             email
           })
           .then((res) => {
             console.log('Charge success: ', res.data);
-            window.location = '/events';
+            // ACTIVATE EVENT REQUEST
+            axios
+              .put(`${ROOT_URL}/events/${res.data.eventId}/activate`, {
+                status: res.data.status,
+              })
+              .then((res2) => {
+                console.log('Charge success: ', res2.data);
+              })
+              .catch((err2) => {
+                console.log('there was an error', err2);
+                console.log('Event activated!');
+                // window.location = '/';
+              });
+
+            // window.location = '/events/details';
           })
           .catch((err) => {
             console.log('there was an error', err);
-            window.location = '/';
+            // window.location = '/';
           });
       })
       .catch((e) => {
@@ -49,9 +68,7 @@ class CheckoutForm extends React.Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-          <h1 align="center">
-             PAY FOR EVENT
-          </h1>
+          <h1 align="center">PAY FOR EVENT</h1>
           <Container>
             <CardSection />
             {/* <AddressSection /> */}
