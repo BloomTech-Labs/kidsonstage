@@ -40,6 +40,7 @@ class Events extends Component {
               <EventCard
                 title={event.title}
                 eventDate={event.eventDate}
+                activated={event.activated}
                 key={i}
                 id={event.id}
               />

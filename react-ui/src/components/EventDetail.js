@@ -11,6 +11,7 @@ import './css/eventDetail.css';
 import { Navbar, NavbarBrand } from 'mdbreact';
 import TextField from 'material-ui/TextField';
 
+import Billing from './stripe';
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
 /*
@@ -75,7 +76,30 @@ const EventsForm = (props) => {
           </div>
         )}
       </div>
-      <RenderGroups eventId={eventId} history={props.history} />
+      <div className="eventDetail--form_container">
+        <Navbar className="eventDetail--box_navbar" dark>
+          <NavbarBrand tag="span">Group Info</NavbarBrand>
+        </Navbar>
+        <RenderGroups eventId={eventId} history={props.history} />
+      </div>
+
+      <div className="eventDetail--form_container">
+        <Navbar className="eventDetail--box_navbar" dark>
+          <NavbarBrand tag="span">Event Status</NavbarBrand>
+        </Navbar>
+        <br />
+        <div className="eventDetail--box_content">
+          {/* Display stripe payment box if event isn't activated */}
+
+          {props.initialValues.event.activated === true ? (
+            <div className="eventDetail--activated">ACTIVATED</div>
+          ) : (
+            <Billing eventId={eventId} />
+          )}
+
+
+        </div>
+      </div>
     </div>
   );
 };
@@ -85,11 +109,11 @@ const EventsForm = (props) => {
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
 })(EventsForm);
 // export default EventDetail;
 
-const nomalizeEventDate = event => {
+const nomalizeEventDate = (event) => {
   if (event && event.eventDate) {
     const newDate = normalizeDate(event.eventDate);
     // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
@@ -102,9 +126,9 @@ const nomalizeEventDate = event => {
 };
 export default connect(
   state => ({
-    initialValues: { event: nomalizeEventDate(state.event) }
+    initialValues: { event: nomalizeEventDate(state.event) },
   }),
-  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) })
+  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }),
 )(EventDetail);
 // export default connect(state => ({
 //   initialValues: { event: state.event },

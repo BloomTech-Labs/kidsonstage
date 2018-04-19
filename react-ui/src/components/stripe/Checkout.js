@@ -7,7 +7,7 @@ class MyStoreCheckout extends React.Component {
   render() {
     return (
       <Elements>
-        <InjectedCheckoutForm />
+        <InjectedCheckoutForm eventId={this.props.eventId} />
       </Elements>
     );
   }

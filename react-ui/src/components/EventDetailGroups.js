@@ -9,7 +9,6 @@ import EventDetailGroupRow from './EventDetailGroupRow';
         */
 
 import './css/eventDetail.css';
-import { Navbar, NavbarBrand } from 'mdbreact';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
@@ -17,10 +16,7 @@ import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
 const renderGroups = ({ load, fields, eventId, props, meta: { error } }) => {
   if (eventId) load(eventId);
   return (
-    <div className="eventDetail--form_container">
-      <Navbar className="eventDetail--box_navbar" dark>
-        <NavbarBrand tag="span">Group Info</NavbarBrand>
-      </Navbar>
+    <div>
       {eventId > 0 && (
         <ul>
           {fields.map((group, index) => (
