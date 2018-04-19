@@ -41,25 +41,24 @@ class CheckoutForm extends React.Component {
                 status: res.data.status,
               })
               .then((res2) => {
-                console.log('Charge success: ', res2.data);
-                console.log('Event activated!');
+                console.log('Event activated!', res2.data);
               })
               .catch((err2) => {
-                console.log('there was an error', err2);
-                // window.location = '/';
+                console.log('Could not activate event', err2);
               });
 
             // window.location = '/events/details';
           })
           .catch((err) => {
-            console.log('there was an error', err);
+            console.log('Payment charge unsuccessful', err);
             // window.location = '/';
           });
+          
       })
       .catch((e) => {
         console.log('there was an error', e);
       });
-
+      
     // However, this line of code will do the same thing:
     // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});
   };
