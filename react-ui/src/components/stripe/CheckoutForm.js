@@ -42,6 +42,7 @@ class CheckoutForm extends React.Component {
               })
               .then((res2) => {
                 console.log('Event activated!', res2.data);
+                window.location = '/events/details';
               })
               .catch((err2) => {
                 console.log('Could not activate event', err2);
