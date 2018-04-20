@@ -13,6 +13,7 @@ const usersEndpoints = require('./endpoints/usersEndpoints.js');
 const eventsEndpoints = require('./endpoints/eventsEndpoints.js');
 const notifyEndpoints = require('./endpoints/notifyEndpoints.js');
 const checkoutEndpoints = require('./endpoints/checkoutEndpoints.js');
+const inviteEndpoints = require('./endpoints/eventInvitesEndpoints');
 
 const PORT = process.env.PORT || process.env.LOCAL_PORT;
 const server = express();
@@ -26,6 +27,7 @@ server.use('/api/users', usersEndpoints);
 server.use('/api/events', eventsEndpoints);
 server.use('/api/notify', notifyEndpoints);
 server.use('/api/checkout', checkoutEndpoints);
+server.use('/api/invites', inviteEndpoints);
 
 // USED FOR PRODUCTION ONLY
 if (process.env.NODE_ENV === 'production') {
