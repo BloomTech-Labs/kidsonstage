@@ -6,6 +6,7 @@ import { getEvents } from '../actions';
 
 import EventCard from './EventCard';
 import NewEventCard from './NewEventCard';
+import SubscribeBox from './SubscribeBox';
 
 import './css/events.css';
 
@@ -35,6 +36,8 @@ class Events extends Component {
     return (
       <div className="wrapper">
         <div className="page-body">
+        <SubscribeBox />
+        <NewEventCard />
           {this.props.events.map((event, i) => {
             return (
               <EventCard
@@ -47,7 +50,7 @@ class Events extends Component {
               />
             );
           })}
-          <NewEventCard />
+          
         </div>
       </div>
     );
