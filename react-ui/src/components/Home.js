@@ -30,7 +30,7 @@ export default class Home extends Component {
 
           <h2>A queue notification system for any event!</h2>
 
-          <Link to="/signup">
+          <Link to={this.props.auth ? "/events/new" : "/signin"}>
             <Button className="home--button" color="success" size="lg">
               Create Event <FontAwesomeIcon icon={faArrowRight} />
             </Button>

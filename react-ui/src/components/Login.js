@@ -4,6 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../actions';
+import { Link } from 'react-router-dom';
 
 import './css/login.css';
 // import { TextField } from 'redux-form-material-ui'
@@ -92,6 +93,7 @@ class SignIn extends Component {
                 Sign In <FontAwesomeIcon icon={faArrowRight} />
               </button>
               {this.renderAlert()}
+              <br /><br /><span>Not a member? <Link to="/signup">Sign Up!</Link></span>
             </form>
           </div>
         </div>
