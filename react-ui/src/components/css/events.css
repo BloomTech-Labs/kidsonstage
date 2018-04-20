@@ -10,18 +10,9 @@
 }
 
 .eventCard--Container {
-  width: 300px;
+  min-width: 280px;
   height: 300px;
   margin: 10px;
-  background-color: rgb(218, 219, 218);
-  align-items: center;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.eventCard--Container_add {
-  width: 300px;
-  height: 150px;
-  margin-left: 20px;
   background-color: rgb(218, 219, 218);
   align-items: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -30,7 +21,7 @@
 .eventCard--Body {
   text-align: center;
   vertical-align: middle;
-  margin-top: 20px;
+  margin-top: 30%;
 }
 
 .eventCard-PlusIcon {
