@@ -58,46 +58,51 @@ export default class NavBar extends Component {
                 Home
               </NavLink>
             </NavItem>
+          </NavbarNav>
 
-            <NavItem>
-              <NavLink
-                className="nav-link"
-                to="/settings"
-                activeClassName="success-color"
-              >
-                Settings
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className="nav-link"
-                to="/events"
-                activeClassName="success-color"
-              >
-                Events
-              </NavLink>
-            </NavItem>
-          </NavbarNav>
-          <NavbarNav right>
-            <NavItem>
-              <NavLink
-                className="nav-link"
-                to="/signin"
-                activeClassName="success-color"
-              >
-                Sign In
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className="nav-link"
-                to="/signup"
-                activeClassName="success-color"
-              >
-                Sign Up
-              </NavLink>
-            </NavItem>
-          </NavbarNav>
+          {this.props.auth ? (
+            <NavbarNav right>
+              <NavItem>
+                <NavLink
+                  className="nav-link"
+                  to="/events"
+                  activeClassName="success-color"
+                >
+                  Events
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className="nav-link"
+                  to="/settings"
+                  activeClassName="success-color"
+                >
+                  Settings
+                </NavLink>
+              </NavItem>
+            </NavbarNav>
+          ) : (
+            <NavbarNav right>
+              <NavItem>
+                <NavLink
+                  className="nav-link"
+                  to="/signin"
+                  activeClassName="success-color"
+                >
+                  Sign In
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className="nav-link"
+                  to="/signup"
+                  activeClassName="success-color"
+                >
+                  Sign Up
+                </NavLink>
+              </NavItem>
+            </NavbarNav>
+          )}
         </Collapse>
       </Navbar>
     );
