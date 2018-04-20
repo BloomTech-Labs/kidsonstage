@@ -17,7 +17,7 @@ class NewEventCard extends Component {
   render() {
     return (
       <LinkContainer exact to="/events/new">
-        <div className="eventCard--Container_add">
+        <div className="eventCard--Container">
           <Navbar className="eventCard--box_navbar" dark>
             <NavbarBrand tag="span">Add Event</NavbarBrand>
           </Navbar>

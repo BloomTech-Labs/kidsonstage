@@ -3,9 +3,10 @@
   /* display: flex;
   flex-direction: column; */
   align-items: center;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(245, 124, 124, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin-bottom: 20px;
-  width: 300px;
+  width: 80%;
+  min-width: 280px;
   height: 150px;
   justify-content: center;
   text-align: center;
@@ -17,8 +18,14 @@
   margin-bottom: 20px;
 }
 
+.subscriberBox--form_container form input {
+  width: 26%;
+}
+
 .subscriberBox--form_container form button {
-  background-color: green;
+  margin-top: 10px;
+  width: 13%;
+  background-color: rgb(56, 193, 63);
 }
 
 .subscriberBox--box_navbar {

@@ -68,7 +68,7 @@ class App extends Component {
         <div className="App--Body">
           {/* <div className="sideNavBar--Container">SideNavBar</div> */}
           <div>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" render={() => (<Home auth={this.checkAuth()} />)}/>
             <Route path="/signin" component={SignIn} />
             <Route path="/users" component={RequireAuth(Users)} />
             <Route path="/signout" component={SignOut} />
