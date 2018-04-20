@@ -32,6 +32,8 @@ class EventCard extends Component {
           this.props.setEvent(this.state.id);
           this.props.setGroups(this.state.id);
           console.log(`EventCard click eventId ${this.state.id}`);
+        const admin = (Number(sessionStorage.getItem('id')) === this.props.owner) ? 1 : 0;
+        sessionStorage.setItem('admin', admin);
           document.location.reload(false);
         }}
       >

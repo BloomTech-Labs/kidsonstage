@@ -15,6 +15,7 @@ process.env
 .env
 npm-debug.log
 package-lock.json
+*.bak
 
 #yarn
 *yarn*

@@ -91,3 +91,13 @@ display: none;
   font-weight: bold;
   color: green;
 }
+#Subscribe {
+  margin-left: 100px;
+  font-weight: bold;
+}
+#subscribeGroup {
+  margin-right: 7px;
+}
+#time {
+  width: 50px;
+}

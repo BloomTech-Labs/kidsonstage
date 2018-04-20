@@ -1,15 +1,15 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { Navbar, NavbarBrand } from 'mdbreact';
 // import PropTypes from 'prop-types';
 import { getEvent } from '../actions';
 import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
 import normalizeDate from './normalizers/normalizeDate';
 
-import './css/eventDetail.css';
-import { Navbar, NavbarBrand } from 'mdbreact';
-import TextField from 'material-ui/TextField';
+
+// import TextField from 'material-ui/TextField';
 
 import Billing from './stripe';
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
@@ -42,6 +42,7 @@ const EventsForm = (props) => {
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
   const eventId = Number(sessionStorage.getItem('eventId'));
+  const admin = Number(sessionStorage.getItem('admin'));
   // console.log(`Event Detail history? ${props.history}`);
   // console.log(`Event Detail eventId: ${eventId}`);
   // console.log(`loadEvent type ${typeof loadEvent}`);
@@ -80,7 +81,7 @@ const EventsForm = (props) => {
         <Navbar className="eventDetail--box_navbar" dark>
           <NavbarBrand tag="span">Group Info</NavbarBrand>
         </Navbar>
-        <RenderGroups eventId={eventId} history={props.history} />
+        <RenderGroups eventId={eventId} admin={admin} history={props.history} />
       </div>
 
       <div className="eventDetail--form_container">
