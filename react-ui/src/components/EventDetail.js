@@ -11,6 +11,34 @@ import normalizeDate from './normalizers/normalizeDate';
 // import TextField from 'material-ui/TextField';
 
 import Billing from './stripe';
+
+import { TextField } from 'material-ui';
+
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    floatingLabelText={label}
+    floatingLabelFocusStyle={{
+      color: 'black'
+    }}
+    underlineFocusStyle={{
+      borderColor: 'white'
+    }}
+    underlineStyle={{
+      borderColor: 'grey'
+    }}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
+      color: 'red'
+    }}
+  />
+);
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
 /*
@@ -56,20 +84,20 @@ const EventsForm = props => {
         </Navbar>
         {eventId > 0 && (
           <div className="eventDetail--box_content">
-            Event Name:{' '}
+            Event Name:{'  '}
             <Field
               name="event.title"
               type="text"
-              component="input"
+              component={renderTextField}
               placeholder="title"
               readOnly="true"
             />
             <br />
-            Event Date:{' '}
+            Event Date:{'  '}
             <Field
               name="event.formattedDate"
               type="text"
-              component="input"
+              component={renderTextField}
               placeholder="Event Date"
               readOnly="true"
             />

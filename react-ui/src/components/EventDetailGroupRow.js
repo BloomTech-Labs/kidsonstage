@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import formatTime from './normalizers/normalizeTime';
-import './css/eventDetail.css';
+import axios from 'axios';
 import completedBI from './graphics/completed.png';
 import pencilBI from './graphics/pencil.png';
 import trashBI from './graphics/trash.png';
@@ -16,7 +16,62 @@ import {
   deletePartGroup
 } from '../actions';
 
-import axios from 'axios';
+import './css/eventDetail.css';
+import { TextField } from 'material-ui';
+
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    floatingLabelText={label}
+    floatingLabelFocusStyle={{
+      color: 'black'
+    }}
+    underlineFocusStyle={{
+      borderColor: 'white'
+    }}
+    underlineStyle={{
+      borderColor: 'grey'
+    }}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
+      color: 'red'
+    }}
+  />
+);
+
+const renderTextFieldTime = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    floatingLabelText={label}
+    floatingLabelFocusStyle={{
+      color: 'black'
+    }}
+    underlineFocusStyle={{
+      borderColor: 'white'
+    }}
+    underlineStyle={{
+      borderColor: 'grey'
+    }}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
+      color: 'red',
+      width: '50px',
+      marginLeft: '20px'
+    }}
+  />
+);
 
 /* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary,
     jsx-a11y/no-static-element-interactions */
@@ -115,8 +170,8 @@ class EventDetailGroupRow extends Component {
         <Field
           name={`${groupText}.name`}
           type="text"
-          component="input"
-          label={`${index + 1}) `}
+          component={renderTextField}
+          // label={`${index + 1}) `}
           placeholder="name"
           readOnly={this.state.readOnly}
           style={{
@@ -139,7 +194,7 @@ class EventDetailGroupRow extends Component {
           type="text"
           placeholder="HH:MM"
           normalize={formatTime}
-          component="input"
+          component={renderTextFieldTime}
           readOnly={this.state.readOnly}
           style={{
             textDecoration: this.state.completed ? 'line-through' : 'none'
