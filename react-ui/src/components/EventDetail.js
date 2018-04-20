@@ -8,7 +8,6 @@ import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
 import normalizeDate from './normalizers/normalizeDate';
 
-
 // import TextField from 'material-ui/TextField';
 
 import Billing from './stripe';
@@ -37,7 +36,7 @@ import Billing from './stripe';
     });
 */
 
-const EventsForm = (props) => {
+const EventsForm = props => {
   const { load } = props;
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
@@ -83,24 +82,23 @@ const EventsForm = (props) => {
         </Navbar>
         <RenderGroups eventId={eventId} admin={admin} history={props.history} />
       </div>
+      {admin > 0 && (
+        <div className="eventDetail--form_container">
+          <Navbar className="eventDetail--box_navbar" dark>
+            <NavbarBrand tag="span">Event Status</NavbarBrand>
+          </Navbar>
+          <br />
+          <div className="eventDetail--box_content">
+            {/* Display stripe payment box if event isn't activated */}
 
-      <div className="eventDetail--form_container">
-        <Navbar className="eventDetail--box_navbar" dark>
-          <NavbarBrand tag="span">Event Status</NavbarBrand>
-        </Navbar>
-        <br />
-        <div className="eventDetail--box_content">
-          {/* Display stripe payment box if event isn't activated */}
-
-          {props.initialValues.event.activated === true ? (
-            <div className="eventDetail--activated">ACTIVATED</div>
-          ) : (
-            <Billing eventId={eventId} />
-          )}
-
-
+            {props.initialValues.event.activated === true ? (
+              <div className="eventDetail--activated">ACTIVATED</div>
+            ) : (
+              <Billing eventId={eventId} />
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -110,11 +108,11 @@ const EventsForm = (props) => {
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
-  touchOnBlur: true,
+  touchOnBlur: true
 })(EventsForm);
 // export default EventDetail;
 
-const nomalizeEventDate = (event) => {
+const nomalizeEventDate = event => {
   if (event && event.eventDate) {
     const newDate = normalizeDate(event.eventDate);
     // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
@@ -127,9 +125,9 @@ const nomalizeEventDate = (event) => {
 };
 export default connect(
   state => ({
-    initialValues: { event: nomalizeEventDate(state.event) },
+    initialValues: { event: nomalizeEventDate(state.event) }
   }),
-  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }),
+  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) })
 )(EventDetail);
 // export default connect(state => ({
 //   initialValues: { event: state.event },
