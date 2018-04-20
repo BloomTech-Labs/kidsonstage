@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import formatTime from './normalizers/normalizeTime';
 import axios from 'axios';
-import completedBI from './graphics/completed.png';
-import pencilBI from './graphics/pencil.png';
-import trashBI from './graphics/trash.png';
+// import completedBI from './graphics/completed.png';
+// import pencilBI from './graphics/pencil.png';
+// import trashBI from './graphics/trash.png';
 import {
   ROOT_URL,
   addGroup,
@@ -18,6 +18,13 @@ import {
 
 import './css/eventDetail.css';
 import { TextField } from 'material-ui';
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+  faTrash,
+  faEdit,
+  faFlagCheckered
+} from '@fortawesome/fontawesome-free-solid';
 
 const renderTextField = ({
   input,
@@ -292,12 +299,13 @@ class EventDetailGroupRow extends Component {
               }
             }}
           >
-            <img
+            {/* <img
               src={completedBI}
               id="completedBI"
               alt="completed"
               className="BI"
-            />
+            /> */}
+            <FontAwesomeIcon icon={faFlagCheckered} />
           </button>
         )}
         {this.state.admin > 0 && (
@@ -310,7 +318,8 @@ class EventDetailGroupRow extends Component {
               });
             }}
           >
-            <img src={pencilBI} id="pencilBI" alt="edit" className="BI" />
+          <FontAwesomeIcon icon={faEdit} />
+            {/* <img src={pencilBI} id="pencilBI" alt="edit" className="BI" /> */}
           </button>
         )}
         {this.state.admin > 0 && (
@@ -355,7 +364,8 @@ class EventDetailGroupRow extends Component {
               }
             }}
           >
-            <img src={trashBI} id="pencilBI" alt="edit" className="BI" />
+            {/* <img src={trashBI} id="pencilBI" alt="edit" className="BI" /> */}
+            <FontAwesomeIcon icon={faTrash} />
           </button>
         )}
       </div>
