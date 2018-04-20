@@ -4,7 +4,6 @@ import { Route } from 'react-router-dom';
 
 import Home from './components/Home';
 import NavBar from './components/NavBar';
-import SideNavBar from './components/SideNavBar';
 import Settings from './components/EditAccount';
 import SignIn from './components/Login';
 import SignOut from './components/LogOut';
@@ -50,10 +49,22 @@ class App extends Component {
       });
   }
 
+  checkAuth() {
+    const token = sessionStorage.getItem('token');
+    const id = sessionStorage.getItem('id');
+    
+    if (!id || !token) {
+      return false;
+      // return;
+    } else {
+      return true;
+    }
+  }
+
   render() {
     return (
       <div className="App">
-        <NavBar />
+        <NavBar auth={this.checkAuth()} />
         <div className="App--Body">
           {/* <div className="sideNavBar--Container">SideNavBar</div> */}
           <div>
