@@ -18,8 +18,14 @@
   margin-bottom: 20px;
 }
 
+.subscriberBox--form_container form input {
+  width: 26%;
+}
+
 .subscriberBox--form_container form button {
-  background-color: green;
+  margin-top: 10px;
+  width: 13%;
+  background-color: rgb(56, 193, 63);
 }
 
 .subscriberBox--box_navbar {

@@ -39,3 +39,10 @@
   text-align: center;
   margin-top: 35%;
 }
+
+.newEvent--button_save {
+  background-color: rgb(56, 193, 63);
+  color: white;
+  height: 35px;
+  width: 25%;
+}

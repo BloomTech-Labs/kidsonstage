@@ -4,6 +4,41 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addEvent } from '../actions';
 import './css/events.css';
+import { Navbar, NavbarBrand } from 'mdbreact';
+
+import { TextField } from 'material-ui';
+
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+  faEdit,
+  faCalendarAlt
+} from '@fortawesome/fontawesome-free-solid';
+
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    floatingLabelText={label}
+    floatingLabelFocusStyle={{
+      color: 'black'
+    }}
+    underlineFocusStyle={{
+      borderColor: 'white'
+    }}
+    underlineStyle={{
+      borderColor: 'grey'
+    }}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
+      color: 'red'
+    }}
+  />
+);
 
 /* eslint-disable react/forbid-prop-types */
 class EventsNew extends Component {
@@ -23,23 +58,28 @@ class EventsNew extends Component {
       handleSubmit, pristine, submitting,
     } = this.props;
     return (
+      <div className="eventDetail--container">
+      <div className="eventDetail--form_container">
+        <Navbar className="eventDetail--box_navbar" dark>
+          <NavbarBrand tag="span">Create Event</NavbarBrand>
+        </Navbar>
+        <div className="eventDetail--box_content">
       <form onSubmit={handleSubmit(this.handleFormSubmit)} id="new-event-form" >
-        <Field
+      <FontAwesomeIcon icon={faEdit} />{' '}<Field
           name="title"
           type="text"
-          component="input"
-          label="title"
-          placeholder="title"
-        />
-        <Field
+          component={renderTextField}
+          label="Title"
+        /><br />
+        <FontAwesomeIcon icon={faCalendarAlt} />{' '}<Field
           name="eventDate"
           type="text"
-          component="input"
-          label="date"
-          placeholder="date"
-        />
+          component={renderTextField}
+          label="Date"
+          placeholder="Date"
+        /><br /><br />
         <button
-          className="new-user-action-button"
+          className="new-user-action-button newEvent--button_save"
           id="new-user-sign-up"
           type="submit"
           disabled={pristine || submitting}
@@ -47,6 +87,9 @@ class EventsNew extends Component {
           Save
         </button>
       </form>
+      </div>
+      </div>
+      </div>
     );
   }
 }
