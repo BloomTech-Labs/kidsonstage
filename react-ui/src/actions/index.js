@@ -126,7 +126,7 @@ export const updateUser = (user, history) => (dispatch) => {
         type: USER_REGISTERED,
       });
       console.log(`pushing /adminEventList for user id ${id}`);
-      history.push('/adminEventList');
+      window.location = '/settings';
     })
     .catch((err) => {
       console.log(`"updateUser" ${err}`);

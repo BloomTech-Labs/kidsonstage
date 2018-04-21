@@ -23,6 +23,7 @@ export const GET_EVENT_ID = 'GET_EVENT_ID';
 
 axios.defaults.withCredentials = true;
 
+// invites/events/:eventId/userId/:userId
 export const loadEvent = eventId => (dispatch) => {
   console.log(`loadEvent eventId: ${eventId}`);
   const token = sessionStorage.getItem('token');
@@ -51,7 +52,6 @@ export const loadEvent = eventId => (dispatch) => {
       dispatch(authError('Failed to load Event'));
     });
 };
-
 // /invites/events/byUser/:userId
 export const getInvitedEvents = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
@@ -94,7 +94,8 @@ export const getEvents = () => (dispatch) => {
     },
   };
   axios
-    .get(`${ROOT_URL}/events`, config)
+    // .get(`${ROOT_URL}/events`, config)
+    .get(`${ROOT_URL}/events/byUser/${id}`, config)
     .then((response) => {
       // console.log(`getEvents data: ${response.data}`);
       dispatch({
@@ -107,7 +108,6 @@ export const getEvents = () => (dispatch) => {
       dispatch(authError('Failed to fetch events'));
     });
 };
-
 // eventsRouter.get('/:eventId/userId/:userId
 export const getPartGroups = eventId => (dispatch) => {
   if (!eventId) return;
@@ -142,7 +142,7 @@ export const addPartGroup = partGroup => (dispatch) => {
   const id = sessionStorage.getItem('id');
   const { eventId, groupId } = partGroup;
   const body = { userId: id };
-  console.log(`addPartGroup groupId ${groupId} eventId ${eventId} userId ${id}`,);
+  console.log(`addPartGroup groupId ${groupId} eventId ${eventId} userId ${id}`);
   if (!id || !token) {
     dispatch(authError('Not logged in'));
     return;
@@ -155,7 +155,7 @@ export const addPartGroup = partGroup => (dispatch) => {
   axios
     .post(`${ROOT_URL}/events/${eventId}/groups/${groupId}`, body, config)
     .then((response) => {
-      console.log(`addPartGroup id ${JSON.stringify(response.data[0], null, 2)}`,);
+      console.log(`addPartGroup id ${JSON.stringify(response.data[0], null, 2)}`);
       dispatch({
         type: ADD_PART_GROUP,
         payload: {
@@ -201,8 +201,7 @@ export const getGroups = eventId => (dispatch) => {
 };
 export const addEvent = event => (dispatch) => {
   const token = sessionStorage.getItem('token');
-  const id = sessionStorage.getItem('id');
-  sessionStorage.getItem('id');
+  const id = sessionStorage.getItem('id'); sessionStorage.getItem('id');
   console.log(`addEvent ${JSON.stringify(event)}`);
   if (!id || !token) {
     console.log('addEvent not logged in');
@@ -239,9 +238,7 @@ export const addGroup = (eventId, group) => (dispatch) => {
   const id = sessionStorage.getItem('id');
   const body = { userId: id, eventId, ...group };
   console.log(`addGroup group.name ${group.name} group.time: ${group.time}`);
-  console.log(`addGroup body.name ${body.name} body.time: ${
-      body.time
-    }  eventId: ${eventId}`,);
+  console.log(`addGroup body.name ${body.name} body.time: ${body.time}  eventId: ${eventId}`);
   if (!id || !token) {
     dispatch(authError('Not logged in'));
     return;
@@ -331,7 +328,7 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
 // ('/:eventId/groups/:groupId/userId/:userId',
 export const deletePartGroup = partGroup => (dispatch) => {
   const { eventId, groupId } = partGroup;
-  console.log(`delete partGroupId ${groupId} eventId: ${eventId}`);
+  console.log(`delete groupId ${groupId} eventId: ${partGroup.eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   if (!id || !token) {
@@ -344,10 +341,7 @@ export const deletePartGroup = partGroup => (dispatch) => {
     },
   };
   axios
-    .delete(
-      `${ROOT_URL}/events/${eventId}/groups/${groupId}/userId/${id}`,
-      config,
-    )
+    .delete(`${ROOT_URL}/events/${eventId}/groups/${groupId}/userId/${id}`, config)
     .then((response) => {
       console.log(`delete group response ${JSON.stringify(response, null, 2)}`);
       // console.log(`delete group response ${Number(response.data[0])}`);
@@ -380,7 +374,7 @@ export const editGroup = group => (dispatch) => {
   axios
     .put(`${ROOT_URL}/events/${group.eventId}/groups/${group.id}`, body, config)
     .then((response) => {
-      console.log(`edit group response ${JSON.stringify(response.config.data)}`,);
+      console.log(`edit group response ${JSON.stringify(response.config.data)}`);
       dispatch({
         type: EDIT_GROUP,
         payload: JSON.parse(response.config.data),
@@ -408,10 +402,14 @@ export const getEvent = eventId => (dispatch) => {
   axios
     .get(`${ROOT_URL}/events/${eventId}`, config)
     .then((response) => {
-      // console.log(`getEvent title: ${response.data[0].title}`);
-      // console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
+      console.log(`getEvent title: ${response.data[0].title}`);
+      console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
       dispatch({
         type: GET_EVENT,
+        payload: response.data[0] || {},
+      });
+      dispatch({
+        type: ADD_EVENT,
         payload: response.data[0] || {},
       });
     })
