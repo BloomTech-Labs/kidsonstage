@@ -23,19 +23,19 @@ const renderTextField = ({
   <TextField
     floatingLabelText={label}
     floatingLabelFocusStyle={{
-      color: 'black'
+      color: 'black',
     }}
     underlineFocusStyle={{
-      borderColor: 'white'
+      borderColor: 'white',
     }}
     underlineStyle={{
-      borderColor: 'grey'
+      borderColor: 'grey',
     }}
     errorText={touched && error}
     {...input}
     {...custom}
     style={{
-      color: 'red'
+      color: 'red',
     }}
   />
 );
@@ -64,7 +64,7 @@ const renderTextField = ({
     });
 */
 
-const EventsForm = props => {
+const EventsForm = (props) => {
   const { load } = props;
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
@@ -136,11 +136,12 @@ const EventsForm = props => {
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
+  enableReinitialize: true,
 })(EventsForm);
 // export default EventDetail;
 
-const nomalizeEventDate = event => {
+const nomalizeEventDate = (event) => {
   if (event && event.eventDate) {
     const newDate = normalizeDate(event.eventDate);
     // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
@@ -153,9 +154,9 @@ const nomalizeEventDate = event => {
 };
 export default connect(
   state => ({
-    initialValues: { event: nomalizeEventDate(state.event) }
+    initialValues: { event: nomalizeEventDate(state.event) },
   }),
-  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) })
+  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }),
 )(EventDetail);
 // export default connect(state => ({
 //   initialValues: { event: state.event },
