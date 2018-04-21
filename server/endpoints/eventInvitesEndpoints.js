@@ -14,6 +14,7 @@ invitesRouter.get('/events/:eventId/userId/:userId', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
+      console.log(`get invites events error ${err}`);
       res.status(500).json({ error: 'No events for user' });
     });
 });

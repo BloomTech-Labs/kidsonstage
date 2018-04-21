@@ -4,6 +4,9 @@ import { ROOT_URL, authError } from './index';
 export const ADD_EVENT = 'ADD_EVENT';
 export const DELETE_EVENT = 'DELETE_EVENT';
 export const GET_EVENTS = 'GET_EVENTS';
+export const ADD_INVITED_EVENT = 'ADD_INVITED_EVENT';
+export const DELETE_INVITED_EVENT = 'DELETE_INVITED_EVENT';
+export const GET_INVITED_EVENTS = 'GET_INVITED_EVENTS';
 export const GET_EVENT = 'GET_EVENT';
 export const ADD_GROUPS = 'ADD_GROUPS';
 export const GET_GROUPS = 'GET_GROUPS';
@@ -20,6 +23,64 @@ export const GET_EVENT_ID = 'GET_EVENT_ID';
 
 axios.defaults.withCredentials = true;
 
+// invites/events/:eventId/userId/:userId
+export const loadEvent = eventId => (dispatch) => {
+  console.log(`loadEvent eventId: ${eventId}`);
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    // .get(`${ROOT_URL}/events`, config)
+    .get(`${ROOT_URL}/invites/events/${eventId}/userId/${id}`, config)
+    .then((response) => {
+      console.log(`loadEvent data: ${JSON.stringify(response, null, 2)}`);
+      dispatch({
+        type: ADD_INVITED_EVENT,
+        payload: response.data[0] || [],
+      });
+    })
+    .catch((err) => {
+      console.log(`loadEvent ${err}`);
+      dispatch(authError('Failed to load Event'));
+    });
+};
+// /invites/events/byUser/:userId
+export const getInvitedEvents = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    // .get(`${ROOT_URL}/events`, config)
+    .get(`${ROOT_URL}/invites/events/byUser/${id}`, config)
+    .then((response) => {
+      console.log(`getInvitedEvents data: ${response.data}`);
+      dispatch({
+        type: GET_INVITED_EVENTS,
+        payload: response.data || [],
+      });
+    })
+    .catch((err) => {
+      console.log(`getInvitedEvents ${err}`);
+      dispatch(authError('Failed to fetch events'));
+    });
+};
+
 export const getEvents = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
@@ -33,7 +94,8 @@ export const getEvents = () => (dispatch) => {
     },
   };
   axios
-    .get(`${ROOT_URL}/events`, config)
+    // .get(`${ROOT_URL}/events`, config)
+    .get(`${ROOT_URL}/events/byUser/${id}`, config)
     .then((response) => {
       // console.log(`getEvents data: ${response.data}`);
       dispatch({
@@ -264,8 +326,9 @@ export const deleteGroup = (eventId, groupId) => (dispatch) => {
     });
 };
 // ('/:eventId/groups/:groupId/userId/:userId',
-export const deletePartGroup = (eventId, groupId) => (dispatch) => {
-  console.log(`delete partGroupId ${groupId} eventId: ${eventId}`);
+export const deletePartGroup = partGroup => (dispatch) => {
+  const { eventId, groupId } = partGroup;
+  console.log(`delete groupId ${groupId} eventId: ${partGroup.eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   if (!id || !token) {
@@ -281,11 +344,13 @@ export const deletePartGroup = (eventId, groupId) => (dispatch) => {
     .delete(`${ROOT_URL}/events/${eventId}/groups/${groupId}/userId/${id}`, config)
     .then((response) => {
       console.log(`delete group response ${JSON.stringify(response, null, 2)}`);
-      console.log(`delete group response ${Number(response.data[0])}`);
-      dispatch({
-        type: DELETE_GROUP,
-        payload: Number(response.data[0]),
-      });
+      // console.log(`delete group response ${Number(response.data[0])}`);
+      if (partGroup.id) {
+        dispatch({
+          type: DELETE_GROUP,
+          payload: partGroup.id,
+        });
+      }
     })
     .catch((err) => {
       console.log(`delete error: ${JSON.stringify(err, null, 2)}`);
@@ -322,6 +387,7 @@ export const editGroup = group => (dispatch) => {
 };
 // /:eventId/groups/:groupId
 export const getEvent = eventId => (dispatch) => {
+  console.log(`getEvent eventId: ${eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   if (!id || !token) {
@@ -339,7 +405,7 @@ export const getEvent = eventId => (dispatch) => {
       // console.log(`getEvent title: ${response.data[0].title}`);
       // console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
       dispatch({
-        type: GET_EVENT,
+        type: ADD_EVENT,
         payload: response.data[0] || {},
       });
     })

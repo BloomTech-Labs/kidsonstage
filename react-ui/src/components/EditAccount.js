@@ -5,16 +5,15 @@ import normalizePhone from './normalizers/normalizePhone';
 import { Navbar, NavbarBrand } from 'mdbreact';
 import { updateUser, getUser } from '../actions';
 
-import { TextField, Checkbox } from 'material-ui';
+import { TextField } from 'material-ui';
 
 import './css/userSettings.css';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
-  faUser,
   faKey,
   faAt,
-  faPhone
+  faPhone,
 } from '@fortawesome/fontawesome-free-solid';
 
 const renderTextField = ({
@@ -26,19 +25,19 @@ const renderTextField = ({
   <TextField
     floatingLabelText={label}
     floatingLabelFocusStyle={{
-      color: 'black'
+      color: 'black',
     }}
     underlineFocusStyle={{
-      borderColor: 'white'
+      borderColor: 'white',
     }}
     underlineStyle={{
-      borderColor: 'grey'
+      borderColor: 'grey',
     }}
     errorText={touched && error}
     {...input}
     {...custom}
     style={{
-      color: 'red'
+      color: 'red',
     }}
   />
 );
@@ -54,23 +53,31 @@ class Settings extends Component {
     this.props.load();
   }
   handleFormSubmit = ({
-    email = 'mark@gmail',
-    phoneNumber = '9999999999',
-    password = 'p',
-    newPassword = 'p',
+    email,
+    phoneNumber,
+    updateP,
+    updateNP,
     byPhone,
-    byEmail
+    byEmail,
   }) => {
+    const p = (updateP && updateP.trim().length > 0);
+    const np = (updateNP && updateNP.trim().length > 0);
+    let P = updateP;
+    let nP = updateNP;
+    if (!p && !np) {
+      P = undefined;
+      nP = undefined;
+    }
     this.props.updateUser(
       {
         email,
         phoneNumber,
-        password,
-        newPassword,
+        password: P,
+        newPassword: nP,
         byPhone,
-        byEmail
+        byEmail,
       },
-      this.props.history
+      this.props.history,
     );
   };
 
@@ -92,13 +99,13 @@ class Settings extends Component {
     // console.log(`initialValues: ${this.props.initialValues.username}`);
 
     const email = value =>
-      value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+      (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
         ? 'Invalid email address'
-        : undefined;
+        : undefined);
     const aol = value =>
-      value && /.+@aol\.com/.test(value)
+      (value && /.+@aol\.com/.test(value)
         ? 'Really? You still use AOL for your email?'
-        : undefined;
+        : undefined);
     return (
       <div className="userSettings--container">
         <div className="userSettings--form_container">
@@ -148,7 +155,7 @@ class Settings extends Component {
             <div className="flex-center-div">
               <FontAwesomeIcon icon={faKey} />{' '}
               <Field
-                name="password"
+                name="updateP"
                 component={renderTextField}
                 type="password"
                 className="new-user-inputText new-user-password"
@@ -158,7 +165,7 @@ class Settings extends Component {
             <div className="flex-center-div">
               <FontAwesomeIcon icon={faKey} />{' '}
               <Field
-                name="newPassword"
+                name="updateNP"
                 component={renderTextField}
                 type="password"
                 className="new-user-inputText new-user-password"
@@ -226,15 +233,15 @@ class Settings extends Component {
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
 Settings = reduxForm({
   form: 'settings', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
 })(Settings);
 
 // You have to connect() to any reducers that you wish to connect to yourself
 Settings = connect(
   state => ({
-    initialValues: state.users[0]
+    initialValues: state.users[0],
   }),
-  { load: getUser, updateUser } // bind account loading action creator
+  { load: getUser, updateUser }, // bind account loading action creator
 )(Settings);
 
 export default Settings;
