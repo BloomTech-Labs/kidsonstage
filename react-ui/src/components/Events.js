@@ -13,6 +13,7 @@ import './css/events.css';
 const mapStateToProps = (state) => {
   return {
     events: state.events,
+    invitedEvents: state.invitedEvents,
   };
 };
 
@@ -25,11 +26,12 @@ class Events extends Component {
   }
 
   componentDidMount() {
-    const events = this.props.getEvents();
+    // const events = 
+    this.props.getEvents();
 
-    this.setState({
-      events
-    });
+    // this.setState({
+    //   events
+    // });
   }
 
   render() {

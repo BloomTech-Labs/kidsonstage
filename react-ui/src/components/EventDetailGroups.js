@@ -13,11 +13,20 @@ import EventDetailGroupRow from './EventDetailGroupRow';
 import './css/eventDetail.css';
 
 const renderGroups = ({
-  groupFA, partGroups, load, loadPart, fields, eventId, admin, props, meta: { error },
+  groupFA,
+  partGroups,
+  load,
+  loadPart,
+  fields,
+  eventId,
+  initialize,
+  admin,
+  props,
+  meta: { error },
 }) => {
   if (eventId) {
-    load(eventId);
     loadPart(eventId);
+    load(eventId);
   }
   return (
     <div>
@@ -32,26 +41,27 @@ const renderGroups = ({
                 fields={fields}
                 groupText={group}
                 index={index}
-                groupP={groupFA[index]}
-                partGroups={partGroups}
+                // groupP={groupFA[index]}
+                // partGroups={partGroups}
+                group={groupFA[index]}
               />
             </li>
           ))}
-          {admin > 0 &&
-          <li key={-1}>
-            <button
-              className="eventDetail--form_container_button"
-              id="addGroupButton"
-              type="button"
-              onClick={() => {
-                sessionStorage.setItem('pushingNewGroup', 1);
-                fields.push();
-              }}
-            >
-              Add Group
-            </button>
-          </li>
-          }
+          {admin > 0 && (
+            <li key={-1}>
+              <button
+                className="eventDetail--form_container_button"
+                id="addGroupButton"
+                type="button"
+                onClick={() => {
+                  sessionStorage.setItem('pushingNewGroup', 1);
+                  fields.push();
+                }}
+              >
+                Add Group
+              </button>
+            </li>
+          )}
           {error && (
             <li key={-2} className="error">
               {error}
@@ -136,24 +146,30 @@ const EventDetail = reduxForm({
 
 const fiveLenthDate = (state) => {
   return state.groups.map((group) => {
-    const partIndex = state.partGroups.findIndex(partGroup => partGroup.groupId);
+    const userId = Number(sessionStorage.getItem('id'));
+    const partIndex = state.partGroups.findIndex(partGroup => partGroup.groupId,);
 
-    const partGroup = (partIndex >= 0 ? state.partGroups[partIndex] : undefined);
+    const partGroup = partIndex >= 0 ? state.partGroups[partIndex] : undefined;
     group.partGroup = partGroup;
     // this.setState({
     //   group: { ...group, partGroup },
     // });
-    group.checked = (partIndex >= 0);
+    const checked = partIndex >= 0;
     const { time, ...rest } = group;
     // console.log(`partIndex: ${partIndex} partGroups.length: ${state.partGroups.length}
     //     group.partGroup ${rest.partGroup} group.checked ${rest.checked} `);
     rest.time = time.substring(0, 5);
-    return rest;
+    return { 
+      ...rest, time: time.substring(0, 5), checked, partGroup, 
+    };
   });
 };
 export default connect(
   state => ({
-    initialValues: { groupFA: fiveLenthDate(state), partGroups: state.partGroups },
+    initialValues: {
+      groupFA: fiveLenthDate(state),
+      // partGroups: state.partGroups,
+    },
   }),
   dispatch => ({
     load: eventId => dispatch(getGroups(eventId)),

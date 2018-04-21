@@ -43,67 +43,75 @@ export default class NavBar extends Component {
         scrolling
       >
         <NavbarBrand href="/">
-          <strong>K</strong>
+          <strong>Kids on Stage</strong>
         </NavbarBrand>
-        {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />}
-        <Collapse isOpen={this.state.collapse} navbar>
-          <NavbarNav left className="nav">
+        {/* {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />} */}
+
+        <NavbarNav left className="nav">
+          <NavItem>
+            <NavLink
+              exact
+              className="nav-link"
+              to="/"
+              activeClassName="success-color"
+            >
+              Home
+            </NavLink>
+          </NavItem>
+        </NavbarNav>
+
+        {this.props.auth ? (
+          <NavbarNav right>
             <NavItem>
               <NavLink
-                exact
                 className="nav-link"
-                to="/"
+                to="/events"
                 activeClassName="success-color"
               >
-                Home
+                Events
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className="nav-link"
+                to="/settings"
+                activeClassName="success-color"
+              >
+                Settings
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className="nav-link"
+                to="/signout"
+                activeClassName="success-color"
+              >
+                Log Out
               </NavLink>
             </NavItem>
           </NavbarNav>
-
-          {this.props.auth ? (
-            <NavbarNav right>
-              <NavItem>
-                <NavLink
-                  className="nav-link"
-                  to="/events"
-                  activeClassName="success-color"
-                >
-                  Events
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link"
-                  to="/settings"
-                  activeClassName="success-color"
-                >
-                  Settings
-                </NavLink>
-              </NavItem>
-            </NavbarNav>
-          ) : (
-            <NavbarNav right>
-              <NavItem>
-                <NavLink
-                  className="nav-link"
-                  to="/signin"
-                  activeClassName="success-color"
-                >
-                  Sign In
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link"
-                  to="/signup"
-                  activeClassName="success-color"
-                >
-                  Sign Up
-                </NavLink>
-              </NavItem>
-            </NavbarNav>
-          )}
-        </Collapse>
+        ) : (
+          <NavbarNav right>
+            <NavItem>
+              <NavLink
+                className="nav-link"
+                to="/signin"
+                activeClassName="success-color"
+              >
+                Log In
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className="nav-link"
+                to="/signup"
+                activeClassName="success-color"
+              >
+                Sign Up
+              </NavLink>
+            </NavItem>
+          </NavbarNav>
+        )}
       </Navbar>
     );
   }
