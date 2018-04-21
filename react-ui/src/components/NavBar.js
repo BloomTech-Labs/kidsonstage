@@ -80,6 +80,15 @@ export default class NavBar extends Component {
                 Settings
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink
+                className="nav-link"
+                to="/signout"
+                activeClassName="success-color"
+              >
+                Log Out
+              </NavLink>
+            </NavItem>
           </NavbarNav>
         ) : (
           <NavbarNav right>
@@ -89,7 +98,7 @@ export default class NavBar extends Component {
                 to="/signin"
                 activeClassName="success-color"
               >
-                Sign In
+                Log In
               </NavLink>
             </NavItem>
             <NavItem>

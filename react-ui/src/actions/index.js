@@ -68,7 +68,8 @@ export const login = (user, history) => (dispatch) => {
 };
 
 export const logout = () => {
-  sessionStorage.removeItem('token');
+  sessionStorage.clear();
+  window.location = '/';
   return {
     type: USER_UNAUTHENTICATED,
   };

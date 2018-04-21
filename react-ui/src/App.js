@@ -71,7 +71,7 @@ class App extends Component {
             <Route exact path="/" render={() => (<Home auth={this.checkAuth()} />)}/>
             <Route path="/signin" component={SignIn} />
             <Route path="/users" component={RequireAuth(Users)} />
-            <Route path="/signout" component={SignOut} />
+            <Route path="/signout" component={RequireAuth(SignOut)} />
             <Route path="/signup" component={Register} />
             <Route path="/settings" component={RequireAuth(Settings)} />
             <Route exact path="/events" component={RequireAuth(Events)} />
