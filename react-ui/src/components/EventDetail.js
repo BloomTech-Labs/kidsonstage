@@ -23,19 +23,19 @@ const renderTextField = ({
   <TextField
     floatingLabelText={label}
     floatingLabelFocusStyle={{
-      color: 'black'
+      color: 'black',
     }}
     underlineFocusStyle={{
-      borderColor: 'white'
+      borderColor: 'white',
     }}
     underlineStyle={{
-      borderColor: 'grey'
+      borderColor: 'grey',
     }}
     errorText={touched && error}
     {...input}
     {...custom}
     style={{
-      color: 'red'
+      color: 'red',
     }}
   />
 );
@@ -64,7 +64,7 @@ const renderTextField = ({
     });
 */
 
-const EventsForm = props => {
+const EventsForm = (props) => {
   const { load } = props;
   // const eventId = sessionStorage.getItem('eventId');
   // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
@@ -82,27 +82,25 @@ const EventsForm = props => {
         <Navbar className="eventDetail--box_navbar" dark>
           <NavbarBrand tag="span">Event Info</NavbarBrand>
         </Navbar>
-        {eventId > 0 && (
-          <div className="eventDetail--box_content">
+        <div className="eventDetail--box_content">
             Event Name:{'  '}
-            <Field
-              name="event.title"
-              type="text"
-              component={renderTextField}
-              placeholder="title"
-              readOnly="true"
-            />
-            <br />
+          <Field
+            name="event.title"
+            type="text"
+            component={renderTextField}
+            placeholder="title"
+            readOnly="true"
+          />
+          <br />
             Event Date:{'  '}
-            <Field
-              name="event.formattedDate"
-              type="text"
-              component={renderTextField}
-              placeholder="Event Date"
-              readOnly="true"
-            />
-          </div>
-        )}
+          <Field
+            name="event.formattedDate"
+            type="text"
+            component={renderTextField}
+            placeholder="Event Date"
+            readOnly="true"
+          />
+        </div>
       </div>
       <div className="eventDetail--form_container">
         <Navbar className="eventDetail--box_navbar" dark>
@@ -136,11 +134,12 @@ const EventsForm = props => {
 
 const EventDetail = reduxForm({
   form: 'eventdetail', // a unique identifier for this form
-  touchOnBlur: true
+  touchOnBlur: true,
+  enableReinitialize: true,
 })(EventsForm);
 // export default EventDetail;
 
-const nomalizeEventDate = event => {
+const nomalizeEventDate = (event) => {
   if (event && event.eventDate) {
     const newDate = normalizeDate(event.eventDate);
     // console.log(`eventDate: ${event.eventDate} newDate: ${newDate}`);
@@ -153,9 +152,9 @@ const nomalizeEventDate = event => {
 };
 export default connect(
   state => ({
-    initialValues: { event: nomalizeEventDate(state.event) }
+    initialValues: { event: nomalizeEventDate(state.event) },
   }),
-  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) })
+  dispatch => ({ load: eventId => dispatch(getEvent(eventId)) }),
 )(EventDetail);
 // export default connect(state => ({
 //   initialValues: { event: state.event },

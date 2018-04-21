@@ -13,31 +13,29 @@ import EventDetailGroupRow from './EventDetailGroupRow';
 import './css/eventDetail.css';
 
 const renderGroups = ({
-  groupFA, partGroups, load, loadPart, fields, eventId, admin, props, meta: { error },
+  groupFA, load, loadPart, fields, eventId, initialize, admin, props, meta: { error },
 }) => {
   if (eventId) {
-    load(eventId);
     loadPart(eventId);
+    load(eventId);
   }
   return (
     <div>
-      {eventId > 0 && (
-        <ul>
-          {fields.map((group, index) => (
-            <li key={`${group}.row`}>
-              <EventDetailGroupRow
-                rowProps={props}
-                eventId={eventId}
-                admin={admin}
-                fields={fields}
-                groupText={group}
-                index={index}
-                groupP={groupFA[index]}
-                partGroups={partGroups}
-              />
-            </li>
+      <ul>
+        {fields.map((group, index) => (
+          <li key={`${group}.row`}>
+            <EventDetailGroupRow
+              rowProps={props}
+              eventId={eventId}
+              admin={admin}
+              fields={fields}
+              groupText={group}
+              index={index}
+              group={groupFA[index]}
+            />
+          </li>
           ))}
-          {admin > 0 &&
+        {admin > 0 &&
           <li key={-1}>
             <button
               className="eventDetail--form_container_button"
@@ -52,13 +50,13 @@ const renderGroups = ({
             </button>
           </li>
           }
-          {error && (
-            <li key={-2} className="error">
-              {error}
-            </li>
+        {error && (
+        <li key={-2} className="error">
+          {error}
+        </li>
           )}
-        </ul>
-      )}
+      </ul>
+      )
     </div>
   );
 };
@@ -71,34 +69,6 @@ const onKeyPress = (event) => {
 const EventDetailsGroups = (props) => {
   // console.log(`Event Detail Group history? ${props.history}`);
   const { load, history } = props;
-  // const {
-  //   pristine, /* reset, */ submitting,
-  // } = props;
-  // const handleFormSubmit = () => {
-  //   // const dirties = formValues('groupFA').map((f, i) => {
-  //   //   if (f.dirty) console.log(`f.name ${f.name} is dirty`);
-  //   //   return { dirty: f.dirty, i };
-  //   // });
-  //   // console.log(dirties);
-  //   // values.groupFA.forEach((group) => {
-  //   //   if (!group.id) {
-  //   //     add(group);
-  //   //     console.log(`${group.name} is new`);
-  //   //   } else {
-  //   //     const keys = Object.keys(group);
-  //   //     let i = 0;
-  //   //     const L = keys.length;
-  //   //     for (;i < L && !group[keys[i]].dirty; i++);
-  //   //     if (i < L) {
-  //   //       edit(group);
-  //   //       console.log(`${group.name} is dirty`);
-  //   //     }
-  //   //     console.log(`${group.name} time type ${typeof group.time}`);
-  //   //   }
-  //   //   // console.log(`detail group ${JSON.stringify(group)} || ${Object.keys(group)} `);
-  //   // });
-  //   history.push('/events');
-  // };
 
   const eventId = props.eventId || 2;
   // console.log(`Groups load type ${typeof load}`);
@@ -113,7 +83,6 @@ const EventDetailsGroups = (props) => {
         load={load}
         props={props}
         groupFA={props.initialValues.groupFA}
-        partGroups={props.initialValues.partGroups}
       />
       <div className="eventDetail--return_button_container">
         <button
@@ -131,29 +100,41 @@ const EventDetailsGroups = (props) => {
 const EventDetail = reduxForm({
   form: 'eventdetailGroups', // a unique identifier for this form
   touchOnBlur: true,
+  // enableReinitialize: true,
 })(EventDetailsGroups);
 // export default EventDetail;
 
 const fiveLenthDate = (state) => {
   return state.groups.map((group) => {
-    const partIndex = state.partGroups.findIndex(partGroup => partGroup.groupId);
+    const userId = Number(sessionStorage.getItem('id'));
+    const partIndex = state.partGroups.findIndex(partGroup =>
+      (partGroup.groupId === group.id) &&
+        (partGroup.userId === userId));
 
     const partGroup = (partIndex >= 0 ? state.partGroups[partIndex] : undefined);
-    group.partGroup = partGroup;
+
     // this.setState({
     //   group: { ...group, partGroup },
     // });
-    group.checked = (partIndex >= 0);
+    const checked = (partIndex >= 0);
     const { time, ...rest } = group;
-    // console.log(`partIndex: ${partIndex} partGroups.length: ${state.partGroups.length}
-    //     group.partGroup ${rest.partGroup} group.checked ${rest.checked} `);
-    rest.time = time.substring(0, 5);
-    return rest;
+    // if (checked) {
+    //   console.log(`partIndex: ${partIndex} partGroups.length: ${state.partGroups.length} 
+    //     partGroup.groupId ${partGroup ? partGroup.groupId : null} group.id ${group.id}
+    //     group.name |${group.name}| checked ${checked} `);
+    // }
+    //  else {
+    //   console.log(`group ${group.id} |${group.name}| is unchecked`);
+    // }
+    // rest.time = time.substring(0, 5);
+    return {
+      ...rest, time: time.substring(0, 5), checked, partGroup,
+    };
   });
 };
 export default connect(
   state => ({
-    initialValues: { groupFA: fiveLenthDate(state), partGroups: state.partGroups },
+    initialValues: { groupFA: fiveLenthDate(state) },
   }),
   dispatch => ({
     load: eventId => dispatch(getGroups(eventId)),
