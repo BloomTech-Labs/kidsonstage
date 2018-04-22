@@ -21,7 +21,7 @@ class SubscriberBox extends Component {
 
         <form onSubmit={(e) => {
           // console.log(`SubscriberBox onSubmit eventId ${this.state.eventId}`);
-          if (this.state.eventId > 0) this.props.getEvent(this.state.eventId);
+          if (this.state.eventId > 0) this.props.getEvent(this.state.eventId, 2);
           e.preventDefault();
         }}
         >

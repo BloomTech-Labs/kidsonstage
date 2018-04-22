@@ -38,6 +38,9 @@ class EventCard extends Component {
         }}
       >
         <div className="eventCard--Container">
+          {process.env.REACT_APP_ShowEventId === 'true' &&
+          <h2>{this.state.id}</h2>
+          }
           <Navbar className="eventCard--box_navbar" dark>
             <NavbarBrand tag="span">{this.props.title}</NavbarBrand>
           </Navbar>
@@ -54,9 +57,9 @@ class EventCard extends Component {
 }
 
 // export default EventCard;
-const mapStateToProps = state => ({});
+const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  setEvent: id => dispatch(getEvent(id)),
+  setEvent: id => dispatch(getEvent(id, 1)),
   setGroups: id => dispatch(getGroups(id))
 });
 

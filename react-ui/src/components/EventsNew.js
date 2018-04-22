@@ -76,6 +76,7 @@ class EventsNew extends Component {
           type="text"
           component={renderTextField}
           label="Date"
+          placeholder="Date"
         /><br /><br />
         <button
           className="new-user-action-button newEvent--button_save"
