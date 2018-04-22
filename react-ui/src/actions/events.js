@@ -24,7 +24,7 @@ export const GET_EVENT_ID = 'GET_EVENT_ID';
 axios.defaults.withCredentials = true;
 
 // invites/events/:eventId/userId/:userId
-export const loadEvent = eventId => (dispatch) => {
+export const loadInvitedEvent = eventId => (dispatch) => {
   console.log(`loadEvent eventId: ${eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
@@ -67,7 +67,7 @@ export const getInvitedEvents = () => (dispatch) => {
   };
   axios
     // .get(`${ROOT_URL}/events`, config)
-    .get(`${ROOT_URL}/invites/events/byUser/${id}`, config)
+    .get(`${ROOT_URL}/envites/events/byUser/${id}`, config)
     .then((response) => {
       console.log(`getInvitedEvents data: ${response.data}`);
       dispatch({
@@ -386,8 +386,8 @@ export const editGroup = group => (dispatch) => {
     });
 };
 // /:eventId/groups/:groupId
-export const getEvent = eventId => (dispatch) => {
-  console.log(`getEvent eventId: ${eventId}`);
+export const getEvent = (eventId, type = 0) => (dispatch) => {
+  // console.log(`getEvent eventId: ${eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   if (!id || !token) {
@@ -402,16 +402,26 @@ export const getEvent = eventId => (dispatch) => {
   axios
     .get(`${ROOT_URL}/events/${eventId}`, config)
     .then((response) => {
-      console.log(`getEvent title: ${response.data[0].title}`);
-      console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
-      dispatch({
-        type: GET_EVENT,
-        payload: response.data[0] || {},
-      });
-      dispatch({
-        type: ADD_EVENT,
-        payload: response.data[0] || {},
-      });
+      // console.log(`getEvent title: ${response.data[0].title}`);
+      // console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
+      if (type === 2) {
+        // console.log(`adding invited ${response.data[0].title}`);
+        dispatch({
+          type: ADD_INVITED_EVENT,
+          payload: response.data[0] || {},
+        });
+      } else if (type === 1) {
+        dispatch({
+          type: GET_EVENT,
+          payload: response.data[0] || {},
+        });
+      } else {
+        dispatch({
+          type: ADD_EVENT,
+          payload: response.data[0] || {},
+        })
+        ;
+      }
     })
     .catch((err) => {
       console.log(`getEvent ${err}`);

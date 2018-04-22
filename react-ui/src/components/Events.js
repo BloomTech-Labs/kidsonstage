@@ -10,49 +10,62 @@ import SubscribeBox from './SubscribeBox';
 
 import './css/events.css';
 
-const mapStateToProps = (state) => {
-  return {
-    events: state.events,
-    invitedEvents: state.invitedEvents,
-  };
-};
+const mapStateToProps = state => ({
+  events: state.events,
+  invitedEvents: state.invitedEvents,
+  // addInvited: (event) => {
+  //   state.setState({ invitedEvents: [event, ...state.invitedEvents] });
+  // },
+});
 
 class Events extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      events: [],
-    };
-  }
-
   componentDidMount() {
-    // const events = 
+    // const events =
     this.props.getEvents();
+    // this.props.getInvitedEvents();
 
     // this.setState({
-    //   events
+    //   events,
+    //   // invitedEvents,
     // });
+    // console.log(`events length ${this.props.events.length}`);
+    // console.log(`invited events length ${this.props.invitedEvents.length}`);
   }
 
   render() {
+    // console.log(`render events length ${this.props.events.length}`);
+    // const userId = Number(sessionStorage.getItem('id'));
+    const EventCards = this.props.events.map((event, i) => {
+      console.log(`owned event: ${event.title}`);
+      return (
+        <EventCard
+          title={event.title}
+          eventDate={event.eventDate}
+          activated={event.activated}
+          key={event.id}
+          id={event.id}
+          owner={event.owner}
+        />);
+    });
+    const InvitedEventCards = this.props.invitedEvents.map((event, i) => {
+      console.log(`invited event: ${event.title}`);
+      return (
+        <EventCard
+          title={event.title}
+          eventDate={event.eventDate}
+          activated={event.activated}
+          key={event.id}
+          id={event.id}
+          owner={event.owner}
+        />);
+    });
     return (
       <div className="wrapper">
         <div className="page-body">
-        <SubscribeBox />
-        <NewEventCard />
-          {this.props.events.map((event, i) => {
-            return (
-              <EventCard
-                title={event.title}
-                eventDate={event.eventDate}
-                activated={event.activated}
-                key={i}
-                id={event.id}
-                owner={event.owner}
-              />
-            );
-          })}
-          
+          <SubscribeBox />
+          <NewEventCard />
+          {EventCards}
+          {InvitedEventCards}
         </div>
       </div>
     );
