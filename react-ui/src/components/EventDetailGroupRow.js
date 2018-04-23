@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import axios from 'axios';
+import { TextField } from 'material-ui';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+  faTrash,
+  faEdit,
+  faFlagCheckered,
+} from '@fortawesome/fontawesome-free-solid';
 import formatTime from './normalizers/normalizeTime';
 
 // import completedBI from './graphics/completed.png';
@@ -15,19 +22,12 @@ import {
   deleteGroup,
   addPartGroup,
   deletePartGroup,
-  getPartGroups,
+  // getPartGroups,
 } from '../actions';
 
 import './css/eventDetail.css';
-import { TextField } from 'material-ui';
-
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import {
-  faTrash,
-  faEdit,
-  faFlagCheckered,
-} from '@fortawesome/fontawesome-free-solid';
-
+/* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary,
+    jsx-a11y/no-static-element-interactions */
 const renderTextField = ({
   input,
   label,
@@ -53,6 +53,15 @@ const renderTextField = ({
     }}
   />
 );
+renderTextField.defaultProps = {
+  meta: { touched: PropTypes.bool, error: PropTypes.string },
+  label: '',
+};
+renderTextField.propTypes = {
+  input: PropTypes.object.isRequired,
+  label: PropTypes.string,
+  meta: PropTypes.object,
+};
 
 const renderTextFieldTime = ({
   input,
@@ -81,9 +90,15 @@ const renderTextFieldTime = ({
     }}
   />
 );
-
-/* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary,
-    jsx-a11y/no-static-element-interactions */
+renderTextFieldTime.defaultProps = {
+  meta: { touched: PropTypes.bool, error: PropTypes.string },
+  label: '',
+};
+renderTextFieldTime.propTypes = {
+  input: PropTypes.object.isRequired,
+  label: PropTypes.string,
+  meta: PropTypes.object,
+};
 
 const tab = (e) => {
   if (e.which === 13) {
@@ -106,14 +121,15 @@ class EventDetailGroupRow extends Component {
   constructor(props) {
     super(props);
     // console.log(`partGroups ${JSON.stringify(this.props.partGroups, null, 2)}`);
-    console.log(`admin: ${this.props.admin}`);
+    // console.log(`admin: ${this.props.admin}`);
     const ng = Number(sessionStorage.getItem('pushingNewGroup')) === 1;
     sessionStorage.setItem('pushingNewGroup', 0);
     const thisGroup = !ng ? this.props.group : undefined;
-    if (this.props.admin === 0) {
-      console.log(`checked: ${this.props.group.checked} name: ${this.props.group.name}
-      partGroup.groupId: ${this.props.group.partGroup ? this.props.group.partGroup.groupId : undefined}`);
-    }
+    // if (this.props.admin === 0) {
+    //   console.log(`checked: ${this.props.group.checked} name: ${this.props.group.name}
+    //   partGroup.groupId: ${this.props.group.partGroup ?
+    // this.props.group.partGroup.groupId : undefined}`);
+    // }
     const readOnly =
       (thisGroup !== undefined &&
         thisGroup.name &&
@@ -148,36 +164,59 @@ class EventDetailGroupRow extends Component {
       partGroup: ((thisGroup !== undefined) ? thisGroup.partGroup : undefined),
       // partGroups: this.props.partGroupsS,
     };
+    this.enableTick = true;
+    this.tickCounter = 0;
   }
-  // componentWillUnmount() {
-  //   // clearInterval(this.timerID);
-  // }
+  componentDidMount() {
+    //   console.log(`componentDidMount ran partGroups: ${this.props.partGroupsS}`);
+    this.timerID = setInterval(
+      () => this.tick(),
+      2000,
+    );
+  }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+  disableTick() {
+    this.enableTick = false;
+  }
+  postponeTick() {
+    this.tickCounter = 5;
+  }
 
-  // tick() {
-  //   // console.log(`props: ${this.props.partGroupsS.length}`);
-  //   // console.log(`state: ${this.state.partGroups.length}`);
-  //   const partGroups = this.props.partGroupsS;
-  //   const partGroupsIndex = partGroups.findIndex(partGroup =>
-  //     partGroup.groupId === this.state.group.id);
-  //   if (partGroupsIndex >= 0) {
-  //     const partGroup = partGroups[partGroupsIndex];
-  //     this.setState({
-  //       partGroup,
-  //       checked: true,
-  //       partGroups,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       checked: false,
-  //     });
-  //   }
-  // }
+  tick() {
+    if (!this.enableTick) return;
+    if (!this.state.readOnly) return;
+    if (this.tickCounter > 0) {
+      this.tickCounter--;
+      console.log(`tickCounter: ${this.tickCounter}`);
+      return;
+    }
+
+    // console.log(`props: ${this.props.partGroupsS.length}`);
+    // console.log(`state: ${this.state.partGroups.length}`);
+    const partGroupsIndex = this.props.partGroups.findIndex(partGroup =>
+      partGroup.groupId === this.state.group.id);
+    if (partGroupsIndex >= 0) {
+      const partGroup = this.props.partGroups[partGroupsIndex];
+      this.setState({
+        checked: true,
+        partGroup,
+      });
+    } else {
+      this.setState({
+        checked: false,
+        partGroup: undefined,
+      });
+    }
+  }
   add(group) {
     console.log(`eventId: ${this.state.eventId} group name: ${group.name}`);
     this.props.add(this.state.eventId, group);
   }
 
   sendGroup(group, edit) {
+    this.postponeTick();
     if (
       group.name &&
       group.time &&
@@ -255,6 +294,7 @@ class EventDetailGroupRow extends Component {
               className="checkbox"
               onClick={(/* event */) => {
               // const checked = event.target.value;
+              this.postponeTick();
               this.setState({
                 checked: !this.state.checked,
               }, () => {
@@ -299,13 +339,14 @@ class EventDetailGroupRow extends Component {
               enabled: !this.state.completed,
             }}
             onClick={() => {
+              this.postponeTick();
               if (this.state.group.name && this.state.group.time) {
                 const group = Object.assign(this.state.group);
                 console.log(`group name ${group.name} complete click`);
                 group.completed = true;
                 if (group.id <= 0) {
- group.id = sessionStorage.getItem(`group.id:${this.state.group.name}`);
- }
+                    group.id = sessionStorage.getItem(`group.id:${this.state.group.name}`);
+                }
                 this.setState(
                   {
                     group,
@@ -353,6 +394,7 @@ class EventDetailGroupRow extends Component {
             type="button"
             title="Remove Group"
             onClick={() => {
+              this.postponeTick();
               console.log(`remove id ${this.state.group.id} eventId ${this.state.eventId}`);
               if (this.state.group.id <= 0) {
                 const { id, ...group } = this.state.group;
@@ -394,6 +436,7 @@ EventDetailGroupRow.propTypes = {
   addPart: PropTypes.func.isRequired,
   eventId: PropTypes.number.isRequired,
   admin: PropTypes.number.isRequired,
+  partGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // const n1Check = (groups) => {
@@ -405,16 +448,16 @@ EventDetailGroupRow.propTypes = {
 //   return groups;
 // };
 export default connect(
-  /* state */ () => ({
+  state => ({
     // groups: n1Check(state.groups),
-    // partGroups: state.partGroups,
+    partGroups: state.partGroups,
   }),
   dispatch => ({
     edit: group => dispatch(editGroup(group)),
     remove: group => dispatch(deleteGroup(group.eventId, group.id)),
     add: (eventId, group) => dispatch(addGroup(eventId, group)),
     removePart: partGroup =>
-      dispatch(deletePartGroup(partGroup.eventId, partGroup.id)),
+      dispatch(deletePartGroup(partGroup)),
     addPart: (eventId, group) => dispatch(addPartGroup(eventId, group)),
   }),
 )(EventDetailGroupRow);

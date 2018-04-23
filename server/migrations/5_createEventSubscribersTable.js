@@ -15,6 +15,7 @@ exports.up = function(knex, Promise) {
       .references('id')
       .inTable('groups')
       .onDelete('CASCADE');
+    tbl.boolean('subscribed').defaultTo(false);
   });
 };
 
