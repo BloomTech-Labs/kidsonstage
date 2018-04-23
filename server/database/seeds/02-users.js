@@ -56,7 +56,7 @@ exports.seed = function(knex, Promise) {
           username: 'admin3',
           password:
             '$2a$10$vjJXVaubFksjjx5O4Ekn8.2aDG//wHQYC1vbDTlBtm63b1VH03zKy',
-          email: 'mark.c.oliver@gmail.com',
+          email: 'tylersanford0311@gmail.com',
           phoneNumber: '',
           vcode: 12345678,
           validated: true,
@@ -68,7 +68,7 @@ exports.seed = function(knex, Promise) {
           username: 'user1',
           password:
             '$2a$10$vjJXVaubFksjjx5O4Ekn8.2aDG//wHQYC1vbDTlBtm63b1VH03zKy',
-          email: 'boomer1204@gmail.com',
+          email: 'tylersanford0311@gmail.com',
           phoneNumber: '210-992-0265',
           vcode: 12345678,
           validated: true,
@@ -80,7 +80,7 @@ exports.seed = function(knex, Promise) {
           username: 'user2',
           password:
             '$2a$10$vjJXVaubFksjjx5O4Ekn8.2aDG//wHQYC1vbDTlBtm63b1VH03zKy',
-          email: 'mark.c.oliver@gmail.com',
+          email: 'tylersanford0311@gmail.com',
           phoneNumber: '210-992-0265',
           vcode: 12345678,
           validated: true,
@@ -92,7 +92,7 @@ exports.seed = function(knex, Promise) {
           username: 'user3',
           password:
             '$2a$10$vjJXVaubFksjjx5O4Ekn8.2aDG//wHQYC1vbDTlBtm63b1VH03zKy',
-          email: 'boomer1204@gmail.com',
+          email: 'tylersanford0311@gmail.com',
           phoneNumber: '775-771-8676',
           vcode: 12345678,
           validated: false,
@@ -116,7 +116,7 @@ exports.seed = function(knex, Promise) {
           username: 'user5',
           password:
             '$2a$10$vjJXVaubFksjjx5O4Ekn8.2aDG//wHQYC1vbDTlBtm63b1VH03zKy',
-          email: 'mark.c.oliver@gmail.com',
+          email: 'tylersanford0311@gmail.com',
           phoneNumber: '775-771-8676',
           vcode: 12345678,
           validated: true,
