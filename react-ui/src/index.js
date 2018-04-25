@@ -13,13 +13,19 @@ import App from './App';
 
 import reducers from './reducers';
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-118201098-1');
+
 const createStoreWithMiddleware = applyMiddleware(ReduxThunk)(createStore);
 
+function fireTracking() {
+  ReactGA.pageview(window.location.hash);
+}
 
 /* eslint-disable react/jsx-filename-extension */
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
-    <Router>
+    <Router onUpdate={fireTracking}>
       <MuiThemeProvider MuiTheme={getMuiTheme(darkBaseTheme)}>
         <App />
       </MuiThemeProvider>
