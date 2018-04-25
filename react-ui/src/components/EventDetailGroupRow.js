@@ -297,7 +297,7 @@ class EventDetailGroupRow extends Component {
           type="text"
           placeholder="HH:MM"
           normalize={formatTime}
-          component={renderTextFieldTime}
+          component="input"
           readOnly={this.state.readOnly}
           style={{
             textDecoration: this.state.completed ? 'line-through' : 'none',
