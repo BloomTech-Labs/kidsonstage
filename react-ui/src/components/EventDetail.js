@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, reduxForm, initialize } from 'redux-form';
 import { connect } from 'react-redux';
-import parseQueryString from 'query-string';
+// import parseQueryString from 'query-string';
 import { Navbar, NavbarBrand } from 'mdbreact';
 // import PropTypes from 'prop-types';
 import { getEvent, getGroups } from '../actions';
@@ -85,9 +85,10 @@ class EventsForm extends React.Component {
   // }
   componentDidMount() {
     const queryString = this.props.location.search;
-    const queryParams = parseQueryString.parse(queryString);
-    this.eventId = queryParams.eventId;
-    this.admin = queryParams.admin;
+    // "?eventId=1&admin=1"
+    const queryParams = queryString.match(/eventId=(\d+)&admin=(\d+)/);
+    this.eventId = Number(queryParams[1]);
+    this.admin = Number(queryParams[2]);
     const { eventId, admin } = this;
     console.log(`EventsForm componentDidMount eventId ${eventId} admin ${admin}`);
     this.props.setEvent(eventId);
