@@ -2,9 +2,12 @@
   width: 21px;
   height: 21px;
 }
-/* .line-through {
-  text-decoration: line-through;
+/* .name {
+  width: "60px";
 } */
+.lineThrough {
+  text-decoration: line-through;
+}
 /*
 
 #competedGroup {

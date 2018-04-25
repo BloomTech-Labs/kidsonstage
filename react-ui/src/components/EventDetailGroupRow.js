@@ -38,6 +38,7 @@ const renderTextField = ({
     floatingLabelText={label}
     floatingLabelFocusStyle={{
       color: 'black',
+
     }}
     underlineFocusStyle={{
       borderColor: 'white',
@@ -80,6 +81,7 @@ const renderTextFieldTime = ({
     underlineStyle={{
       borderColor: 'grey',
     }}
+    {...custom}
     errorText={touched && error}
     {...input}
     {...custom}
@@ -87,6 +89,7 @@ const renderTextFieldTime = ({
       color: 'red',
       width: '50px',
       marginLeft: '20px',
+      textDecoration: 'line-through',
     }}
   />
 );
@@ -106,6 +109,7 @@ const tab = (e) => {
     e.preventDefault();
   }
 };
+
 class EventDetailGroupRow extends Component {
   // static getDerivedStateFromProps(nextProps, prevState) {
   //   if (!prevState.partGroup) {
@@ -166,6 +170,10 @@ class EventDetailGroupRow extends Component {
     };
     this.enableTick = true;
     this.tickCounter = 0;
+    // if (this.state.completed) {
+    //   this.setLineThrough(`${this.props.groupText}.name`);
+    //   // this.setLineThrough(`${this.props.groupText}.time`);
+    // }
   }
   componentDidMount() {
     //   console.log(`componentDidMount ran partGroups: ${this.props.partGroupsS}`);
@@ -174,9 +182,35 @@ class EventDetailGroupRow extends Component {
       2000,
     );
   }
+  // componentWillReceiveProps(nextProps) {
+  //   const partGroupsIndex = nextProps.partGroups.findIndex(partGroup =>
+  //     partGroup.groupId === this.state.group.id);
+  //   if (partGroupsIndex >= 0) {
+  //     const partGroup = this.props.partGroups[partGroupsIndex];
+  //     this.setState({
+  //       checked: true,
+  //       partGroup,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       checked: false,
+  //       partGroup: undefined,
+  //     });
+  //   }
+  // }
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
+  // setLineThrough = () => {
+  //   // const elem = document.getElementById(elemId);
+  //   // console.log(JSON.stringify(this, null, 2));
+  //   // const elem = this[name];
+  //   // console.log(`elem length: ${elem.length}`);
+  //   // renderTextField.textDecoration = 'line-through';
+  //   // renderTextFieldTime.style.textDecoration = 'line-through';
+  //   // renderTextFieldTime.style.color = 'green';
+  //   console.log(`renderTextFieldTime ${JSON.stringify({ renderTextFieldTime }, null, 2)}`);
+  // };
   disableTick() {
     this.enableTick = false;
   }
@@ -239,10 +273,11 @@ class EventDetailGroupRow extends Component {
         <Field
           name={`${groupText}.name`}
           type="text"
-          component={renderTextField}
+          component="input"
           // label={`${index + 1}) `}
           placeholder="name"
           readOnly={this.state.readOnly}
+          className={`${this.state.completed ? 'lineThrough' : 'name'}`}
           style={{
             textDecoration: this.state.completed ? 'line-through' : 'none',
           }}
@@ -259,7 +294,6 @@ class EventDetailGroupRow extends Component {
         />
         <Field
           name={`${groupText}.time`}
-          id="time"
           type="text"
           placeholder="HH:MM"
           normalize={formatTime}
@@ -334,6 +368,7 @@ class EventDetailGroupRow extends Component {
           <button
             type="button"
             title="Complete Group"
+            name={`${groupText}.complete`}
             style={{
               opacity: this.state.completed ? 0 : 1,
               enabled: !this.state.completed,
@@ -347,14 +382,15 @@ class EventDetailGroupRow extends Component {
                 if (group.id <= 0) {
                     group.id = sessionStorage.getItem(`group.id:${this.state.group.name}`);
                 }
-                this.setState(
-                  {
+                this.setState({
                     group,
                     completed: true,
-                  },
-                  this.sendGroup(group, edit),
-                );
-
+                  }, () => {
+                    // this.setLineThrough(`${groupText}.name`);
+                    // this.setLineThrough(`${groupText}.time`);
+                    console.log(`set completed for ${group.name}`);
+                    this.sendGroup(group, edit);
+                  });
                 axios
                   .get(`${ROOT_URL}/notify/events/${this.state.eventId}`)
                   .then((res) => {

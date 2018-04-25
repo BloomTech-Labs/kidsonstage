@@ -18,42 +18,72 @@ export const ADD_PART_GROUP = 'ADD_PART_GROUP';
 export const EDIT_GROUP = 'EDIT_GROUP';
 export const SET_EVENT_ID = 'SET_EVENT_ID';
 export const GET_EVENT_ID = 'GET_EVENT_ID';
+export const GET_EVENTINVITES_EVENTS = 'GET_EVENTINVITES_EVENTS';
+export const ADD_EVENTINVITES_EVENT = 'EDIT_EVENTINVITES_EVENT';
 
 /* eslint-disable no-console, semi-style */
 
 axios.defaults.withCredentials = true;
 
 // invites/events/:eventId/userId/:userId
-export const loadInvitedEvent = eventId => (dispatch) => {
-  console.log(`loadEvent eventId: ${eventId}`);
-  const token = sessionStorage.getItem('token');
-  const id = sessionStorage.getItem('id');
-  if (!id || !token) {
-    dispatch(authError('Not logged in'));
-    return;
-  }
-  const config = {
-    headers: {
-      authorization: token,
-    },
-  };
-  axios
-    // .get(`${ROOT_URL}/events`, config)
-    .get(`${ROOT_URL}/invites/events/${eventId}/userId/${id}`, config)
-    .then((response) => {
-      console.log(`loadEvent data: ${JSON.stringify(response, null, 2)}`);
-      dispatch({
-        type: ADD_INVITED_EVENT,
-        payload: response.data[0] || [],
-      });
-    })
-    .catch((err) => {
-      console.log(`loadEvent ${err}`);
-      dispatch(authError('Failed to load Event'));
-    });
-};
+// export const geteventInvites = eventId => (dispatch) => {
+//   console.log(`loadEvent eventId: ${eventId}`);
+//   const token = sessionStorage.getItem('token');
+//   const id = sessionStorage.getItem('id');
+//   if (!id || !token) {
+//     dispatch(authError('Not logged in'));
+//     return;
+//   }
+//   const config = {
+//     headers: {
+//       authorization: token,
+//     },
+//   };
+//   axios
+//     // .get(`${ROOT_URL}/events`, config)
+//     .get(`${ROOT_URL}/invites/event/userId/${id}`, config)
+//     .then((response) => {
+//       console.log(`loadEvent data: ${JSON.stringify(response, null, 2)}`);
+//       dispatch({
+//         type: ADD_EVENT,
+//         payload: response.data || [],
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(`loadEvent ${err}`);
+//       dispatch(authError('Failed to load Event'));
+//     });
+// };
 // /invites/events/byUser/:userId
-export const getInvitedEvents = () => (dispatch) => {
+// export const getInvitedEvents = () => (dispatch) => {
+//   const token = sessionStorage.getItem('token');
+//   const id = sessionStorage.getItem('id');
+//   if (!id || !token) {
+//     dispatch(authError('Not logged in'));
+//     return;
+//   }
+//   const config = {
+//     headers: {
+//       authorization: token,
+//     },
+//   };
+//   axios
+//     // .get(`${ROOT_URL}/events`, config)
+//     .get(`${ROOT_URL}/envites/events/byUser/${id}`, config)
+//     .then((response) => {
+//       console.log(`getInvitedEvents data: ${response.data}`);
+//       dispatch({
+//         type: GET_INVITED_EVENTS,
+//         payload: response.data || [],
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(`getInvitedEvents ${err}`);
+//       dispatch(authError('Failed to fetch events'));
+//     });
+// };
+export const invitedEventSubscribe = eventId => (dispatch) => {
+  console.log(`Subscribe Event eventId: ${eventId}`);
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
   if (!id || !token) {
@@ -66,21 +96,20 @@ export const getInvitedEvents = () => (dispatch) => {
     },
   };
   axios
-    // .get(`${ROOT_URL}/events`, config)
-    .get(`${ROOT_URL}/envites/events/byUser/${id}`, config)
-    .then((response) => {
-      console.log(`getInvitedEvents data: ${response.data}`);
+    .post(`${ROOT_URL}/invites/events/${eventId}/userId/${id}`, config)
+    .then(() => {
+      // console.log(`subscribe Event data: ${JSON.stringify(response, null, 2)}`);
+      // document.location.reload();
       dispatch({
-        type: GET_INVITED_EVENTS,
-        payload: response.data || [],
+        type: ADD_EVENTINVITES_EVENT,
+        payload: { eventId, userId: id },
       });
     })
     .catch((err) => {
-      console.log(`getInvitedEvents ${err}`);
-      dispatch(authError('Failed to fetch events'));
+      console.log(`subscibe Event ${err}`);
+      dispatch(authError('Failed to save Subscribe Event'));
     });
 };
-
 export const getEvents = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
@@ -108,6 +137,34 @@ export const getEvents = () => (dispatch) => {
       dispatch(authError('Failed to fetch events'));
     });
 };
+export const getEventInvites = () => (dispatch) => {
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    // .get(`${ROOT_URL}/events`, config)
+    .get(`${ROOT_URL}/invites/events/userId/${id}`, config)
+    .then((response) => {
+      // console.log(`getEvents data length: ${response.data.length}`);
+      dispatch({
+        type: GET_EVENTINVITES_EVENTS,
+        payload: response.data || [],
+      });
+    })
+    .catch(() => {
+      // console.log(err);
+      dispatch(authError('Failed to fetch events'));
+    });
+};
+
 // eventsRouter.get('/:eventId/userId/:userId
 export const getPartGroups = eventId => (dispatch) => {
   if (!eventId) return;
@@ -164,7 +221,7 @@ export const addPartGroup = partGroup => (dispatch) => {
           userId: id,
           groupId,
         },
-      });
+      })
     })
     .catch((error, err) => {
       console.log(`addPartGroup ${error} ${err} `);
@@ -404,21 +461,25 @@ export const getEvent = (eventId, type = 0) => (dispatch) => {
     .then((response) => {
       // console.log(`getEvent title: ${response.data[0].title}`);
       // console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
+      let data = response.data[0] || {};
+      if (data.title) {
+        data = {...data, eventId};
+      }
       if (type === 2) {
-        // console.log(`adding invited ${response.data[0].title}`);
+        console.log(`adding invited ${data.title} eventId: ${data.eventId} id: ${data.id}`);
         dispatch({
           type: ADD_INVITED_EVENT,
-          payload: response.data[0] || {},
+          payload: data,
         });
       } else if (type === 1) {
         dispatch({
           type: GET_EVENT,
-          payload: response.data[0] || {},
+          payload: data
         });
       } else {
         dispatch({
           type: ADD_EVENT,
-          payload: response.data[0] || {},
+          payload: data
         })
         ;
       }
