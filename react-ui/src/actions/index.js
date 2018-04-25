@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
 
 export const ROOT_URL =
   (process.env.NODE_ENV === 'production') ?
-    'http://whenismykidonstage.com/api'
+    'https://whenismykidonstage.com/api'
     : 'http://localhost:5000/api'
   ;
 

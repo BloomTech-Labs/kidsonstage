@@ -10,7 +10,7 @@ export function sendGridDispatch(emailArr, name, difference) {
 
   let message = {
     to: emailArr,
-    from: 'admin@kidsonstage.herokuapp.com',
+    from: 'notify@whenismykidonstage.com',
     templateId: 'b3f63a64-a93a-4678-bfdc-4185f796989f',
     substitutions: {
       group: name,
