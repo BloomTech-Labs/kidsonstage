@@ -165,6 +165,15 @@ class EventsForm extends React.Component {
               placeholder="Event Date"
               readOnly="true"
             />
+            <br />
+            Event Invite Code:{'  '}
+            <Field
+              name="event.id"
+              type="text"
+              component={renderTextField}
+              placeholder="Event Invite Code"
+              readOnly="true"
+            />
           </div>
         </div>
         <div className="eventDetail--form_container">

@@ -56,7 +56,6 @@ const renderGroups = ({
         </li>
           )}
       </ul>
-      )
     </div>
   );
 };
