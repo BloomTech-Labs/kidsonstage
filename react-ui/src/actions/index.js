@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
 
 export const ROOT_URL =
   (process.env.NODE_ENV === 'production') ?
-    'https://kidsonstage.herokuapp.com:443/api'
+    'https://whenismykidonstage.com/api'
     : 'http://localhost:5000/api'
   ;
 
