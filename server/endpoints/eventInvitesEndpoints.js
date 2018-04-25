@@ -14,9 +14,23 @@ invitesRouter.get('/events/:eventId/userId/:userId', function(req, res) {
       res.status(200).json(records);
     })
     .catch(function(err) {
-      res.status(500).json({ error: 'No events for user' });
+      res.status(500).json({ error: `No event of ${eventId} for user` });
     });
 });
+
+invitesRouter.get('/events/userId/:userId', function(req, res) {
+  const { eventId, userId } = req.params;
+
+  db('eventInvites')
+    .where('userId', userId)
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: 'No event invites for user' });
+    });
+});
+
 
 invitesRouter.get('/events/:eventId', function(req, res) {
   const { eventId } = req.params;
