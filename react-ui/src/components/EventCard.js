@@ -5,8 +5,6 @@ import './css/events.css';
 
 import normalizeDate from './normalizers/normalizeDate';
 
-import { getEvent, getGroups } from '../actions';
-
 import { Navbar, NavbarBrand } from 'mdbreact';
 
 class EventCard extends Component {
@@ -23,18 +21,18 @@ class EventCard extends Component {
   }
 
   render() {
+    // console.log(`eventCard pre-render return id ${this.state.id}`);
+    const admin = (Number(sessionStorage.getItem('id')) === this.props.owner) ? 1 : 0;
+    const queryRoute = `/events/details?eventId=${this.props.id}&admin=${admin}`;
     return (
       <LinkContainer
         exact
-        to="/events/details"
+        to={queryRoute}
         onClick={() => {
-          sessionStorage.setItem('eventId', this.state.id);
-          this.props.setEvent(this.state.id);
-          this.props.setGroups(this.state.id);
+          sessionStorage.setItem('eventId', this.state.id); // not used for EventDetail
           console.log(`EventCard click eventId ${this.state.id}`);
-        const admin = (Number(sessionStorage.getItem('id')) === this.props.owner) ? 1 : 0;
-        sessionStorage.setItem('admin', admin);
-          document.location.reload(false);
+        // sessionStorage.setItem('admin', admin);
+        //  document.location.reload(false);
         }}
       >
         <div className="eventCard--Container">
@@ -59,8 +57,8 @@ class EventCard extends Component {
 // export default EventCard;
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  setEvent: id => dispatch(getEvent(id, 1)),
-  setGroups: id => dispatch(getGroups(id))
+  // setEvent: id => dispatch(getEvent(id, 1)),
+  // setGroups: id => dispatch(getGroups(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventCard);
