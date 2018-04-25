@@ -1,9 +1,10 @@
 import React from 'react';
 import { Field, reduxForm, initialize } from 'redux-form';
 import { connect } from 'react-redux';
+// import parseQueryString from 'query-string';
 import { Navbar, NavbarBrand } from 'mdbreact';
 // import PropTypes from 'prop-types';
-import { getEvent } from '../actions';
+import { getEvent, getGroups } from '../actions';
 import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
 import normalizeDate from './normalizers/normalizeDate';
@@ -82,13 +83,17 @@ class EventsForm extends React.Component {
   //     formattedDate: null,
   //   };
   // }
-  // componentDidMount() {
-  // //   console.log(`componentDidMount ran partGroups: ${this.props.partGroupsS}`);
-  //   this.timerID = setInterval(
-  //     () => this.tick(),
-  //     2000,
-  //   );
-  // }
+  componentDidMount() {
+    const queryString = this.props.location.search;
+    // "?eventId=1&admin=1"
+    const queryParams = queryString.match(/eventId=(\d+)&admin=(\d+)/);
+    this.eventId = Number(queryParams[1]);
+    this.admin = Number(queryParams[2]);
+    const { eventId, admin } = this;
+    console.log(`EventsForm componentDidMount eventId ${eventId} admin ${admin}`);
+    this.props.setEvent(eventId);
+    this.props.setGroups(eventId);
+  }
   // componentWillUnmount() {
   //   clearInterval(this.timerID);
   // }
@@ -119,8 +124,8 @@ class EventsForm extends React.Component {
     const { load } = this.props;
     // const eventId = sessionStorage.getItem('eventId');
     // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
-    const eventId = Number(sessionStorage.getItem('eventId'));
-    const admin = Number(sessionStorage.getItem('admin'));
+    const admin = Number(this.admin);
+    const eventId = Number(this.eventId);
     // console.log(`Event Detail history? ${props.history}`);
     // console.log(`Event Detail eventId: ${eventId}`);
     // console.log(`loadEvent type ${typeof loadEvent}`);
@@ -248,6 +253,8 @@ export default connect(
   }),
   dispatch => ({
     load: eventId => dispatch(getEvent(eventId, 1)),
+    setEvent: id => dispatch(getEvent(id, 1)),
+    setGroups: id => dispatch(getGroups(id)),
     changeFieldValues: (formName, data) =>
       dispatch(initialize(formName, data)),
   }),
