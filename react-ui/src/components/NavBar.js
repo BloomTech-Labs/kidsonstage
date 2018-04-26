@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+// import { LinkContainer } from 'react-router-bootstrap';
 
 import {
   Navbar,
   NavbarBrand,
   NavbarNav,
-  NavbarToggler,
-  Collapse,
-  Button,
+  // NavbarToggler,
+  // Collapse,
+  // Button,
   NavItem,
   NavLink
 } from 'mdbreact';
@@ -43,7 +43,8 @@ export default class NavBar extends Component {
         scrolling
       >
         <NavbarBrand href="/">
-          <img src={require('./graphics/Logo48x48.png')} />
+          <img src={require('./graphics/Logo48x48.png')} alt="logo" />
+
           <strong>Kids on Stage</strong>
         </NavbarBrand>
         {/* {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />} */}

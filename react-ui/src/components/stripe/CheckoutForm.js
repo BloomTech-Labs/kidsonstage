@@ -6,7 +6,7 @@ import { Container, Button, Form } from 'reactstrap';
 
 import { ROOT_URL } from '../../actions/index';
 
-const eventId = Number(sessionStorage.getItem('eventId'));
+// const eventId = Number(sessionStorage.getItem('eventId'));
 
 class CheckoutForm extends React.Component {
   constructor(props) {
@@ -42,7 +42,7 @@ class CheckoutForm extends React.Component {
               })
               .then((res2) => {
                 console.log('Event activated!', res2.data);
-                window.location = '/events/details';
+                window.location = `/events/details?eventId=${res.data.eventId}&admin=${1}`;
               })
               .catch((err2) => {
                 console.log('Could not activate event', err2);

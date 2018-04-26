@@ -12,11 +12,11 @@ import { TextField, Checkbox } from 'material-ui';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
-  faArrowRight,
+  // faArrowRight,
   faUser,
   faKey,
   faAt,
-  faPhone
+  faPhone,
 } from '@fortawesome/fontawesome-free-solid';
 
 import { Navbar, NavbarBrand } from 'mdbreact';
@@ -30,32 +30,32 @@ const renderTextField = ({
   <TextField
     floatingLabelText={label}
     floatingLabelFocusStyle={{
-      color: 'black'
+      color: 'black',
     }}
     underlineFocusStyle={{
-      borderColor: 'white'
+      borderColor: 'white',
     }}
     underlineStyle={{
-      borderColor: 'grey'
+      borderColor: 'grey',
     }}
     errorText={touched && error}
     {...input}
     {...custom}
     style={{
-      color: 'red'
+      color: 'red',
     }}
   />
 );
 
 class Register extends Component {
   handleFormSubmit = ({
-    username = 'mark',
-    email = 'mark@gmail',
+    username = 'x',
+    email = 'x@gmail',
     phoneNumber = '9999999999',
     password = 'p',
     confirmPassword = 'p',
     byPhone,
-    byEmail
+    byEmail,
   }) => {
     this.props.register(
       {
@@ -65,9 +65,9 @@ class Register extends Component {
         password,
         confirmPassword,
         byPhone,
-        byEmail
+        byEmail,
       },
-      this.props.history
+      this.props.history,
     );
   };
 
@@ -94,13 +94,14 @@ class Register extends Component {
     //   </div>
     // );
     const email = value =>
-      value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+      (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
         ? 'Invalid email address'
-        : undefined;
+        : undefined);
+
     const aol = value =>
-      value && /.+@aol\.com/.test(value)
+      (value && /.+@aol\.com/.test(value)
         ? 'Really? You still use AOL for your email?'
-        : undefined;
+        : undefined);
     return (
       <div className="register--container">
         <div className="register--form_container">
@@ -114,39 +115,36 @@ class Register extends Component {
               id="submit-button"
             >
               <fieldset>
-              <FontAwesomeIcon icon={faUser} /> <Field
+                <FontAwesomeIcon icon={faUser} /> <Field
                   className="register--form_field"
                   name="username"
                   component={renderTextField}
                   type="text"
                   placeholder="User Name"
-                  //id="username"
                 />
               </fieldset>
               <fieldset>
-              <FontAwesomeIcon icon={faAt} /> <Field
+                <FontAwesomeIcon icon={faAt} /> <Field
                   className="register--form_field"
                   name="email"
                   component={renderTextField}
                   validate={email}
                   warn={aol}
                   placeholder="Email"
-                  //id="email"
                 />
               </fieldset>
               <fieldset>
-              <FontAwesomeIcon icon={faPhone} /> <Field
+                <FontAwesomeIcon icon={faPhone} /> <Field
                   className="register--form_field"
-                  name="phone"
+                  name="phoneNumber"
                   component={renderTextField}
                   type="text"
                   placeholder="Phone Number"
                   normalize={normalizePhone}
-                  //id="phone"
                 />
               </fieldset>
               <fieldset>
-              <FontAwesomeIcon icon={faKey} /> <Field
+                <FontAwesomeIcon icon={faKey} /> <Field
                   className="register--form_field"
                   name="password"
                   component={renderTextField}
@@ -155,7 +153,7 @@ class Register extends Component {
                 />
               </fieldset>
               <fieldset>
-              <FontAwesomeIcon icon={faKey} /> <Field
+                <FontAwesomeIcon icon={faKey} /> <Field
                   className="register--form_field"
                   name="confirmPassword"
                   component={renderTextField}
@@ -207,7 +205,7 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.auth.error
+  error: state.auth.error,
 });
 
 export default reduxForm({
@@ -216,10 +214,10 @@ export default reduxForm({
   fields: [
     'username',
     'email',
-    'phone',
+    'phoneNumber',
     'password',
     'confirmPassword',
     'byPhone',
-    'byEmail'
-  ]
+    'byEmail',
+  ],
 })(connect(mapStateToProps, { register })(Register));

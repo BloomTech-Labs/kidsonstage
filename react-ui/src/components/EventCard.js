@@ -36,12 +36,15 @@ class EventCard extends Component {
           this.props.setGroups(this.state.id);
           this.props.setParts(this.state.id);
         // sessionStorage.setItem('admin', admin);
+        if (process.env.REACT_APP_SupressReload !== 'true') {
+          console.log('EventCard reloading!');
           document.location.reload(false);
+        }
         }}
       >
         <div className="eventCard--Container">
           {process.env.REACT_APP_ShowEventId === 'true' &&
-          <h2>{this.state.id}</h2>
+          <h2>{this.state.id} admin: {admin} </h2>
           }
           <Navbar className="eventCard--box_navbar" dark>
             <NavbarBrand tag="span">{this.props.title}</NavbarBrand>
