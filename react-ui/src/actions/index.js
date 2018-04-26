@@ -30,7 +30,7 @@ export const register = (user, history) => (dispatch) => {
     dispatch(authError('Passwords do not match'));
     return;
   }
-  console.log(`in "register" for username ${user.username} email ${user.email}`);
+  console.log(`in "register" for ${JSON.stringify(user, null, 2)}`);
   axios
     .post(`${ROOT_URL}/users/newUser`, user)
     .then(() => {
@@ -94,6 +94,7 @@ export const getUser = () => (dispatch) => {
       // console.log(`getUser response.data.keys: ${Object.keys(response.data)}
       //     isArray ${Array.isArray(response.data)} `);
       // console.log(`getUser username ${response.data[0].username}`);
+      console.log(`getUser response.data ${JSON.stringify(response.data, null, 2)}`);
       dispatch({
         type: GET_USER,
         payload: response.data,
