@@ -1,9 +1,9 @@
-codeFiller = () => {
+const codeFiller = () => {
   let possible = "ACEKNRSTXZ";
   return possible.charAt(Math.floor(Math.random() * possible.length));
 }
 
-export default codeGen = num => {
+export function codeGen(num) {
   let numArr = num.toString().split('');
   let startLen = numArr.length;
 
@@ -18,10 +18,10 @@ export default codeGen = num => {
   return numArr.join('');
 };
 
-// console.log(codeGen(1));
+// console.log(codeGen(1)); 
 // console.log(codeGen(2));
-// console.log(codeGen(313));
-// console.log(codeGen(4242));
-// console.log(codeGen(57575));
+// console.log(codeGen(3));
+// console.log(codeGen(4));
+// console.log(codeGen(5));
 // console.log(codeGen(696969));
 
