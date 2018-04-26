@@ -13,6 +13,7 @@ checkoutRouter.post('/events/:eventId', function(req, res) {
   // const { eventId } = req.params;
 
   const amount = '1995';
+  
   if (!token) return res.json({ err: 'Payment Failed' });
   stripe.charges.create(
     {
