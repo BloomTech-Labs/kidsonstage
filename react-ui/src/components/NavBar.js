@@ -44,6 +44,7 @@ export default class NavBar extends Component {
       >
         <NavbarBrand href="/">
           <img src={require('./graphics/Logo48x48.png')} alt="logo" />
+
           <strong>Kids on Stage</strong>
         </NavbarBrand>
         {/* {!this.state.isWideEnough && <NavbarToggler onClick={this.onClick} />} */}
