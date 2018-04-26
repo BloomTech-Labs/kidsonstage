@@ -22,6 +22,18 @@ export default class Home extends Component {
     };
   }
 
+  checkAuth() {
+    const token = sessionStorage.getItem('token');
+    const id = sessionStorage.getItem('id');
+    
+    if (!id || !token) {
+      return false;
+      // return;
+    } else {
+      return true;
+    }
+  }
+
   render() {
     return (
       <div className="home--container">
@@ -30,7 +42,7 @@ export default class Home extends Component {
 
           <h2>A queue notification system for any event!</h2>
 
-          <Link to={this.props.auth ? "/events/new" : "/signin"}>
+          <Link to={this.checkAuth ? "/events/new" : "/signin"}>
             <Button className="home--button" color="success" size="lg">
               Create Event <FontAwesomeIcon icon={faArrowRight} />
             </Button>
