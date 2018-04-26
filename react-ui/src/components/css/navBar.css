@@ -5,3 +5,7 @@
 .navbar--selected {
   color: orange;
 }
+
+strong {
+  margin-left: 10px;
+}

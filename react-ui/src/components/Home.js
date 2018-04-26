@@ -40,6 +40,8 @@ export default class Home extends Component {
         <div className="home--landing_container">
           <h1>Kids on Stage!</h1>
 
+          <img src={require('./graphics/Logo256x256.png')} alt="logo" />
+
           <h2>A queue notification system for any event!</h2>
 
           <Link to={this.checkAuth ? "/events/new" : "/signin"}>

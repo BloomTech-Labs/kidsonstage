@@ -13,7 +13,7 @@ import EventDetailGroupRow from './EventDetailGroupRow';
 import './css/eventDetail.css';
 
 const renderGroups = ({
-  groupFA, load, loadPart, fields, eventId, admin, props, meta: { error },
+  groupFA, /* load, loadPart, */ fields, eventId, admin, props, meta: { error },
 }) => {
   // if (eventId) {
   //   loadPart(eventId);

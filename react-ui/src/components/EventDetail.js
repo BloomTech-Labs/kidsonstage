@@ -76,49 +76,52 @@ const nomalizeEventDate = (event) => {
   return event;
 };
 class EventsForm extends React.Component {
-  // constructor(props) {
-  //   super(props);
-
-  // }
-  componentWillMount() {
-  //   clearInterval(this.timerID);
-    const queryString = this.props.location.search;
+  constructor(props) {
+    super(props);
+    const queryString = props.location.search;
     // "?eventId=1&admin=1"
     const queryParams = queryString.match(/eventId=(\d+)&admin=(\d+)/);
-    this.eventId = Number(queryParams[1]);
-    this.admin = Number(queryParams[2]);
-    const { eventId } = this;
+    /* eslint-disable prefer-destructuring */
+    this.state = {
+      eventId: Number(queryParams[1]),
+      admin: Number(queryParams[2]),
+    };
+  }
+  componentWillMount() {
+  //   clearInterval(this.timerID);
+
+    const { eventId } = this.state;
     // console.log(`EventsForm componentDidMount eventId ${eventId} admin ${admin}`);
     this.props.load(eventId);
     this.props.setGroups(eventId);
     this.props.setPart(eventId);
   }
-  tick = () => {
-    console.log(`in tick title: ${this.props.event.title}`);
-    const newEvent = nomalizeEventDate(this.props.event);
-    this.props.changeFieldValues('eventdetail', {
-      // event: {
-      title: newEvent.title,
-      formattedDate: newEvent.formattedDate,
-      keepDirty: false,
-      // },
-      // initialValues: { event: nomalizeEventDate(this.props.event) },
-    });
-    this.props.changeFieldValues('eventdetailGroups', {
-      groupFA: this.props.loadRowData(this.props.groups, this.props.partGroups),
-    });
+  // tick = () => {
+  //   console.log(`in tick title: ${this.props.event.title}`);
+  //   const newEvent = nomalizeEventDate(this.props.event);
+  //   this.props.changeFieldValues('eventdetail', {
+  //     // event: {
+  //     title: newEvent.title,
+  //     formattedDate: newEvent.formattedDate,
+  //     keepDirty: false,
+  //     // },
+  //     // initialValues: { event: nomalizeEventDate(this.props.event) },
+  //   });
+  //   this.props.changeFieldValues('eventdetailGroups', {
+  //     groupFA: this.props.loadRowData(this.props.groups, this.props.partGroups),
+  //   });
 
-    // const iresult = initialize('eventdetail', {
-    //   title: newEvent.title,
-    //   formattedDate: newEvent.formattedDate,
-    //   keepDirty: false,
-    // });
-    // console.log(`iresult: ${JSON.stringify(iresult, null, 2)}`);
-  };
+  //   // const iresult = initialize('eventdetail', {
+  //   //   title: newEvent.title,
+  //   //   formattedDate: newEvent.formattedDate,
+  //   //   keepDirty: false,
+  //   // });
+  //   // console.log(`iresult: ${JSON.stringify(iresult, null, 2)}`);
+  // };
   render() {
     // console.log(`showEventId ${JSON.stringify(process.env, null, 2)}`);
     // const { load } = this.props;
-    const { eventId, admin } = this;
+    const { eventId, admin } = this.state;
 
     // if (eventId > 0) this.props.load(eventId);
     // console.log(`event ${JSON.stringify(event)}`);

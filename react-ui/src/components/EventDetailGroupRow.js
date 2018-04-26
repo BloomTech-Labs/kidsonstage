@@ -283,13 +283,16 @@ class EventDetailGroupRow extends Component {
           }}
           onBlur={(event) => {
             const group = Object.assign(this.state.group);
-            group.name = event.target.value;
-            this.setState(
+            const newName = event.target.value;
+            if (group.name !== newName) {
+              group.name = newName;
+              this.setState(
               {
                 group,
               },
-              this.sendGroup(group, edit),
-            );
+                this.sendGroup(group, edit),
+              );
+            }
           }}
         />
         <Field
@@ -305,13 +308,17 @@ class EventDetailGroupRow extends Component {
           onBlur={(event) => {
             const group = Object.assign(this.state.group);
             // console.log(`time: ${event.target.value}`);
-            group.time = `${event.target.value}:00`; // event.target.value;
-            this.setState(
+            const newTime = event.target.value;
+            if (group.time !== newTime) {
+              // console.log(`time: |${group.time}| newTime |${newTime}| isEqual ${group.time == newTime}`);
+              group.time = `${newTime}:00`;
+              this.setState(
               {
                 group,
               },
-              this.sendGroup(group, edit),
-            );
+                this.sendGroup(group, edit),
+              );
+            }
           }}
         />
         {this.state.admin === 0 && (
@@ -460,8 +467,11 @@ class EventDetailGroupRow extends Component {
     );
   }
 }
+EventDetailGroupRow.defaultProps = {
+  group: undefined,
+};
 EventDetailGroupRow.propTypes = {
-  group: PropTypes.object.isRequired,
+  group: PropTypes.object,
   fields: PropTypes.object.isRequired,
   groupText: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
