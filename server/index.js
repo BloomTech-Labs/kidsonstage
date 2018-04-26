@@ -6,6 +6,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const morgan = require('morgan');
+const helmet = require('helmet');
 
 // TEMP COMMENT OUT
 // const adminEndpoints = require('./admin/adminEndpoints.js');
@@ -19,7 +21,15 @@ const PORT = process.env.PORT || process.env.LOCAL_PORT;
 const server = express();
 
 server.use(bodyParser.json());
-server.use(cors({credentials: true, origin: process.env.CLIENT_URL }));
+server.use(morgan('common'));
+server.use(helmet());
+server.use(
+  cors({
+    credentials: true,
+    origin: [process.env.CLIENT_URL],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  })
+);
 
 // TEMP COMMENT OUT
 // server.use('/api/admin', adminEndpoints);
@@ -34,7 +44,9 @@ if (process.env.NODE_ENV === 'production') {
   // Priority serve any static files.
   server.use(express.static(path.resolve(__dirname, '../react-ui/build')));
   server.get('*', function(request, response) {
-    response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+    response.sendFile(
+      path.resolve(__dirname, '../react-ui/build', 'index.html')
+    );
   });
 }
 
