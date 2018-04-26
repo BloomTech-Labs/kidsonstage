@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import parseQueryString from 'query-string';
 import { Navbar, NavbarBrand } from 'mdbreact';
 // import PropTypes from 'prop-types';
-import { getEvent, getGroups } from '../actions';
+import { getEvent, getGroups, getPartGroups } from '../actions';
 import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
 import normalizeDate from './normalizers/normalizeDate';
@@ -78,25 +78,21 @@ const nomalizeEventDate = (event) => {
 class EventsForm extends React.Component {
   // constructor(props) {
   //   super(props);
-  //   this.state = {
-  //     title: '',
-  //     formattedDate: null,
-  //   };
+
   // }
-  componentDidMount() {
+  componentWillMount() {
+  //   clearInterval(this.timerID);
     const queryString = this.props.location.search;
     // "?eventId=1&admin=1"
     const queryParams = queryString.match(/eventId=(\d+)&admin=(\d+)/);
     this.eventId = Number(queryParams[1]);
     this.admin = Number(queryParams[2]);
-    const { eventId, admin } = this;
-    console.log(`EventsForm componentDidMount eventId ${eventId} admin ${admin}`);
-    this.props.setEvent(eventId);
+    const { eventId } = this;
+    // console.log(`EventsForm componentDidMount eventId ${eventId} admin ${admin}`);
+    this.props.load(eventId);
     this.props.setGroups(eventId);
+    this.props.setPart(eventId);
   }
-  // componentWillUnmount() {
-  //   clearInterval(this.timerID);
-  // }
   tick = () => {
     console.log(`in tick title: ${this.props.event.title}`);
     const newEvent = nomalizeEventDate(this.props.event);
@@ -121,16 +117,10 @@ class EventsForm extends React.Component {
   };
   render() {
     // console.log(`showEventId ${JSON.stringify(process.env, null, 2)}`);
-    const { load } = this.props;
-    // const eventId = sessionStorage.getItem('eventId');
-    // const eventId = (id <= 0) ? sessionStorage.getItem('eventId') : id;
-    const admin = Number(this.admin);
-    const eventId = Number(this.eventId);
-    // console.log(`Event Detail history? ${props.history}`);
-    // console.log(`Event Detail eventId: ${eventId}`);
-    // console.log(`loadEvent type ${typeof loadEvent}`);
-    // console.log(`getEvent type ${typeof getEvent}`);
-    if (eventId > 0) load(eventId);
+    // const { load } = this.props;
+    const { eventId, admin } = this;
+
+    // if (eventId > 0) this.props.load(eventId);
     // console.log(`event ${JSON.stringify(event)}`);
     return (
       <div className="eventDetail--container">
@@ -164,15 +154,6 @@ class EventsForm extends React.Component {
               type="text"
               component={renderTextField}
               placeholder="Event Date"
-              readOnly="true"
-            />
-            <br />
-            Event Invite Code:{'  '}
-            <Field
-              name="event.id"
-              type="text"
-              component={renderTextField}
-              placeholder="Event Invite Code"
               readOnly="true"
             />
           </div>
@@ -253,8 +234,9 @@ export default connect(
   }),
   dispatch => ({
     load: eventId => dispatch(getEvent(eventId, 1)),
-    setEvent: id => dispatch(getEvent(id, 1)),
+    // setEvent: id => dispatch(getEvent(id, 1)),
     setGroups: id => dispatch(getGroups(id)),
+    setPart: eventId => dispatch(getPartGroups(eventId)),
     changeFieldValues: (formName, data) =>
       dispatch(initialize(formName, data)),
   }),

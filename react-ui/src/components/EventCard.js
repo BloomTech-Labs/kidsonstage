@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
+import { getEvent, getGroups, getPartGroups } from '../actions';
 import './css/events.css';
 
 import normalizeDate from './normalizers/normalizeDate';
@@ -31,8 +32,11 @@ class EventCard extends Component {
         onClick={() => {
           sessionStorage.setItem('eventId', this.state.id); // not used for EventDetail
           console.log(`EventCard click eventId ${this.state.id}`);
+          this.props.setEvent(this.state.id);
+          this.props.setGroups(this.state.id);
+          this.props.setParts(this.state.id);
         // sessionStorage.setItem('admin', admin);
-        //  document.location.reload(false);
+          document.location.reload(false);
         }}
       >
         <div className="eventCard--Container">
@@ -57,8 +61,9 @@ class EventCard extends Component {
 // export default EventCard;
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  // setEvent: id => dispatch(getEvent(id, 1)),
-  // setGroups: id => dispatch(getGroups(id))
+  setEvent: id => dispatch(getEvent(id, 1)),
+  setGroups: id => dispatch(getGroups(id)),
+  setParts: id => dispatch(getPartGroups(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventCard);

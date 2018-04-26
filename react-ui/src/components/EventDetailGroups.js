@@ -15,10 +15,10 @@ import './css/eventDetail.css';
 const renderGroups = ({
   groupFA, load, loadPart, fields, eventId, admin, props, meta: { error },
 }) => {
-  if (eventId) {
-    loadPart(eventId);
-    load(eventId);
-  }
+  // if (eventId) {
+  //   loadPart(eventId);
+  //   load(eventId);
+  // }
   return (
     <div>
       <ul>
@@ -56,6 +56,7 @@ const renderGroups = ({
         </li>
           )}
       </ul>
+
     </div>
   );
 };
