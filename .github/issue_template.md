@@ -1,3 +1,5 @@
+PLEASE FILL OUT COMPLETELY REPLACING THE "PLACEHOLDER" TEXT WITH YOUR ANSWERS.
+
 ## Description
 
 Describe the issue or the enhancement that you want to see.
