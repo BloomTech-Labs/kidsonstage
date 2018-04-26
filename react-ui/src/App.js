@@ -70,7 +70,7 @@ class App extends Component {
         <div className="App--Body">
           {/* <div className="sideNavBar--Container">SideNavBar</div> */}
           <div>
-            <Route exact path="/" render={() => (withTracker(<Home auth={this.checkAuth()} />))} />
+            <Route exact path="/" component={withTracker(Home)} />
             <Route path="/signin" component={withTracker(SignIn)} />
             <Route path="/users" component={withTracker(RequireAuth(Users))} />
             <Route path="/signout" component={withTracker(RequireAuth(SignOut))} />
