@@ -22,7 +22,8 @@ What happened.
 
 ### Environment
 
-* Node.js version:
+* Dev or Production: 
+* Browser:
 * Operating System:
 
 
