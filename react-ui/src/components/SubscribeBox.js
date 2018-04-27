@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { Navbar, NavbarBrand } from 'mdbreact';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import './css/subscriberBox.css';
-import { getEvent, invitedEventSubscribe, getEventInvites } from '../actions';
+import { getEvent, invitedEventSubscribe, getEventInvites, ROOT_URL } from '../actions';
 /* eslint-disable react/prefer-stateless-function, no-console */
 class SubscriberBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
       eventId: -1,
+      error: undefined,
+      errorArray: [],
     };
   }
   componentDidMount() {
@@ -42,19 +45,40 @@ class SubscriberBox extends Component {
         }}
         >
           <input
-            type="number"
+            type="text"
             placeholder="Event Code"
             onBlur={(event) => {
               // console.log(`SubscriberBox ${event.target.value}`);
-              const eventId = Number(event.target.value);
-              if (eventId > 0) {
-                this.setState({
-                  eventId,
-                });
+              const eventCode = event.target.value;
+              if (eventCode.length > 0) {
+                const url = `${ROOT_URL}/invites/${eventCode}`;
+                axios
+                  .get(url)
+                  .then((response) => {
+                    console.log(JSON.stringify(response.data[0], null, 2));
+                    this.setState({
+                      eventId: response.data[0].id,
+                    });
+                  })
+                  .catch((err) => {
+                    this.setState({
+                      error: err,
+                      errorArray: Object.keys(err).map(key => `${key}: ${err[key]}`),
+                    });
+                  });
               }
           }}
-          /><br />
-          <button type="submit">Add Event</button>
+          />
+          <div>
+            <h2>Event ID {this.state.eventId}</h2>
+            <button type="submit">Add Event</button>
+          </div>
+          {this.state.error !== undefined &&
+          <ul>
+            {this.state.errorArray.forEach(error =>
+              <li key={error}>{error}</li>)}
+          </ul>
+          }
         </form>
 
       </div>
