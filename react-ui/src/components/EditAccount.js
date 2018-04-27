@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import normalizePhone from './normalizers/normalizePhone';
+
 import { Navbar, NavbarBrand } from 'mdbreact';
-import { updateUser, getUser } from '../actions';
 
 import { TextField } from 'material-ui';
-
-import './css/userSettings.css';
-
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
   faKey,
   faAt,
   faPhone,
 } from '@fortawesome/fontawesome-free-solid';
+
+import './css/userSettings.css';
+import { updateUser, getUser } from '../actions';
+import normalizePhone from './normalizers/normalizePhone';
 
 const renderTextField = ({
   input,
@@ -176,21 +176,21 @@ class Settings extends Component {
             <div className="flex-center-div" id="new-user-checkboxes">
               <div id="new-user-texts">
                 <Field
+                  className="register--form_field checkbox"
                   name="byPhone"
                   id="byPhone"
                   component="input"
                   type="checkbox"
-                  className="checkbox"
                 />
                 <span>Texts?</span>
               </div>
               <div id="new-user-emails">
                 <Field
+                  className="register--form_field checkbox"
                   name="byEmail"
                   id="byEmail"
                   component="input"
                   type="checkbox"
-                  className="checkbox"
                 />
                 <span>Email?</span>
               </div>

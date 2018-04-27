@@ -1,3 +1,5 @@
+import { RSA_NO_PADDING } from 'constants';
+
 const express = require('express');
 
 const usersRouter = express.Router();
@@ -6,12 +8,16 @@ const getTokenForUser = require('../services/token');
 const db = require('../config/db.js');
 
 var bcrypt = require('bcrypt');
+const requireAuth = require('../services/passport').requireAuth;
 const saltRounds = 10;
 
-usersRouter.get('/', function(req, res) {
-  // /api/users/
-
-  db('users')
+usersRouter.get('/', requireAuth, function(req, res) {
+	// /api/users/
+	// console.log(`users user ${JSON.stringify(req.user, null, 2)}`);
+	if (req.user.record.userClass !== 3) {
+		return res.status(500).json({error: 'userClass unauthorized'});
+	}
+	db('users')
     .select(
       'username',
       'email',
@@ -20,12 +26,12 @@ usersRouter.get('/', function(req, res) {
       'byEmail',
       'byPhone'
     )
-    .then(function(records) {
-      res.status(200).json(records);
-    })
-    .catch(function(err) {
-      res.status(500).json({ error: 'Could not retrieve any users' });
-    });
+		.then(function(records) {
+			res.status(200).json(records);
+		})
+		.catch(function(err) {
+			res.status(500).json({ error: 'Could not retrieve any users' });
+		});
 });
 
 usersRouter.get('/:id', function(req, res) {
@@ -190,33 +196,26 @@ usersRouter.post('/login', requireSignIn, signIn);
 // 		}));
 // });
 usersRouter.post('/newUser', function(req, res) {
-  // /api/users/newUser
-  const { username, password, email, phoneNumber, byEmail, byPhone } = req.body;
-  const vcode = 12345678;
-
-  bcrypt.hash(password, saltRounds, function(err, hash) {
-    // Store hash in your password DB.
-    db('users')
-      .insert({
-        username,
-        password: hash,
-        email,
-        phoneNumber,
-        vcode,
-        byEmail,
-        byPhone
-      })
-      .then(function(record) {
-        if (record) {
-          res.status(200).json(record);
-        } else {
-          res.status(404).json(null);
-        }
-      })
-      .catch(function(err) {
-        res.status(500).json({ error: 'Could not create the user.', err });
-      });
-  });
+	// /api/users/newUser
+	const { username, password, email, phoneNumber, byEmail, byPhone } = req.body;
+	const vcode = 12345678;
+	
+	bcrypt.hash(password, saltRounds, function(err, hash) {
+		// Store hash in your password DB.
+		db('users')
+			.insert({ username, password: hash, email, phoneNumber, vcode, byEmail, byPhone })
+			.then(function(record) {
+				if (record) {
+					res.status(200).json(record);
+				} else {
+					res.status(404).json(null);
+				}
+			})
+			.catch(function(err) {
+				console.log(`newUser error ${err}`);
+				res.status(500).json({ error: 'Could not create the user.', err });
+			});
+	});
 });
 
 usersRouter.delete('/delete', function(req, res) {
