@@ -36,13 +36,15 @@ class CheckoutForm extends React.Component {
           .then((res) => {
             console.log('Charge success: ', res.data);
             // ACTIVATE EVENT REQUEST
+            const { eventId } = res.data;
+            
             axios
-              .put(`${ROOT_URL}/events/${res.data.eventId}/activate`, {
+              .put(`${ROOT_URL}/events/${eventId}/activate`, {
                 status: res.data.status,
               })
               .then((res2) => {
                 console.log('Event activated!', res2.data);
-                window.location = `/events/details?eventId=${res.data.eventId}&admin=${1}`;
+                window.location = `/events/details?eventId=${eventId}&admin=${1}`;
               })
               .catch((err2) => {
                 console.log('Could not activate event', err2);

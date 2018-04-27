@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
       .integer('owner')
       .references('id')
       .inTable('users');
+    tbl.string('inviteCode');
     tbl.string('title', 100).notNullable();
     tbl.dateTime('eventDate').notNullable();
     tbl
