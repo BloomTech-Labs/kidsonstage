@@ -53,8 +53,11 @@ class EventCard extends Component {
 
           {/* <div className="eventCard--Title"></div> */}
           <div className="eventCard--Date">{normalizeDate(this.props.eventDate)}<br />
-          {/* Active Status: {this.props.title === true ? "TRUE" : "FALSE"} */}
+            {/* Active Status: {this.props.title === true ? "TRUE" : "FALSE"} */}
           </div>
+          {this.props.inviteCode && 
+          <div className="eventCard--Invite">Event Invite Code {this.props.inviteCode}</div>
+          }
         </div>
       </LinkContainer>
     );

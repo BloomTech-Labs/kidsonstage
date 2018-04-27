@@ -177,7 +177,7 @@ class EventsForm extends React.Component {
               {/* Display stripe payment box if event isn't activated */}
 
               {this.props.initialValues.event.activated === true ? (
-                <div className="eventDetail--activated">ACTIVATED</div>
+                <div className="eventDetail--activated">ACTIVATED Invite Code {this.props.event.inviteCode}</div>
               ) : (
                 <Billing eventId={eventId} />
               )}

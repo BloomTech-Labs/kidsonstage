@@ -48,7 +48,7 @@ class SubscriberBox extends Component {
           <span>
             <input
               type="text"
-              placeholder="Event Code"
+              placeholder="Event Invite Code"
               value={this.state.eventCode}
               onChange={(event) => {
                 // console.log(`changed value ${event.target.value}`);

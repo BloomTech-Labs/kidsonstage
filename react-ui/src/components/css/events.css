@@ -37,7 +37,12 @@
 
 .eventCard--Date {
   text-align: center;
-  margin-top: 35%;
+  margin-top: 17%;
+}
+
+.eventCard--Invite {
+  text-align: center;
+  margin-top: 17%;
 }
 
 .newEvent--button_save {
