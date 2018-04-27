@@ -94,7 +94,7 @@ export const getUser = () => (dispatch) => {
       // console.log(`getUser response.data.keys: ${Object.keys(response.data)}
       //     isArray ${Array.isArray(response.data)} `);
       // console.log(`getUser username ${response.data[0].username}`);
-      console.log(`getUser response.data ${JSON.stringify(response.data, null, 2)}`);
+      // console.log(`getUser response.data ${JSON.stringify(response.data, null, 2)}`);
       dispatch({
         type: GET_USER,
         payload: response.data,

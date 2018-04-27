@@ -234,6 +234,7 @@ class Settings extends Component {
 Settings = reduxForm({
   form: 'settings', // a unique identifier for this form
   touchOnBlur: true,
+  enableReinitialize: true,
 })(Settings);
 
 // You have to connect() to any reducers that you wish to connect to yourself
