@@ -1,3 +1,5 @@
+import { RSA_NO_PADDING } from 'constants';
+
 const express = require('express');
 
 const usersRouter = express.Router();
@@ -6,11 +8,15 @@ const getTokenForUser = require('../services/token');
 const db = require('../config/db.js');
 
 var bcrypt = require('bcrypt');
+const requireAuth = require('../services/passport').requireAuth;
 const saltRounds = 10;
 
-usersRouter.get('/', function(req, res) {
+usersRouter.get('/', requireAuth, function(req, res) {
 	// /api/users/
-	
+	// console.log(`users user ${JSON.stringify(req.user, null, 2)}`);
+	if (req.user.record.userClass !== 3) {
+		return res.status(500).json({error: 'userClass unauthorized'});
+	}
 	db('users')
 		.then(function(records) {
 			res.status(200).json(records);
@@ -172,6 +178,7 @@ usersRouter.post('/newUser', function(req, res) {
 				}
 			})
 			.catch(function(err) {
+				console.log(`newUser error ${err}`);
 				res.status(500).json({ error: 'Could not create the user.', err });
 			});
 	});
