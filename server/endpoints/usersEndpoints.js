@@ -6,10 +6,14 @@ const getTokenForUser = require('../services/token');
 const db = require('../config/db.js');
 
 var bcrypt = require('bcrypt');
+const requireAuth = require('../services/passport').requireAuth;
 const saltRounds = 10;
 
-usersRouter.get('/', function(req, res) {
+usersRouter.get('/', requireAuth, function(req, res) {
   // /api/users/
+	if (req.user.record.userClass !== 3) {
+		return res.status(500).json({error: 'userClass unauthorized'});
+	}
 
   db('users')
     .select(

@@ -1,3 +1,7 @@
+#getEventId {
+  width: auto;
+}
+
 .subscriberBox--form_container {
   background-color: rgb(218, 219, 218);
   /* display: flex;
@@ -7,7 +11,7 @@
   margin-bottom: 20px;
   width: 80%;
   min-width: 280px;
-  height: 150px;
+  height: 215px;
   justify-content: center;
   text-align: center;
 
