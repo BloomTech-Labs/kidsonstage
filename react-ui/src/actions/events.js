@@ -82,6 +82,7 @@ axios.defaults.withCredentials = true;
 //       dispatch(authError('Failed to fetch events'));
 //     });
 // };
+
 export const invitedEventSubscribe = eventId => (dispatch) => {
   console.log(`Subscribe Event eventId: ${eventId}`);
   const token = sessionStorage.getItem('token');
@@ -221,7 +222,7 @@ export const addPartGroup = partGroup => (dispatch) => {
           userId: id,
           groupId,
         },
-      })
+      });
     })
     .catch((error, err) => {
       console.log(`addPartGroup ${error} ${err} `);
@@ -463,7 +464,7 @@ export const getEvent = (eventId, type = 0) => (dispatch) => {
       // console.log(`getEvent eventDate: ${response.data[0].eventDate}`);
       let data = response.data[0] || {};
       if (data.title) {
-        data = {...data, eventId};
+        data = { ...data, eventId };
       }
       if (type === 2) {
         console.log(`adding invited ${data.title} eventId: ${data.eventId} id: ${data.id}`);
@@ -474,12 +475,12 @@ export const getEvent = (eventId, type = 0) => (dispatch) => {
       } else if (type === 1) {
         dispatch({
           type: GET_EVENT,
-          payload: data
+          payload: data,
         });
       } else {
         dispatch({
           type: ADD_EVENT,
-          payload: data
+          payload: data,
         })
         ;
       }

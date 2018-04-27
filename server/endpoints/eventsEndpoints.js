@@ -4,6 +4,9 @@ const eventsRouter = express.Router();
 
 const db = require('../config/db.js');
 
+const requireAuth = require('../services/passport').requireAuth;
+
+
 import { codeGen } from './utilities/codeGen';
 
 eventsRouter.get('/', function(req, res) {
@@ -44,7 +47,7 @@ eventsRouter.delete('/', function(req, res) {
     });
 });
 
-eventsRouter.get('/byUser/:userId', function(req, res) {
+eventsRouter.get('/byUser/:userId', requireAuth, function(req, res) {
   const { userId } = req.params;
 
   db('events')
@@ -89,7 +92,7 @@ eventsRouter.get('/:eventId/activate', function(req, res) {
 eventsRouter.put('/:eventId/activate', function(req, res) {
   const { eventId } = req.params;
   const { status } = req.body;
-
+  console.log(`eventId ${eventId} status: ${status}`);
   if (status === 'succeeded') {
     db('events')
       .where('id', eventId)
@@ -102,6 +105,7 @@ eventsRouter.put('/:eventId/activate', function(req, res) {
         res.status(200).json(records);
       })
       .catch(function(err) {
+        console.log(`activate ${err}`);
         res.status(500).json({ error: 'Could not activate event', err });
       });
   } else {
