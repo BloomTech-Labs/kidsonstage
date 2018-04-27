@@ -3,7 +3,6 @@ const express = require('express');
 const eventsRouter = express.Router();
 
 const db = require('../config/db.js');
-const requireAuth = require('../services/passport').requireAuth;
 
 import { codeGen } from './utilities/codeGen';
 
@@ -45,7 +44,7 @@ eventsRouter.delete('/', function(req, res) {
     });
 });
 
-eventsRouter.get('/byUser/:userId', requireAuth, function(req, res) {
+eventsRouter.get('/byUser/:userId', function(req, res) {
   const { userId } = req.params;
 
   db('events')

@@ -1,12 +1,14 @@
-/* eslint-disable jsx-a11y/label-has-for, react/prop-types, object-curly-newline, no-console */
+/* eslint-disable jsx-a11y/label-has-for, react/prop-types, object-curly-newline */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-
+import normalizePhone from './normalizers/normalizePhone';
+import { register } from '../actions';
+import './css/register.css';
 
 // const { DOM: { input /* select, textarea */ } } = React;
 
-import { TextField /* , Checkbox */ } from 'material-ui';
+import { TextField, Checkbox } from 'material-ui';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
@@ -18,10 +20,6 @@ import {
 } from '@fortawesome/fontawesome-free-solid';
 
 import { Navbar, NavbarBrand } from 'mdbreact';
-
-import normalizePhone from './normalizers/normalizePhone';
-import { register } from '../actions';
-import './css/register.css';
 
 const renderTextField = ({
   input,
@@ -56,11 +54,9 @@ class Register extends Component {
     phoneNumber = '9999999999',
     password = 'p',
     confirmPassword = 'p',
-    byPhone = false,
-    byEmail = false,
-    ...extraProps
+    byPhone,
+    byEmail,
   }) => {
-    console.log(`byPhone: ${byPhone}  byEmail: ${byEmail} ${JSON.stringify(extraProps, null, 2)}`);
     this.props.register(
       {
         username,
@@ -169,22 +165,22 @@ class Register extends Component {
               <div className="register--contact">
                 How would you like to be contacted?
                 <fieldset>
-                  <Field
-                    className="register--form_field checkbox"
-                    name="byPhone"
-                    id="byPhone"
-                    component="input"
-                    type="checkbox"
-                  />
-                  <span>Texts? </span>
-                  <Field
-                    className="register--form_field checkbox"
-                    name="byEmail"
-                    id="byEmail"
-                    component="input"
-                    type="checkbox"
-                  />
-                  <span>Email?</span>
+                  <div className="register--contact_checkbox">
+                    <Field
+                      name="byPhone"
+                      id="byPhone"
+                      component={Checkbox}
+                      type="checkbox"
+                      label="Text Messaging"
+                    />
+                    <Field
+                      name="byEmail"
+                      id="byEmail"
+                      component={Checkbox}
+                      type="checkbox"
+                      label="Email"
+                    />
+                  </div>
                 </fieldset>
               </div>
 
