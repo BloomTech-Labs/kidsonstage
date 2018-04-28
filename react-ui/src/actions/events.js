@@ -15,6 +15,7 @@ export const DELETE_GROUP = 'DELETE_GROUP';
 export const DELETE_PART_GROUP = 'DELETE_PART_GROUP';
 export const ADD_GROUP = 'ADD_GROUP';
 export const ADD_PART_GROUP = 'ADD_PART_GROUP';
+export const EDIT_PART_GROUP = 'EDIT_PART_GROUP';
 export const EDIT_GROUP = 'EDIT_GROUP';
 export const SET_EVENT_ID = 'SET_EVENT_ID';
 export const GET_EVENT_ID = 'GET_EVENT_ID';
@@ -198,8 +199,8 @@ export const getPartGroups = eventId => (dispatch) => {
 export const addPartGroup = partGroup => (dispatch) => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
-  const { eventId, groupId } = partGroup;
-  const body = { userId: id };
+  const { eventId, groupId, subscribed } = partGroup;
+  const body = { userId: id, subscribed };
   console.log(`addPartGroup groupId ${groupId} eventId ${eventId} userId ${id}`);
   if (!id || !token) {
     dispatch(authError('Not logged in'));
@@ -405,14 +406,46 @@ export const deletePartGroup = partGroup => (dispatch) => {
       // console.log(`delete group response ${Number(response.data[0])}`);
       if (partGroup.id) {
         dispatch({
-          type: DELETE_GROUP,
+          type: DELETE_PART_GROUP,
           payload: partGroup.id,
         });
       }
     })
-    .catch((err) => {
-      console.log(`delete error: ${JSON.stringify(err, null, 2)}`);
-      dispatch(authError('Failed to delete group'));
+    .catch((err) => { // ignore errors
+      console.log(`deletePartGroup error: ${JSON.stringify(err, null, 2)}`);
+      // dispatch(authError('Failed to delete group'));
+    });
+};
+// ('/:eventId/groups/:groupId/userId/:userId',
+export const editPartGroup = partGroup => (dispatch) => {
+  const { eventId, groupId, subscribed } = partGroup;
+  console.log(`edit groupId ${groupId} eventId: ${partGroup.eventId} subscribed: ${subscribed}`);
+  const token = sessionStorage.getItem('token');
+  const id = sessionStorage.getItem('id');
+  if (!id || !token) {
+    dispatch(authError('Not logged in'));
+    return;
+  }
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+  axios
+    .put(`${ROOT_URL}/events/${eventId}/groups/${groupId}/userId/${id}`, { subscribed }, config)
+    .then((response) => {
+      console.log(`edit group response ${JSON.stringify(response, null, 2)}`);
+      // console.log(`delete group response ${Number(response.data[0])}`);
+      dispatch({
+        type: EDIT_PART_GROUP,
+        payload: {
+          eventId, groupId, userId: id, subscribed,
+        },
+      });
+    })
+    .catch((err) => { // ignore errors
+      console.log(`editPartGroup error: ${JSON.stringify(err, null, 2)}`);
+      // dispatch(authError('Failed to delete group'));
     });
 };
 export const editGroup = group => (dispatch) => {

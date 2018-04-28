@@ -171,7 +171,7 @@ usersRouter.get('/validated/:validated', function(req, res) {
     });
 });
 const signIn = (req, res) => {
-  res.send({ token: getTokenForUser(req.user), id: req.user.id });
+  res.send({ token: getTokenForUser(req.user),  id: req.user.id, user: req.user });
 };
 usersRouter.post('/login', requireSignIn, signIn);
 

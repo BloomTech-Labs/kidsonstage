@@ -104,3 +104,8 @@ display: none;
 #time {
   width: 50px;
 }
+
+.primary-data {
+  font-weight: bold;
+  font-size: 16pt;
+}
