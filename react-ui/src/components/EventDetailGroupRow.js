@@ -22,9 +22,11 @@ import {
   deleteGroup,
   addPartGroup,
   deletePartGroup,
+  editPartGroup,
   // getPartGroups,
 } from '../actions';
 
+import AxiosPromise from './axiosPromise';
 import './css/eventDetail.css';
 /* eslint-disable react/forbid-prop-types, no-console, no-nested-ternary,
     jsx-a11y/no-static-element-interactions */
@@ -165,22 +167,47 @@ class EventDetailGroupRow extends Component {
       eventId: this.props.eventId,
       admin: this.props.admin,
       checked: ((thisGroup !== undefined) ? thisGroup.checked : false),
-      partGroup: ((thisGroup !== undefined) ? thisGroup.partGroup : undefined),
+      loaded: !((this.props.eventId > 0) &&
+        ((thisGroup !== undefined) ? thisGroup.id : -1) > 0),
+      // partGroup: ((thisGroup !== undefined) ? thisGroup.partGroup : undefined),
       // partGroups: this.props.partGroupsS,
     };
-    this.enableTick = true;
-    this.tickCounter = 0;
+    // this.enableTick = true;
+    // this.tickCounter = 0;
     // if (this.state.completed) {
     //   this.setLineThrough(`${this.props.groupText}.name`);
     //   // this.setLineThrough(`${this.props.groupText}.time`);
     // }
+
+    // /apiundefined/userId/5
+    if ((this.state.eventId > 0) && (this.state.group.id > 0)) {
+      const url = `/events/${this.state.eventId}/groups/${this.state.group.id}`;
+      AxiosPromise({ verb: 'get', url, idOption: 'param' }, (err, result) => {
+        if (err || result.data.length === 0) {
+          console.log(`detail row constructor partGroup not found or empty for
+          ${this.state.group.id} ${this.state.group.name}`);
+          this.setState({
+            checked: false,
+            loaded: true,
+          });
+        } else {
+          console.log(`checked ${this.state.checked} detail row constructor partGroup result for group
+              ${this.state.group.id} ${this.state.group.name}
+              ${JSON.stringify(result.data[0], null, 2)}`);
+          this.setState({
+            checked: result.data[0].subscribed,
+            loaded: true,
+          });
+        }
+      });
+    }
   }
   componentDidMount() {
     //   console.log(`componentDidMount ran partGroups: ${this.props.partGroupsS}`);
-    this.timerID = setInterval(
-      () => this.tick(),
-      2000,
-    );
+    // this.timerID = setInterval(
+    //   () => this.tick(),
+    //   2000,
+    // );
   }
   // componentWillReceiveProps(nextProps) {
   //   const partGroupsIndex = nextProps.partGroups.findIndex(partGroup =>
@@ -198,9 +225,9 @@ class EventDetailGroupRow extends Component {
   //     });
   //   }
   // }
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
+  // componentWillUnmount() {
+  //   clearInterval(this.timerID);
+  // }
   // setLineThrough = () => {
   //   // const elem = document.getElementById(elemId);
   //   // console.log(JSON.stringify(this, null, 2));
@@ -211,46 +238,38 @@ class EventDetailGroupRow extends Component {
   //   // renderTextFieldTime.style.color = 'green';
   //   console.log(`renderTextFieldTime ${JSON.stringify({ renderTextFieldTime }, null, 2)}`);
   // };
-  disableTick() {
-    this.enableTick = false;
-  }
-  postponeTick() {
-    this.tickCounter = 5;
-  }
+  // tick() {
+  //   if (!this.enableTick) return;
+  //   if (!this.state.readOnly) return;
+  //   if (this.tickCounter > 0) {
+  //     this.tickCounter--;
+  //     console.log(`tickCounter: ${this.tickCounter}`);
+  //     return;
+  //   }
 
-  tick() {
-    if (!this.enableTick) return;
-    if (!this.state.readOnly) return;
-    if (this.tickCounter > 0) {
-      this.tickCounter--;
-      console.log(`tickCounter: ${this.tickCounter}`);
-      return;
-    }
-
-    // console.log(`props: ${this.props.partGroupsS.length}`);
-    // console.log(`state: ${this.state.partGroups.length}`);
-    const partGroupsIndex = this.props.partGroups.findIndex(partGroup =>
-      partGroup.groupId === this.state.group.id);
-    if (partGroupsIndex >= 0) {
-      const partGroup = this.props.partGroups[partGroupsIndex];
-      this.setState({
-        checked: true,
-        partGroup,
-      });
-    } else {
-      this.setState({
-        checked: false,
-        partGroup: undefined,
-      });
-    }
-  }
+  //   // console.log(`props: ${this.props.partGroupsS.length}`);
+  //   // console.log(`state: ${this.state.partGroups.length}`);
+  //   const partGroupsIndex = this.props.partGroups.findIndex(partGroup =>
+  //     partGroup.groupId === this.state.group.id);
+  //   if (partGroupsIndex >= 0) {
+  //     const partGroup = this.props.partGroups[partGroupsIndex];
+  //     this.setState({
+  //       checked: true,
+  //       partGroup,
+  //     });
+  //   } else {
+  //     this.setState({
+  //       checked: false,
+  //       partGroup: undefined,
+  //     });
+  //   }
+  // }
   add(group) {
     console.log(`eventId: ${this.state.eventId} group name: ${group.name}`);
     this.props.add(this.state.eventId, group);
   }
 
   sendGroup(group, edit) {
-    this.postponeTick();
     if (
       group.name &&
       group.time &&
@@ -266,7 +285,7 @@ class EventDetailGroupRow extends Component {
   }
   render() {
     const {
-      fields, groupText, index, remove, edit,
+      fields, groupText, index, remove, removePart, edit,
     } = this.props;
     return (
       <div onKeyPress={tab}>
@@ -310,7 +329,8 @@ class EventDetailGroupRow extends Component {
             // console.log(`time: ${event.target.value}`);
             const newTime = event.target.value;
             if (group.time !== newTime) {
-              // console.log(`time: |${group.time}| newTime |${newTime}| isEqual ${group.time == newTime}`);
+              // console.log(`time: |${group.time}| newTime |${newTime}|
+              // isEqual ${group.time == newTime}`);
               group.time = `${newTime}:00`;
               this.setState(
               {
@@ -321,7 +341,7 @@ class EventDetailGroupRow extends Component {
             }
           }}
         />
-        {this.state.admin === 0 && (
+        {this.state.admin === 0 && this.state.loaded && (
           // <div className="subscribeCheckbox">
           <span id="Subscribe">
             <Field
@@ -335,31 +355,25 @@ class EventDetailGroupRow extends Component {
               className="checkbox"
               onClick={(/* event */) => {
               // const checked = event.target.value;
-              this.postponeTick();
               this.setState({
                 checked: !this.state.checked,
               }, () => {
-                console.log(`checked: ${this.state.checked} `);
-                if (this.state.checked) {
-                  if (this.state.partGroup) {
-                    this.props.addPart(this.state.partGroup);
-                  } else {
+                const url = `/events/${this.state.eventId}/groups/${this.state.group.id}`;
+                AxiosPromise({ verb: 'get', url, idOption: 'param' }, (err, result) => {
+                  if (err || result.data.length === 0) {
                     this.props.addPart({
                       eventId: this.state.eventId,
                       groupId: this.state.group.id,
-                  });
-                  }
-                } else if (this.state.partGroup) {
-                    const { eventId, groupId } = this.state.partGroup;
-                    console.log(`eventId: ${eventId} groupId: ${groupId}`);
-                    this.props.removePart(this.state.partGroup);
+                      subscribed: this.state.checked,
+                    });
                   } else {
-                    console.log('null partGroup on delete, restart time');
-                    this.props.removePart({
+                    this.props.editPart({
                       eventId: this.state.eventId,
-                      matchId: this.state.match.id,
+                      groupId: this.state.group.id,
+                      subscribed: this.state.checked,
                     });
                   }
+                });
               });
             }}
             />
@@ -381,7 +395,6 @@ class EventDetailGroupRow extends Component {
               enabled: !this.state.completed,
             }}
             onClick={() => {
-              this.postponeTick();
               if (this.state.group.name && this.state.group.time) {
                 const group = Object.assign(this.state.group);
                 console.log(`group name ${group.name} complete click`);
@@ -437,7 +450,6 @@ class EventDetailGroupRow extends Component {
             type="button"
             title="Remove Group"
             onClick={() => {
-              this.postponeTick();
               console.log(`remove id ${this.state.group.id} eventId ${this.state.eventId}`);
               if (this.state.group.id <= 0) {
                 const { id, ...group } = this.state.group;
@@ -453,6 +465,7 @@ class EventDetailGroupRow extends Component {
                   },
                 );
               } else {
+                    removePart({ eventId: this.state.eventId, groupId: this.group.id });
                     remove(this.state.group);
                     fields.remove(index);
                     document.location.reload(false);
@@ -482,7 +495,8 @@ EventDetailGroupRow.propTypes = {
   addPart: PropTypes.func.isRequired,
   eventId: PropTypes.number.isRequired,
   admin: PropTypes.number.isRequired,
-  partGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
+  editPart: PropTypes.func.isRequired,
+  // partGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // const n1Check = (groups) => {
@@ -504,6 +518,7 @@ export default connect(
     add: (eventId, group) => dispatch(addGroup(eventId, group)),
     removePart: partGroup =>
       dispatch(deletePartGroup(partGroup)),
-    addPart: (eventId, group) => dispatch(addPartGroup(eventId, group)),
+    addPart: partGroup => dispatch(addPartGroup(partGroup)),
+    editPart: partGroup => dispatch(editPartGroup(partGroup)),
   }),
 )(EventDetailGroupRow);

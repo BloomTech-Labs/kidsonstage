@@ -42,6 +42,7 @@ class Events extends Component {
           title={event.title}
           eventDate={event.eventDate}
           activated={event.activated}
+          inviteCode={event.inviteCode}
           key={event.id}
           id={event.id}
           owner={event.owner}

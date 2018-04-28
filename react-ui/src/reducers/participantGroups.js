@@ -1,4 +1,4 @@
-import { GET_PART_GROUPS, ADD_PART_GROUP, DELETE_PART_GROUP } from '../actions';
+import { GET_PART_GROUPS, ADD_PART_GROUP, EDIT_PART_GROUP, DELETE_PART_GROUP } from '../actions';
 /* eslint-disable no-console, no-case-declarations */
 export default (partGroups = [], action) => {
   switch (action.type) {
@@ -9,7 +9,10 @@ export default (partGroups = [], action) => {
       return [action.payload, ...partGroups];
     case DELETE_PART_GROUP:
       return partGroups.filter(partGroup => partGroup.id !== action.payload);
-    default: 
+    case EDIT_PART_GROUP:
+      return [...partGroups.filter(partGroup => partGroup.id !== action.payload.id),
+        action.payload];
+    default:
       return partGroups;
   }
 };

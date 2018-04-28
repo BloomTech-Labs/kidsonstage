@@ -162,10 +162,10 @@ eventsRouter.get('/:eventId/userId/:userId', function(req, res) {
 
 eventsRouter.post('/:eventId/groups/:groupId', function(req, res) {
   const { eventId, groupId } = req.params;
-  const { userId } = req.body;
+  const { userId, subscribed } = req.body;
 
   db('eventSubscribers')
-    .insert({ eventId, groupId, userId })
+    .insert({ eventId, groupId, userId, subscribed })
     .returning('id')
     .then(function(records) {
       res.status(200).json(records);
@@ -176,6 +176,21 @@ eventsRouter.post('/:eventId/groups/:groupId', function(req, res) {
       res.status(500).json({ error: 'Could not subscribe to group', err });
     });
 });
+eventsRouter.get('/:eventId/groups/:groupId/userId/:userId', function(req, res) {
+  const { eventId, groupId, userId } = req.params;
+
+  db('eventSubscribers')
+    .where({ eventId, groupId, userId })
+    .then(rows => 
+      res.status(200).json(rows)
+    )
+    .catch(function(err) {
+      // COME BACK HERE AND ADD MORE ERROR CATCHES FOR ALREADY SUBSCRIBED, NO EVENT, ETC
+      console.log(`eventSubscriber not found ${err}`);
+      res.status(204).json({ error: 'Could not find subscriber', err }); // no content
+    });
+});
+
 
 eventsRouter.put('/:eventId/groups/:groupId', function(req, res) {
   const { eventId, groupId } = req.params;
@@ -223,6 +238,27 @@ eventsRouter.delete('/:eventId/groups/:groupId/userId/:userId', function(
     .where('groupId', groupId)
     .where('userId', userId)
     .del()
+    .then(function(records) {
+      res.status(200).json(records);
+    })
+    .catch(function(err) {
+      res
+        .status(500)
+        .json({ error: 'Could not delete subscriber from group', err });
+    });
+});
+eventsRouter.put('/:eventId/groups/:groupId/userId/:userId', function(
+  req,
+  res
+) {
+  // sets eventSubscribers subscribed value
+  const { eventId, groupId, userId } = req.params;
+  const { subscribed } = req.body;
+
+  db('eventSubscribers')
+    .where({ eventId, groupId, userId })
+    .update({ subscribed })
+    .select('id')
     .then(function(records) {
       res.status(200).json(records);
     })

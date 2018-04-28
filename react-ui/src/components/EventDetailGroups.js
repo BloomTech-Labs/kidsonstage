@@ -116,7 +116,7 @@ const fiveLenthDate = (state) => {
     // this.setState({
     //   group: { ...group, partGroup },
     // });
-    const checked = (partIndex >= 0);
+    const checked = (partGroup ? partGroup.subscribed : false);
     const { time, ...rest } = group;
     // if (checked) {
     //   console.log(`partIndex: ${partIndex} partGroups.length: ${state.partGroups.length}

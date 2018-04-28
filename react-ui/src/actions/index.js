@@ -9,6 +9,8 @@ export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
 export const GET_USERS = 'GET_USERS';
 export const GET_USER = 'GET_USER';
 export const CHECK_IF_AUTHENTICATED = 'CHECK_IF_AUTHENTICATED';
+export const EDIT_USER = 'EDIT_USER';
+export const CLEAR_USERS = 'CLEAR_USERS';
 
 /* eslint-disable no-console, semi-style */
 
@@ -58,6 +60,10 @@ export const login = (user, history) => (dispatch) => {
       dispatch({
         type: USER_AUTHENTICATED,
       });
+      dispatch({
+        type: GET_USER,
+        payload: [response.data.user.record],
+      });
       history.push('/events');
       // console.log(`history keys ${Object.keys(history)}`);
     })
@@ -67,12 +73,15 @@ export const login = (user, history) => (dispatch) => {
     });
 };
 
-export const logout = () => {
+export const logout = () => (dispatch) => {
   sessionStorage.clear();
   window.location = '/';
-  return {
+  dispatch({
     type: USER_UNAUTHENTICATED,
-  };
+  });
+  dispatch({
+    type: CLEAR_USERS,
+  });
 };
 
 export const getUser = () => (dispatch) => {
@@ -126,7 +135,11 @@ export const updateUser = (user, history) => (dispatch) => {
       dispatch({
         type: USER_REGISTERED,
       });
-      console.log(`pushing /adminEventList for user id ${id}`);
+      dispatch({
+        type: EDIT_USER,
+        payload: { id, ...user },
+      });
+      console.log(`pushing /events for user id ${id}`);
       // window.location = '/events';
       history.push('/events');
     })

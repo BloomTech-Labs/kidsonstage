@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Navbar, NavbarBrand } from 'mdbreact';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import AxiosPromise from './axiosPromise';
 import './css/subscriberBox.css';
-import { getEvent, invitedEventSubscribe, getEventInvites, ROOT_URL } from '../actions';
+import { getEvent, invitedEventSubscribe, getEventInvites } from '../actions';
 /* eslint-disable react/prefer-stateless-function, no-console */
 class SubscriberBox extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ class SubscriberBox extends Component {
           <span>
             <input
               type="text"
-              placeholder="Event Code"
+              placeholder="Event Invite Code"
               value={this.state.eventCode}
               onChange={(event) => {
                 // console.log(`changed value ${event.target.value}`);
@@ -62,21 +62,19 @@ class SubscriberBox extends Component {
               onClick={() => {
                 const { eventCode } = this.state;
                 if (eventCode.length > 0) {
-                  const url = `${ROOT_URL}/invites/${eventCode}`;
-                  axios
-                    .get(url)
-                    .then((response) => {
-                      // console.log(JSON.stringify(response.data[0], null, 2));
-                      this.setState({
-                        eventId: response.data[0].id,
-                      });
-                    })
-                    .catch((err) => {
+                  const url = `/invites/${eventCode}`;
+                  AxiosPromise({ verb: 'get', url }, (err, result) => {
+                    if (err) {
                       this.setState({
                         error: err,
                         errorArray: Object.keys(err).map(key => `${key}: ${err[key]}`),
                       });
-                    });
+                    } else {
+                      this.setState({
+                        eventId: result.data[0].id,
+                      });
+                    }
+                  });
                 }
               }}
             >
@@ -94,9 +92,7 @@ class SubscriberBox extends Component {
             </ul>
           }
         </form>
-
       </div>
-
     );
   }
 }

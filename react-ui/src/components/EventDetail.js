@@ -3,17 +3,18 @@ import { Field, reduxForm, initialize } from 'redux-form';
 import { connect } from 'react-redux';
 // import parseQueryString from 'query-string';
 import { Navbar, NavbarBrand } from 'mdbreact';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+// import TextField from 'material-ui/TextField';
+
+
+import { TextField } from 'material-ui';
+import Billing from './stripe';
 import { getEvent, getGroups, getPartGroups } from '../actions';
 import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
 import normalizeDate from './normalizers/normalizeDate';
 
-// import TextField from 'material-ui/TextField';
-
-import Billing from './stripe';
-
-import { TextField } from 'material-ui';
+/* eslint-disable react/forbid-prop-types */
 
 const renderTextField = ({
   input,
@@ -40,6 +41,16 @@ const renderTextField = ({
     }}
   />
 );
+renderTextField.defaultProps = {
+  meta: { touched: PropTypes.bool, error: PropTypes.string },
+  label: '',
+};
+renderTextField.propTypes = {
+  input: PropTypes.object.isRequired,
+  label: PropTypes.string,
+  meta: PropTypes.object,
+};
+
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions */
 /*
@@ -148,7 +159,7 @@ class EventsForm extends React.Component {
               component={renderTextField}
               placeholder="title"
               readOnly="true"
-
+              className="primary-data"
             />
             <br />
               Event Date:{'  '}
@@ -158,6 +169,7 @@ class EventsForm extends React.Component {
               component={renderTextField}
               placeholder="Event Date"
               readOnly="true"
+              className="primary-data"
             />
           </div>
         </div>
@@ -177,7 +189,7 @@ class EventsForm extends React.Component {
               {/* Display stripe payment box if event isn't activated */}
 
               {this.props.initialValues.event.activated === true ? (
-                <div className="eventDetail--activated">ACTIVATED</div>
+                <div className="eventDetail--activated">ACTIVATED Invite Code {this.props.event.inviteCode}</div>
               ) : (
                 <Billing eventId={eventId} />
               )}
