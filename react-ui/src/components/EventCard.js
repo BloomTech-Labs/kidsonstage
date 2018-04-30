@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { connect } from 'react-redux';
+import { Navbar, NavbarBrand } from 'mdbreact';
+import PropTypes from 'prop-types';
 import { getEvent, getGroups, getPartGroups } from '../actions';
 import './css/events.css';
-
 import normalizeDate from './normalizers/normalizeDate';
 
-import { Navbar, NavbarBrand } from 'mdbreact';
+/* eslint-disable no-console */
 
 class EventCard extends Component {
+  static defaultProps = {
+    inviteCode: undefined,
+  }
   constructor(props) {
     super(props);
     const { id } = props;
@@ -17,8 +21,6 @@ class EventCard extends Component {
   }
 
   componentDidMount() {
-    // this.props.setEvent(this.state.id);
-    // this.props.setGroups(this.state.id);
   }
 
   render() {
@@ -35,27 +37,22 @@ class EventCard extends Component {
           this.props.setEvent(this.state.id);
           this.props.setGroups(this.state.id);
           this.props.setParts(this.state.id);
-        // sessionStorage.setItem('admin', admin);
-        if (process.env.REACT_APP_SupressReload !== 'true') {
-          console.log('EventCard reloading!');
-          document.location.reload(false);
-        }
+          this.props.reload('EventCard');
         }}
       >
         <div className="eventCard--Container">
           {process.env.REACT_APP_ShowEventId === 'true' &&
-          <h2>{this.state.id} admin: {admin} </h2>
+          <h2>eventId: {this.state.id} admin: {admin} </h2>
           }
           <Navbar className="eventCard--box_navbar" dark>
             <NavbarBrand tag="span">{this.props.title}</NavbarBrand>
           </Navbar>
-          
 
           {/* <div className="eventCard--Title"></div> */}
           <div className="eventCard--Date">{normalizeDate(this.props.eventDate)}<br />
             {/* Active Status: {this.props.title === true ? "TRUE" : "FALSE"} */}
           </div>
-          {this.props.inviteCode && 
+          {this.props.inviteCode &&
           <div className="eventCard--Invite">Event Invite Code {this.props.inviteCode}</div>
           }
         </div>
@@ -63,6 +60,18 @@ class EventCard extends Component {
     );
   }
 }
+
+EventCard.propTypes = {
+  reload: PropTypes.func.isRequired,
+  setEvent: PropTypes.func.isRequired,
+  setGroups: PropTypes.func.isRequired,
+  setParts: PropTypes.func.isRequired,
+  eventDate: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  inviteCode: PropTypes.string,
+  id: PropTypes.number.isRequired,
+  owner: PropTypes.number.isRequired,
+};
 
 // export default EventCard;
 const mapStateToProps = () => ({});
