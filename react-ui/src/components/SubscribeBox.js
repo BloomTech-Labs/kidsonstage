@@ -83,7 +83,15 @@ class SubscriberBox extends Component {
           </span>
           <div>
             <h2>Event ID {this.state.eventId}</h2>
-            <button id="submit" type="submit">Add Event</button>
+            <button
+              id="submit"
+              type="submit"
+              style={{
+              enabled: this.state.eventId > 0,
+              opacity: this.state.eventId > 0 ? 1 : 0.5,
+              }}
+            >Add Invited Event
+            </button>
           </div>
           {this.state.error !== undefined &&
             <ul>

@@ -17,7 +17,7 @@ class EventCard extends Component {
     super(props);
     const { id } = props;
     this.state = { id };
-    console.log(`EventCard id ${id}`);
+    console.log(`EventCard id ${id} activated: ${props.activated}`);
   }
 
   componentDidMount() {
@@ -71,6 +71,7 @@ EventCard.propTypes = {
   inviteCode: PropTypes.string,
   id: PropTypes.number.isRequired,
   owner: PropTypes.number.isRequired,
+  activated: PropTypes.bool.isRequired,
 };
 
 // export default EventCard;

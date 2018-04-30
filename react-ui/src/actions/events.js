@@ -500,7 +500,7 @@ export const getEvent = (eventId, type = 0) => (dispatch) => {
         data = { ...data, eventId };
       }
       if (type === 2) {
-        console.log(`adding invited ${data.title} eventId: ${data.eventId} id: ${data.id}`);
+        console.log(`adding invited ${data.title} activated: ${data.activated} eventId: ${data.eventId} id: ${data.id}`);
         dispatch({
           type: ADD_INVITED_EVENT,
           payload: data,
