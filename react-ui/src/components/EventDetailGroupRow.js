@@ -191,9 +191,10 @@ class EventDetailGroupRow extends Component {
             loaded: true,
           });
         } else {
-          console.log(`checked ${this.state.checked} detail row constructor partGroup result for group
-              ${this.state.group.id} ${this.state.group.name}
-              ${JSON.stringify(result.data[0], null, 2)}`);
+          // console.log(`checked ${this.state.checked}
+          //     detail row constructor partGroup result for group
+          //     ${this.state.group.id} ${this.state.group.name}
+          //     ${JSON.stringify(result.data[0], null, 2)}`);
           this.setState({
             checked: result.data[0].subscribed,
             loaded: true,

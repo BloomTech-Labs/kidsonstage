@@ -133,24 +133,28 @@ class EventsForm extends React.Component {
     // console.log(`showEventId ${JSON.stringify(process.env, null, 2)}`);
     // const { load } = this.props;
     const { eventId, admin } = this.state;
+    const loading = (sessionStorage.getItem('loading') === 'true');
 
     // if (eventId > 0) this.props.load(eventId);
     // console.log(`event ${JSON.stringify(event)}`);
     return (
       <div className="eventDetail--container">
+        {loading &&
+          <div>Loading...</div>
+          }
         <div className="eventDetail--form_container">
           <Navbar className="eventDetail--box_navbar" dark>
             <NavbarBrand tag="span">Event Info</NavbarBrand>
           </Navbar>
           {process.env.REACT_APP_ShowEventId === 'true' &&
-          <Field
-            name="event.id"
-            type="number"
-            component={renderTextField}
-            placeholder="id"
-            readOnly="true"
-          />
-          }
+            <Field
+              name="event.id"
+              type="number"
+              component={renderTextField}
+              placeholder="id"
+              readOnly="true"
+            />
+            }
           <div className="eventDetail--box_content">
               Event Name:{'  '}
             <Field
@@ -173,12 +177,14 @@ class EventsForm extends React.Component {
             />
           </div>
         </div>
+        {!loading &&
         <div className="eventDetail--form_container">
           <Navbar className="eventDetail--box_navbar" dark>
             <NavbarBrand tag="span">Group Info</NavbarBrand>
           </Navbar>
           <RenderGroups eventId={eventId} admin={admin} history={this.props.history} />
         </div>
+        }
         {admin > 0 && (
           <div className="eventDetail--form_container">
             <Navbar className="eventDetail--box_navbar" dark>
