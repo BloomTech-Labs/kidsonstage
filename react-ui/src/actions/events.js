@@ -21,7 +21,8 @@ export const SET_EVENT_ID = 'SET_EVENT_ID';
 export const GET_EVENT_ID = 'GET_EVENT_ID';
 export const GET_EVENTINVITES_EVENTS = 'GET_EVENTINVITES_EVENTS';
 export const ADD_EVENTINVITES_EVENT = 'EDIT_EVENTINVITES_EVENT';
-
+export const SET_STRIPE_ERROR = 'SET_STRIPE_ERROR';
+export const CLEAR_STRIPE_ERROR = 'CLEAR_STRIPE_ERROR';
 /* eslint-disable no-console, semi-style */
 
 axios.defaults.withCredentials = true;
@@ -537,5 +538,16 @@ export const getEventId = () => (dispatch) => {
   dispatch({
     type: SET_EVENT_ID,
     payload: eventId,
+  });
+};
+export const setStripeError = stripeError => (dispatch) => {
+  dispatch({
+    type: SET_STRIPE_ERROR,
+    payload: stripeError,
+  });
+};
+export const clearStripeError = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_STRIPE_ERROR,
   });
 };

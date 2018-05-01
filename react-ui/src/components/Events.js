@@ -15,6 +15,7 @@ import './css/events.css';
 const mapStateToProps = state => ({
   events: state.events,
   invitedEvents: state.invitedEvents,
+
   // addInvited: (event) => {
   //   state.setState({ invitedEvents: [event, ...state.invitedEvents] });
   // },
