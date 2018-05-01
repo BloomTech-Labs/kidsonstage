@@ -13,17 +13,19 @@ import EventDetailGroupRow from './EventDetailGroupRow';
 import './css/eventDetail.css';
 
 const renderGroups = ({
-  groupFA, /* load, loadPart, */ fields, eventId, admin, props, meta: { error },
+  activated, groupFA, /* load, loadPart, */ fields, eventId, admin, props, meta: { error },
 }) => {
   // if (eventId) {
   //   loadPart(eventId);
   //   load(eventId);
   // }
+  // console.log(`activated: ${activated}`);
   return (
     <div>
       <ul>
         {fields.map((group, index) => (
           <li key={`${group}.row`}>
+            {activated !== undefined &&
             <EventDetailGroupRow
               rowProps={props}
               eventId={eventId}
@@ -32,7 +34,9 @@ const renderGroups = ({
               groupText={group}
               index={index}
               group={groupFA[index]}
+              activated={activated}
             />
+            }
           </li>
           ))}
         {admin > 0 &&
@@ -68,7 +72,7 @@ const onKeyPress = (event) => {
 };
 const EventDetailsGroups = (props) => {
   // console.log(`Event Detail Group history? ${props.history}`);
-  const { load, history } = props;
+  const { load, history, activated } = props;
 
   const eventId = props.eventId || 2;
   // console.log(`Groups load type ${typeof load}`);
@@ -82,6 +86,7 @@ const EventDetailsGroups = (props) => {
         admin={props.admin}
         load={load}
         props={props}
+        activated={activated}
         groupFA={props.initialValues.groupFA}
       />
       <div className="eventDetail--return_button_container">

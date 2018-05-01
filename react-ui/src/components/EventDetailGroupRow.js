@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field } from 'redux-form';
-import axios from 'axios';
 import { TextField } from 'material-ui';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
@@ -16,7 +15,6 @@ import formatTime from './normalizers/normalizeTime';
 // import pencilBI from './graphics/pencil.png';
 // import trashBI from './graphics/trash.png';
 import {
-  ROOT_URL,
   addGroup,
   editGroup,
   deleteGroup,
@@ -171,6 +169,7 @@ class EventDetailGroupRow extends Component {
         ((thisGroup !== undefined) ? thisGroup.id : -1) > 0),
       // partGroup: ((thisGroup !== undefined) ? thisGroup.partGroup : undefined),
       // partGroups: this.props.partGroupsS,
+      activated: this.props.activated || false,
     };
     // this.enableTick = true;
     // this.tickCounter = 0;
@@ -344,7 +343,14 @@ class EventDetailGroupRow extends Component {
         />
         {this.state.admin === 0 && this.state.loaded && (
           // <div className="subscribeCheckbox">
-          <span id="Subscribe">
+          // should always be activated here
+          <span
+            id="Subscribe"
+            style={{
+            enabled: ((!this.state.completed) && this.state.activated),
+            fontWeight: (this.state.completed || (!this.state.activated)) ? 100 : 800,
+          }}
+          >
             <Field
               name={`${groupText}.subscribed`}
               id="subscribeGroup"
@@ -392,8 +398,8 @@ class EventDetailGroupRow extends Component {
             title="Complete Group"
             name={`${groupText}.complete`}
             style={{
-              opacity: this.state.completed ? 0 : 1,
-              enabled: !this.state.completed,
+              opacity: this.state.completed ? 0 : (this.state.activated ? 1 : 0.5),
+              enabled: (!this.state.completed) && this.state.activated,
             }}
             onClick={() => {
               if (this.state.group.name && this.state.group.time) {
@@ -412,14 +418,16 @@ class EventDetailGroupRow extends Component {
                     console.log(`set completed for ${group.name}`);
                     this.sendGroup(group, edit);
                   });
-                axios
-                  .get(`${ROOT_URL}/notify/events/${this.state.eventId}`)
-                  .then((res) => {
-                    console.log('Notified subscribers of Event', res.data);
-                  })
-                  .catch((err) => {
+                  AxiosPromise(
+                    { verb: 'get', url: `/notify/events/${this.state.eventId}` },
+                    (err, result) => {
+                  if (result) {
+                    console.log('Notified subscribers of Event', result.data);
+                  } else {
                     console.log('Did not notify subscribers', err);
-                  });
+                  }
+                },
+                );
               }
             }}
           >
@@ -498,6 +506,7 @@ EventDetailGroupRow.propTypes = {
   admin: PropTypes.number.isRequired,
   editPart: PropTypes.func.isRequired,
   // partGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activated: PropTypes.bool.isRequired,
 };
 
 // const n1Check = (groups) => {

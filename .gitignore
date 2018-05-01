@@ -16,6 +16,7 @@ process.env
 npm-debug.log
 package-lock*
 *seeds*
+*old seeds*
 *.bak
 
 #yarn

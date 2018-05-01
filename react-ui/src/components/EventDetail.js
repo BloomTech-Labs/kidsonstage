@@ -147,14 +147,23 @@ class EventsForm extends React.Component {
             <NavbarBrand tag="span">Event Info</NavbarBrand>
           </Navbar>
           {process.env.REACT_APP_ShowEventId === 'true' &&
-            <Field
-              name="event.id"
-              type="number"
-              component={renderTextField}
-              placeholder="id"
-              readOnly="true"
-            />
-            }
+            <div>
+              <Field
+                name="event.id"
+                type="number"
+                component={renderTextField}
+                placeholder="id"
+                readOnly="true"
+              />
+              <Field
+                name="event.activated"
+                type="bool"
+                component={renderTextField}
+                placeholder="activated"
+                readOnly="true"
+              />
+            </div>
+          }
           <div className="eventDetail--box_content">
               Event Name:{'  '}
             <Field
@@ -182,7 +191,12 @@ class EventsForm extends React.Component {
           <Navbar className="eventDetail--box_navbar" dark>
             <NavbarBrand tag="span">Group Info</NavbarBrand>
           </Navbar>
-          <RenderGroups eventId={eventId} admin={admin} history={this.props.history} />
+          <RenderGroups
+            activated={this.props.initialValues.event.activated}
+            eventId={eventId}
+            admin={admin}
+            history={this.props.history}
+          />
         </div>
         }
         {admin > 0 && (
@@ -195,7 +209,7 @@ class EventsForm extends React.Component {
               {/* Display stripe payment box if event isn't activated */}
 
               {this.props.initialValues.event.activated === true ? (
-                <div className="eventDetail--activated">ACTIVATED Invite Code {this.props.event.inviteCode}</div>
+                <div className="eventDetail--activated">ACTIVATED Invite Code {this.props.initialValues.event.inviteCode}</div>
               ) : (
                 <Billing eventId={eventId} />
               )}
@@ -247,7 +261,6 @@ const fiveLenthDate = (groups, partGroups) => groups.map((group) => {
 });
 export default connect(
   state => ({
-    event: nomalizeEventDate(state.event),
     initialValues: { event: nomalizeEventDate(state.event) },
     loadRowData: (groups, partGroups) => fiveLenthDate(groups, partGroups),
     groups: state.groups,
