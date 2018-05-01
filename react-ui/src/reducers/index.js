@@ -8,6 +8,7 @@ import ActiveEvent from './activeEvent';
 import PartGroupReducer from './participantGroups';
 import InvitedEventsReducer from './invitedEvents';
 import EventInvitesReducer from './eventInvites';
+import StripeErrorReducer from './stripe';
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   partGroups: PartGroupReducer,
   invitedEvents: InvitedEventsReducer,
   eventInvites: EventInvitesReducer,
+  stripeError: StripeErrorReducer,
 });
 
 export default rootReducer;

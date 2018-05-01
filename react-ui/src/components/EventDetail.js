@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 import { TextField } from 'material-ui';
 import Billing from './stripe';
-import { getEvent, getGroups, getPartGroups } from '../actions';
+import { getEvent, getGroups, getPartGroups, getUser, clearStripeError } from '../actions';
 import RenderGroups from './EventDetailGroups';
 import './css/eventDetail.css';
 import normalizeDate from './normalizers/normalizeDate';
@@ -97,6 +97,8 @@ class EventsForm extends React.Component {
       eventId: Number(queryParams[1]),
       admin: Number(queryParams[2]),
     };
+    this.props.setUser(); // restore global state user after reset
+    this.props.clearStripeError();
   }
   componentWillMount() {
   //   clearInterval(this.timerID);
@@ -106,6 +108,13 @@ class EventsForm extends React.Component {
     this.props.load(eventId);
     this.props.setGroups(eventId);
     this.props.setPart(eventId);
+  }
+  // componentDidUpdate() {
+  //   console.log(`componentDidUpdate props error: ${this.props.error}  state error ${this.state.error}`);
+  // }
+  renderAlert() {
+    if (!this.props.error) return null;
+    return <h3 className="error">{this.props.error}</h3>;
   }
   // tick = () => {
   //   console.log(`in tick title: ${this.props.event.title}`);
@@ -216,6 +225,7 @@ class EventsForm extends React.Component {
             </div>
           </div>
         )}
+        {this.renderAlert()}
       </div>
     );
   }
@@ -265,12 +275,15 @@ export default connect(
     loadRowData: (groups, partGroups) => fiveLenthDate(groups, partGroups),
     groups: state.groups,
     partGroups: state.partGroups,
+    error: state.stripeError,
   }),
   dispatch => ({
     load: eventId => dispatch(getEvent(eventId, 1)),
     // setEvent: id => dispatch(getEvent(id, 1)),
     setGroups: id => dispatch(getGroups(id)),
     setPart: eventId => dispatch(getPartGroups(eventId)),
+    setUser: () => dispatch(getUser()),
+    clearStripeError: () => dispatch(clearStripeError()),
     changeFieldValues: (formName, data) =>
       dispatch(initialize(formName, data)),
   }),
