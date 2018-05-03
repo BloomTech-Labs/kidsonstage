@@ -5,6 +5,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faUndoAlt } from '@fortawesome/fontawesome-free-solid';
 import { getGroups, getPartGroups } from '../actions';
 import EventDetailGroupRow from './EventDetailGroupRow';
+import NormalizeTime from './normalizers/normalizeTime';
 /* eslint-disable react/prop-types, no-console, no-param-reassign,
         jsx-a11y/no-noninteractive-element-interactions, arrow-body-style,
         jsx-a11y/label-has-for
@@ -12,58 +13,84 @@ import EventDetailGroupRow from './EventDetailGroupRow';
 
 import './css/eventDetail.css';
 
-const renderGroups = ({
-  activated, groupFA, /* load, loadPart, */ fields, eventId, admin, props, meta: { error },
-}) => {
-  // if (eventId) {
-  //   loadPart(eventId);
-  //   load(eventId);
-  // }
-  // console.log(`activated: ${activated}`);
-  return (
-    <div>
-      <ul>
-        {fields.map((group, index) => (
-          <li key={`${group}.row`}>
-            {activated !== undefined &&
-            <EventDetailGroupRow
-              rowProps={props}
-              eventId={eventId}
-              admin={admin}
-              fields={fields}
-              groupText={group}
-              index={index}
-              group={groupFA[index]}
-              activated={activated}
-            />
-            }
-          </li>
-          ))}
-        {admin > 0 &&
-          <li key={-1}>
-            <button
-              className="eventDetail--form_container_button"
-              id="addGroupButton"
-              type="button"
-              onClick={() => {
-                sessionStorage.setItem('pushingNewGroup', 1);
-                fields.push();
-              }}
-            >
-              Add Group
-            </button>
-          </li>
-          }
-        {error && (
-        <li key={-2} className="error">
-          {error}
-        </li>
-          )}
-      </ul>
 
-    </div>
-  );
-};
+class RenderGroups extends React.Component {
+  constructor(props) {
+    super(props);
+    this.bools = [];
+    this.state = {
+      addIndex: -1,
+    };
+  }
+  get valid() {
+    const isValid = (this.bools.length === 0) || this.bools.every(b => b === true);
+    // if (!isValid) {
+    //   const index = this.bools.findIndex(b => !b);
+    //   // console.log(`this.bools.length: ${this.bools.length} index: ${index}`);
+    // }
+    return isValid;
+  }
+  add = (i, v) => {
+    if (this.bools[i] !== v) {
+      this.bools[i] = v;
+      this.setState({
+        addIndex: this.state.addIndex - 1,
+      });
+    }
+  }
+  render() {
+    const {
+      activated, groupFA, /* load, loadPart, */ fields, eventId, admin,
+      props, meta: { error },
+    } = this.props;
+    return (
+      <div>
+        <ul>
+          {fields.map((group, index) => (
+            <li key={`${group}.row`}>
+              {activated !== undefined &&
+              <EventDetailGroupRow
+                rowProps={props}
+                eventId={eventId}
+                admin={admin}
+                fields={fields}
+                groupText={group}
+                index={index}
+                group={groupFA[index]}
+                activated={activated}
+                isValid={this.add}
+              />
+              }
+            </li>
+            ))}
+          {admin > 0 &&
+            <li key={this.state.addIndex}>
+              <button
+                className="eventDetail--form_container_button"
+                id="addGroupButton"
+                type="button"
+                disabled={!this.valid}
+                style={{ opacity: this.valid ? '1' : '0.5' }}
+                onClick={() => {
+                  sessionStorage.setItem('pushingNewGroup', 1);
+                  fields.push();
+                }}
+              >
+                Add Group
+              </button>
+            </li>
+            }
+          {error && (
+          <li key={-1} className="error">
+            {error}
+          </li>
+            )}
+        </ul>
+      </div>
+    );
+  }
+}
+
 const onKeyPress = (event) => {
   // console.log(`kp event ${JSON.stringify(event.which)}`);
   if (event.which === 13 /* Enter */) {
@@ -81,7 +108,7 @@ const EventDetailsGroups = (props) => {
     <form onKeyPress={onKeyPress}>
       <FieldArray
         name="groupFA"
-        component={renderGroups}
+        component={RenderGroups}
         eventId={eventId}
         admin={props.admin}
         load={load}
@@ -132,8 +159,14 @@ const fiveLenthDate = (state) => {
     //   console.log(`group ${group.id} |${group.name}| is unchecked`);
     // }
     // rest.time = time.substring(0, 5);
+    let newTime = (time.length >= 5) ? NormalizeTime(time, time) : time;
+    const hours = Number(newTime.slice(0, 2));
+    const pm = (hours && hours > 12);
+    if (pm) {
+      newTime = `${hours - 12}`.padStart(2, ' ') + newTime.slice(2);
+    }
     return {
-      ...rest, time: time.substring(0, 5), checked, partGroup,
+      ...rest, time: newTime.substring(0, 5), checked, partGroup, pm,
     };
   });
 };

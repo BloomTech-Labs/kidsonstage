@@ -42,6 +42,7 @@ class CheckoutForm extends React.Component {
       this.props.setStripeError('no name provided');
       return;
     }
+    this.props.stripe.enabled = true;
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
     this.props.stripe
@@ -88,6 +89,7 @@ class CheckoutForm extends React.Component {
           }
         });
       });
+    this.props.stripe.enabled = false;
   }
   // However, this line of code will do the same thing:
   // this.props.stripe.createToken({type: 'card', name: 'Jenny Rosen'});

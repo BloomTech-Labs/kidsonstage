@@ -11,7 +11,6 @@ export default (groups = [], action) => {
       //   group.id === -1 && group.name === action.payload.name &&
       //   group.time === action.payload.time && group.completed === action.payload.completed)[0];
       // if (thisGroup) thisGroup.id = action.payload.id;
-      document.location.reload(false);
       return groups;
     case DELETE_GROUP:
       // if (action.payload.id <= 0) console.log(`bad delete id ${action.payload.name}`);

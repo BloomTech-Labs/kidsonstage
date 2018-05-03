@@ -87,7 +87,7 @@ export const logout = () => (dispatch) => {
 export const getUser = () => (dispatch) => {
   const token = sessionStorage.getItem('token');
   const id = sessionStorage.getItem('id');
-  console.log(`getUser for id ${id}`);
+  // console.log(`getUser for id ${id}`);
   if (!id || !token) {
     dispatch(authError('Not logged in'));
     return;
@@ -103,14 +103,14 @@ export const getUser = () => (dispatch) => {
       // console.log(`getUser response.data.keys: ${Object.keys(response.data)}
       //     isArray ${Array.isArray(response.data)} `);
       // console.log(`getUser username ${response.data[0].username}`);
-      console.log(`getUser response.data ${JSON.stringify(response.data, null, 2)}`);
+      // console.log(`getUser response.data ${JSON.stringify(response.data, null, 2)}`);
       dispatch({
         type: GET_USER,
         payload: response.data,
       });
     })
     .catch((err) => {
-      console.log(`getUser ${err}`);
+      console.log(`getUser failed ${err}`);
       dispatch(authError('Failed to fetch users'));
     });
 };

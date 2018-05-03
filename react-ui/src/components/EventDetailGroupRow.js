@@ -34,26 +34,26 @@ const renderTextField = ({
   meta: { touched, error },
   ...custom
 }) => (
-  <TextField
-    floatingLabelText={label}
-    floatingLabelFocusStyle={{
-      color: 'black',
+    <TextField
+      floatingLabelText={label}
+      floatingLabelFocusStyle={{
+        color: 'black',
 
-    }}
-    underlineFocusStyle={{
-      borderColor: 'white',
-    }}
-    underlineStyle={{
-      borderColor: 'grey',
-    }}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-    style={{
-      color: 'red',
-    }}
-  />
-);
+      }}
+      underlineFocusStyle={{
+        borderColor: 'white',
+      }}
+      underlineStyle={{
+        borderColor: 'grey',
+      }}
+      errorText={touched && error}
+      {...input}
+      {...custom}
+      style={{
+        color: 'red',
+      }}
+    />
+  );
 renderTextField.defaultProps = {
   meta: { touched: PropTypes.bool, error: PropTypes.string },
   label: '',
@@ -70,29 +70,29 @@ const renderTextFieldTime = ({
   meta: { touched, error },
   ...custom
 }) => (
-  <TextField
-    floatingLabelText={label}
-    floatingLabelFocusStyle={{
-      color: 'black',
-    }}
-    underlineFocusStyle={{
-      borderColor: 'white',
-    }}
-    underlineStyle={{
-      borderColor: 'grey',
-    }}
-    {...custom}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-    style={{
-      color: 'red',
-      width: '50px',
-      marginLeft: '20px',
-      textDecoration: 'line-through',
-    }}
-  />
-);
+    <TextField
+      floatingLabelText={label}
+      floatingLabelFocusStyle={{
+        color: 'black',
+      }}
+      underlineFocusStyle={{
+        borderColor: 'white',
+      }}
+      underlineStyle={{
+        borderColor: 'grey',
+      }}
+      {...custom}
+      errorText={touched && error}
+      {...input}
+      {...custom}
+      style={{
+        color: 'red',
+        width: '50px',
+        marginLeft: '20px',
+        textDecoration: 'line-through',
+      }}
+    />
+  );
 renderTextFieldTime.defaultProps = {
   meta: { touched: PropTypes.bool, error: PropTypes.string },
   label: '',
@@ -111,50 +111,22 @@ const tab = (e) => {
 };
 
 class EventDetailGroupRow extends Component {
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (!prevState.partGroup) {
-  //     const partGroups = nextProps.partGroups.filter(partGroup =>
-  //       partGroup.groupId === nextProps.group.id);
-  //     if (partGroups && partGroups.length) {
-  //       this.setState({
-  //         partGroup: partGroups[0],
-  //       });
-  //     }
-  //   }
-  // }
   constructor(props) {
     super(props);
-    // console.log(`partGroups ${JSON.stringify(this.props.partGroups, null, 2)}`);
-    // console.log(`admin: ${this.props.admin}`);
     const ng = Number(sessionStorage.getItem('pushingNewGroup')) === 1;
     sessionStorage.setItem('pushingNewGroup', 0);
     const thisGroup = !ng ? this.props.group : undefined;
-    // if (this.props.admin === 0) {
-    //   console.log(`checked: ${this.props.group.checked} name: ${this.props.group.name}
-    //   partGroup.groupId: ${this.props.group.partGroup ?
-    // this.props.group.partGroup.groupId : undefined}`);
+    // if (!ng) {
+    //   console.log(`thisGroup: ${JSON.stringify(thisGroup, null, 2)}
+    //   value: ${JSON.stringify(this.props.value, null, 2)}`);
     // }
+
     const readOnly =
       (thisGroup !== undefined &&
         thisGroup.name &&
         thisGroup.name.length > 1) ||
       this.props.admin === 0;
-    //     if (thisGroup !== undefined) {
-    //       console.log(`checked: ${thisGroup.checked}
-    //       partGroup.groupId: ${
-    //   thisGroup.partGroup ? thisGroup.partGroup.groupId : undefined
-    // }
-    //       props.partGroups.length: ${
-    //   props.partGroups ? props.partGroups.length : undefined
-    // }
-    //       `);
-    //     }
-    // console.log(`groupP: ${JSON.stringify(props.groupP, null, 2)}`);
-    // let checked = false;
-    // if (this.props.admin === 0 && thisGroup && thisGroup.id && this.props.eventId &&
-    //   this.props.partGroups && this.props.partGroups.Length > 0) {
-    //   checked = (partGroups && partGroups.Length > 0);
-    // }
+    this.props.isValid(this.props.index, (!ng) && readOnly);
     this.state = {
       readOnly,
       group: (thisGroup !== undefined) ? thisGroup : {
@@ -167,27 +139,21 @@ class EventDetailGroupRow extends Component {
       checked: ((thisGroup !== undefined) ? thisGroup.checked : false),
       loaded: !((this.props.eventId > 0) &&
         ((thisGroup !== undefined) ? thisGroup.id : -1) > 0),
-      // partGroup: ((thisGroup !== undefined) ? thisGroup.partGroup : undefined),
-      // partGroups: this.props.partGroupsS,
       activated: this.props.activated || false,
     };
-    // this.enableTick = true;
-    // this.tickCounter = 0;
-    // if (this.state.completed) {
-    //   this.setLineThrough(`${this.props.groupText}.name`);
-    //   // this.setLineThrough(`${this.props.groupText}.time`);
-    // }
-
-    // /apiundefined/userId/5
     if ((this.state.eventId > 0) && (this.state.group.id > 0)) {
       const url = `/events/${this.state.eventId}/groups/${this.state.group.id}`;
       AxiosPromise({ verb: 'get', url, idOption: 'param' }, (err, result) => {
         if (err || result.data.length === 0) {
-          console.log(`detail row constructor partGroup not found or empty for
-          ${this.state.group.id} ${this.state.group.name}`);
+          // console.log(`detail row constructor partGroup not found or empty for
+          // ${this.state.group.id} ${this.state.group.name}`);
           this.setState({
             checked: false,
             loaded: true,
+            group: {
+              ...this.state.group,
+              time: formatTime(this.state.group.time, this.state.group.time),
+            },
           });
         } else {
           // console.log(`checked ${this.state.checked}
@@ -197,78 +163,29 @@ class EventDetailGroupRow extends Component {
           this.setState({
             checked: result.data[0].subscribed,
             loaded: true,
+            group: {
+              ...this.state.group,
+              time: formatTime(this.state.group.time, this.state.group.time),
+            },
           });
         }
       });
     }
+    this.loggedFields = [];
   }
-  componentDidMount() {
-    //   console.log(`componentDidMount ran partGroups: ${this.props.partGroupsS}`);
-    // this.timerID = setInterval(
-    //   () => this.tick(),
-    //   2000,
-    // );
-  }
-  // componentWillReceiveProps(nextProps) {
-  //   const partGroupsIndex = nextProps.partGroups.findIndex(partGroup =>
-  //     partGroup.groupId === this.state.group.id);
-  //   if (partGroupsIndex >= 0) {
-  //     const partGroup = this.props.partGroups[partGroupsIndex];
-  //     this.setState({
-  //       checked: true,
-  //       partGroup,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       checked: false,
-  //       partGroup: undefined,
-  //     });
-  //   }
-  // }
-  // componentWillUnmount() {
-  //   clearInterval(this.timerID);
-  // }
-  // setLineThrough = () => {
-  //   // const elem = document.getElementById(elemId);
-  //   // console.log(JSON.stringify(this, null, 2));
-  //   // const elem = this[name];
-  //   // console.log(`elem length: ${elem.length}`);
-  //   // renderTextField.textDecoration = 'line-through';
-  //   // renderTextFieldTime.style.textDecoration = 'line-through';
-  //   // renderTextFieldTime.style.color = 'green';
-  //   console.log(`renderTextFieldTime ${JSON.stringify({ renderTextFieldTime }, null, 2)}`);
-  // };
-  // tick() {
-  //   if (!this.enableTick) return;
-  //   if (!this.state.readOnly) return;
-  //   if (this.tickCounter > 0) {
-  //     this.tickCounter--;
-  //     console.log(`tickCounter: ${this.tickCounter}`);
-  //     return;
-  //   }
-
-  //   // console.log(`props: ${this.props.partGroupsS.length}`);
-  //   // console.log(`state: ${this.state.partGroups.length}`);
-  //   const partGroupsIndex = this.props.partGroups.findIndex(partGroup =>
-  //     partGroup.groupId === this.state.group.id);
-  //   if (partGroupsIndex >= 0) {
-  //     const partGroup = this.props.partGroups[partGroupsIndex];
-  //     this.setState({
-  //       checked: true,
-  //       partGroup,
-  //     });
-  //   } else {
-  //     this.setState({
-  //       checked: false,
-  //       partGroup: undefined,
-  //     });
-  //   }
-  // }
   add(group) {
     console.log(`eventId: ${this.state.eventId} group name: ${group.name}`);
     this.props.add(this.state.eventId, group);
+    setTimeout(() => {
+      document.location.reload(false);
+    }, 100);
   }
-
+  toCurrentTime() {
+    if (this.state.group.time && this.state.group.time.length > 0 && this.state.group.time[0] === ' ') {
+      return `0${this.state.group.time.slice(1)}`;
+    }
+    return this.state.group.time;
+  }
   sendGroup(group, edit) {
     if (
       group.name &&
@@ -278,15 +195,25 @@ class EventDetailGroupRow extends Component {
     ) {
       console.log(`group.name: ${group.name} group.time: ${group.time} group.eventId: ${
         group.eventId
-      }`);
+        }`);
+      this.props.isValid(this.props.index, (group.id > 0) && this.state.readOnly && group.name &&
+        (group.name.length > 0) && (group.time !== '00:00') && (group.time.length >= 5));
       return group.id > 0 ? edit(group) : this.add(group);
     }
     return null;
   }
+  // logNew = (o) => {
+  //   const s = JSON.stringify(o, null, 2);
+  //   if (this.loggedFields.findIndex(e => e === s) < 0) {
+  //     this.loggedFields.push(s);
+  //     console.log(s);
+  //   }
+  // }
   render() {
     const {
       fields, groupText, index, remove, removePart, edit,
     } = this.props;
+    // this.logNew(this.state.group);
     return (
       <div onKeyPress={tab}>
         <Field
@@ -301,15 +228,13 @@ class EventDetailGroupRow extends Component {
             textDecoration: this.state.completed ? 'line-through' : 'none',
           }}
           onBlur={(event) => {
-            const group = Object.assign(this.state.group);
             const newName = event.target.value;
-            if (group.name !== newName) {
-              group.name = newName;
+            if (this.state.group.name !== newName) {
               this.setState(
-              {
-                group,
-              },
-                this.sendGroup(group, edit),
+                {
+                  group: { ...this.state.group, name: newName },
+                },
+                this.sendGroup(this.state.group, edit),
               );
             }
           }}
@@ -318,27 +243,87 @@ class EventDetailGroupRow extends Component {
           name={`${groupText}.time`}
           type="text"
           placeholder="HH:MM"
-          normalize={formatTime}
+          // normalize={formatTime}
           component="input"
           readOnly={this.state.readOnly}
           style={{
             textDecoration: this.state.completed ? 'line-through' : 'none',
           }}
           onBlur={(event) => {
-            const group = Object.assign(this.state.group);
             // console.log(`time: ${event.target.value}`);
-            const newTime = event.target.value;
-            if (group.time !== newTime) {
+            const targetLength = event.target.value.length;
+            if (targetLength > 7 || targetLength < 3) return;
+            const l2 = event.target.value.slice(-2).toLowerCase();
+            let pm = false;
+            let am = false;
+            switch (l2) {
+              case 'pm':
+                pm = true;
+                break;
+              case 'am':
+                am = true;
+                break;
+              default:
+            }
+            if ((!am) && (!pm) && targetLength > 5) return;
+            let onlyNums = event.target.value.replace(/[^\d]/g, '');
+            if (onlyNums.length === 3) onlyNums = `0${onlyNums}`;
+            if (onlyNums < 4) return;
+            const minutes = Number(onlyNums.slice(2));
+            let hour = Number(onlyNums.slice(0, 2));
+            if ((am || pm) && (hour > 12)) return;
+            if (hour > 12) { // military time
+              hour -= 12;
+              am = false;
+              pm = true;
+            } else if (hour < 7 && (!am)) {
+              pm = true;
+            } else if (hour > 9 && (!pm)) {
+              am = true;
+            } else if ((!am) && (!pm)) {
+              if (this.state.group.pm) {
+                pm = true;
+                am = false;
+              } else if (hour === 12) {
+                pm = true;
+                am = false;
+              } else {
+                am = true;
+                pm = false;
+              }
+            }
+            // 7,8,9,11,12
+            const currentTime = this.toCurrentTime();
+            if (hour === 0) hour = 12;
+            let newTime =
+              `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            if ((Number(currentTime.slice(0, 2)) !== hour) ||
+              (Number(currentTime.slice(-2)) !== minutes) ||
+              (pm !== this.state.group.pm)
+            ) {
               // console.log(`time: |${group.time}| newTime |${newTime}|
               // isEqual ${group.time == newTime}`);
-              group.time = `${newTime}:00`;
-              this.setState(
-              {
-                group,
-              },
-                this.sendGroup(group, edit),
-              );
+              this.setState({
+                group: { ...this.state.group, time: `${formatTime(newTime, currentTime)}`, pm },
+              }, () => {
+                console.log(`this.state.group.time: ${this.state.group.time} pm: ${this.state.group.pm}`);
+                if (this.state.group.pm && (hour < 12)) hour += 12;
+                newTime =
+                  `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                const group = Object.assign(this.state.group);
+                group.time = `${newTime}:00`;
+                this.sendGroup(group, edit);
+              });
+            } else {
+              newTime =
+                `${hour.toString().padStart(2, ' ')}:${minutes.toString().padStart(2, '0')}`;
+              this.setState({
+                group: { ...this.state.group, time: newTime },
+              });
             }
+            setTimeout(() => {
+              document.location.reload(false);
+            }, 100);
           }}
         />
         {this.state.admin === 0 && this.state.loaded && (
@@ -347,9 +332,9 @@ class EventDetailGroupRow extends Component {
           <span
             id="Subscribe"
             style={{
-            enabled: ((!this.state.completed) && this.state.activated),
-            fontWeight: (this.state.completed || (!this.state.activated)) ? 100 : 800,
-          }}
+              enabled: ((!this.state.completed) && this.state.activated),
+              fontWeight: (this.state.completed || (!this.state.activated)) ? 100 : 800,
+            }}
           >
             <Field
               name={`${groupText}.subscribed`}
@@ -361,28 +346,28 @@ class EventDetailGroupRow extends Component {
               type="checkbox"
               className="checkbox"
               onClick={(/* event */) => {
-              // const checked = event.target.value;
-              this.setState({
-                checked: !this.state.checked,
-              }, () => {
-                const url = `/events/${this.state.eventId}/groups/${this.state.group.id}`;
-                AxiosPromise({ verb: 'get', url, idOption: 'param' }, (err, result) => {
-                  if (err || result.data.length === 0) {
-                    this.props.addPart({
-                      eventId: this.state.eventId,
-                      groupId: this.state.group.id,
-                      subscribed: this.state.checked,
-                    });
-                  } else {
-                    this.props.editPart({
-                      eventId: this.state.eventId,
-                      groupId: this.state.group.id,
-                      subscribed: this.state.checked,
-                    });
-                  }
+                // const checked = event.target.value;
+                this.setState({
+                  checked: !this.state.checked,
+                }, () => {
+                  const url = `/events/${this.state.eventId}/groups/${this.state.group.id}`;
+                  AxiosPromise({ verb: 'get', url, idOption: 'param' }, (err, result) => {
+                    if (err || result.data.length === 0) {
+                      this.props.addPart({
+                        eventId: this.state.eventId,
+                        groupId: this.state.group.id,
+                        subscribed: this.state.checked,
+                      });
+                    } else {
+                      this.props.editPart({
+                        eventId: this.state.eventId,
+                        groupId: this.state.group.id,
+                        subscribed: this.state.checked,
+                      });
+                    }
+                  });
                 });
-              });
-            }}
+              }}
             />
             <span>Subscribe</span>
           </span>
@@ -407,26 +392,26 @@ class EventDetailGroupRow extends Component {
                 console.log(`group name ${group.name} complete click`);
                 group.completed = true;
                 if (group.id <= 0) {
-                    group.id = sessionStorage.getItem(`group.id:${this.state.group.name}`);
+                  group.id = sessionStorage.getItem(`group.id:${this.state.group.name}`);
                 }
                 this.setState({
-                    group,
-                    completed: true,
-                  }, () => {
-                    // this.setLineThrough(`${groupText}.name`);
-                    // this.setLineThrough(`${groupText}.time`);
-                    console.log(`set completed for ${group.name}`);
-                    this.sendGroup(group, edit);
-                  });
-                  AxiosPromise(
-                    { verb: 'get', url: `/notify/events/${this.state.eventId}` },
-                    (err, result) => {
-                  if (result) {
-                    console.log('Notified subscribers of Event', result.data);
-                  } else {
-                    console.log('Did not notify subscribers', err);
-                  }
-                },
+                  group,
+                  completed: true,
+                }, () => {
+                  // this.setLineThrough(`${groupText}.name`);
+                  // this.setLineThrough(`${groupText}.time`);
+                  console.log(`set completed for ${group.name}`);
+                  this.sendGroup(group, edit);
+                });
+                AxiosPromise(
+                  { verb: 'get', url: `/notify/events/${this.state.eventId}` },
+                  (err, result) => {
+                    if (result) {
+                      console.log('Notified subscribers of Event', result.data);
+                    } else {
+                      console.log('Did not notify subscribers', err);
+                    }
+                  },
                 );
               }
             }}
@@ -447,6 +432,8 @@ class EventDetailGroupRow extends Component {
             onClick={() => {
               this.setState({
                 readOnly: !this.state.readOnly,
+              }, () => {
+                this.props.isValid(this.props.index, this.state.readOnly);
               });
             }}
           >
@@ -474,10 +461,10 @@ class EventDetailGroupRow extends Component {
                   },
                 );
               } else {
-                    removePart({ eventId: this.state.eventId, groupId: this.group.id });
-                    remove(this.state.group);
-                    fields.remove(index);
-                    document.location.reload(false);
+                removePart({ eventId: this.state.eventId, groupId: this.state.group.id });
+                remove(this.state.group);
+                fields.remove(index);
+                document.location.reload(false);
               }
             }}
           >
@@ -507,6 +494,7 @@ EventDetailGroupRow.propTypes = {
   editPart: PropTypes.func.isRequired,
   // partGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
   activated: PropTypes.bool.isRequired,
+  isValid: PropTypes.func.isRequired,
 };
 
 // const n1Check = (groups) => {
