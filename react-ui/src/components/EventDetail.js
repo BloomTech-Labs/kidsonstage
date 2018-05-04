@@ -110,7 +110,8 @@ class EventsForm extends React.Component {
     this.props.setPart(eventId);
   }
   // componentDidUpdate() {
-  //   console.log(`componentDidUpdate props error: ${this.props.error}  state error ${this.state.error}`);
+  //   console.log(`componentDidUpdate props error: ${this.props.error}
+  //   state error ${this.state.error}`);
   // }
   renderAlert() {
     if (!this.props.error) return null;

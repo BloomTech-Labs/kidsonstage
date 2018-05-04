@@ -4,10 +4,20 @@ const normalizeTime = (value, previousValue) => { // todo check that all group t
   if (!value) {
     return value;
   }
-  if (value.length === 5 && value[2] === ':') return value;
+  if (value.length === 5 && value[2] === ':') {
+    if (value[0] === '0') {
+      const newValue = ` ${value.slice(1)}`;
+      return newValue;
+    }
+    return value;
+  }
   if (value.length >= 8) {
-    console.log(`typeof value ${typeof value}`);
-    return value.substring(0, 5);
+    // console.log(`typeof value ${typeof value}`);
+    let newValue = value.slice(0, 5);
+    if (newValue[0] === '0') {
+      newValue = ` ${newValue.slice(1)}`;
+    }
+    return newValue;
   }
   let onlyNums = value.replace(/[^\d]/g, '');
   if (!previousValue || value.length > previousValue.length) {
@@ -16,8 +26,11 @@ const normalizeTime = (value, previousValue) => { // todo check that all group t
       return `${onlyNums}:`;
     }
   }
-  if (onlyNums.length <= 3) {
+  if (onlyNums < 3) {
     return onlyNums;
+  }
+  if (onlyNums.length === 3) {
+    onlyNums = `0${onlyNums}`;
   }
   if (onlyNums[0] === '0') onlyNums = ` ${onlyNums.slice(1)}`;
   return `${onlyNums.slice(0, 2)}:${onlyNums.slice(2, 4)}`;
