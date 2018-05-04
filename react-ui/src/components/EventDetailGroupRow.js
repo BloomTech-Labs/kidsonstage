@@ -34,26 +34,26 @@ const renderTextField = ({
   meta: { touched, error },
   ...custom
 }) => (
-    <TextField
-      floatingLabelText={label}
-      floatingLabelFocusStyle={{
+  <TextField
+    floatingLabelText={label}
+    floatingLabelFocusStyle={{
         color: 'black',
 
       }}
-      underlineFocusStyle={{
+    underlineFocusStyle={{
         borderColor: 'white',
       }}
-      underlineStyle={{
+    underlineStyle={{
         borderColor: 'grey',
       }}
-      errorText={touched && error}
-      {...input}
-      {...custom}
-      style={{
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
         color: 'red',
       }}
-    />
-  );
+  />
+);
 renderTextField.defaultProps = {
   meta: { touched: PropTypes.bool, error: PropTypes.string },
   label: '',
@@ -70,29 +70,29 @@ const renderTextFieldTime = ({
   meta: { touched, error },
   ...custom
 }) => (
-    <TextField
-      floatingLabelText={label}
-      floatingLabelFocusStyle={{
+  <TextField
+    floatingLabelText={label}
+    floatingLabelFocusStyle={{
         color: 'black',
       }}
-      underlineFocusStyle={{
+    underlineFocusStyle={{
         borderColor: 'white',
       }}
-      underlineStyle={{
+    underlineStyle={{
         borderColor: 'grey',
       }}
-      {...custom}
-      errorText={touched && error}
-      {...input}
-      {...custom}
-      style={{
+    {...custom}
+    errorText={touched && error}
+    {...input}
+    {...custom}
+    style={{
         color: 'red',
         width: '50px',
         marginLeft: '20px',
         textDecoration: 'line-through',
       }}
-    />
-  );
+  />
+);
 renderTextFieldTime.defaultProps = {
   meta: { touched: PropTypes.bool, error: PropTypes.string },
   label: '',
@@ -145,8 +145,8 @@ class EventDetailGroupRow extends Component {
       const url = `/events/${this.state.eventId}/groups/${this.state.group.id}`;
       AxiosPromise({ verb: 'get', url, idOption: 'param' }, (err, result) => {
         if (err || result.data.length === 0) {
-          // console.log(`detail row constructor partGroup not found or empty for
-          // ${this.state.group.id} ${this.state.group.name}`);
+          console.log(`detail row constructor partGroup not found or empty for
+          ${this.state.group.id} ${this.state.group.name}`);
           this.setState({
             checked: false,
             loaded: true,
@@ -195,7 +195,7 @@ class EventDetailGroupRow extends Component {
     ) {
       console.log(`group.name: ${group.name} group.time: ${group.time} group.eventId: ${
         group.eventId
-        }`);
+      }`);
       this.props.isValid(this.props.index, (group.id > 0) && this.state.readOnly && group.name &&
         (group.name.length > 0) && (group.time !== '00:00') && (group.time.length >= 5));
       return group.id > 0 ? edit(group) : this.add(group);
@@ -292,11 +292,12 @@ class EventDetailGroupRow extends Component {
                 pm = false;
               }
             }
+            if (am) pm = false;
             // 7,8,9,11,12
             const currentTime = this.toCurrentTime();
-            if (hour === 0) hour = 12;
+            // if (hour === 0) hour = 12;
             let newTime =
-              `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+              `${(hour || 12).toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
             if ((Number(currentTime.slice(0, 2)) !== hour) ||
               (Number(currentTime.slice(-2)) !== minutes) ||
               (pm !== this.state.group.pm)
@@ -307,23 +308,29 @@ class EventDetailGroupRow extends Component {
                 group: { ...this.state.group, time: `${formatTime(newTime, currentTime)}`, pm },
               }, () => {
                 console.log(`this.state.group.time: ${this.state.group.time} pm: ${this.state.group.pm}`);
+                // convert am/pm to military
                 if (this.state.group.pm && (hour < 12)) hour += 12;
+                if (am && (hour === 12)) hour = 0;
                 newTime =
                   `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
                 const group = Object.assign(this.state.group);
                 group.time = `${newTime}:00`;
                 this.sendGroup(group, edit);
+                setTimeout(() => {
+                  document.location.reload(false);
+                }, 100);
               });
             } else {
               newTime =
                 `${hour.toString().padStart(2, ' ')}:${minutes.toString().padStart(2, '0')}`;
               this.setState({
-                group: { ...this.state.group, time: newTime },
+                group: { ...this.state.group, time: newTime, pm },
+              }, () => {
+                setTimeout(() => {
+                  document.location.reload(false);
+                }, 100);
               });
             }
-            setTimeout(() => {
-              document.location.reload(false);
-            }, 100);
           }}
         />
         {this.state.admin === 0 && this.state.loaded && (

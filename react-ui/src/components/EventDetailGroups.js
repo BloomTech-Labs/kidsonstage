@@ -160,11 +160,14 @@ const fiveLenthDate = (state) => {
     // }
     // rest.time = time.substring(0, 5);
     let newTime = (time.length >= 5) ? NormalizeTime(time, time) : time;
-    const hours = Number(newTime.slice(0, 2));
-    const pm = (hours && hours > 12);
-    if (pm) {
-      newTime = `${hours - 12}`.padStart(2, ' ') + newTime.slice(2);
-    }
+    if (newTime[0] === ' ') newTime = `0${newTime.slice(1)}`;
+    let hours = Number(newTime.slice(0, 2));
+    if (Number.isNaN(hours) || (hours > 23) || (hours < 0)) hours = 12;
+    // defaulting no valid hour to 12 pm.
+    // convert military to am/pm with leading space for < 10
+    const pm = (hours >= 12);
+    if (hours === 0) hours = 12;
+    newTime = `${hours - (hours > 12 ? 12 : 0)}`.padStart(2, ' ') + newTime.slice(2);
     return {
       ...rest, time: newTime.substring(0, 5), checked, partGroup, pm,
     };
